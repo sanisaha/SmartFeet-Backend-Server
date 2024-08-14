@@ -40,3 +40,23 @@ _For team assignment, only 1 member in the team should fork the repo. Then, admi
 - Unit testing must be done, for at least Domain and Service layers
 - No deployment needed for teamwork project
 - README file should descibe your teamwork with sufficient details and readable structure
+
+## Getting started
+
+Here is the recommended order:
+
+- Plan Your Database Schema before start coding
+
+- Set Up the Project Structure
+
+- Build the models
+
+- Create the Repositories
+
+- Build the Services
+
+- Set Up Authentication & Authorization
+
+- Build the Controllers
+
+- Implement Error Handling Middleware
