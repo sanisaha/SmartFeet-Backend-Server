@@ -70,7 +70,6 @@
             "user_id": 23456,
             "email": "john@doe.com",
             "user_name": "johndoe",
-            "password": "se2345r",
             "phone_number": 123456,
             "role": "user",
             "user_address":
@@ -103,7 +102,6 @@
     "user_id": 23456,
     "user_name": "johndoe",
     "email": "john@doe.com",
-    "password": "se2345r",
     "phone_number": 123456,
     "role": "user",
     "user_address": {
@@ -185,6 +183,7 @@
     "stock": 100,
     "product_line": "footwear",
     "product_images": {
+      "image_id": 12345,
       "imageUrl": "http://example.com/image.jpg",
       "isPrimary": true,
       "image_text": "image text"
@@ -201,7 +200,7 @@
   - **201 Created**:
     ```json
     {
-      "id": "12345",
+      "product_id": "12345",
       "name": "Product Name",
       "description": "Product Description",
       "price": 29.99,
@@ -211,6 +210,7 @@
       "stock": 100,
       "product_line": "footwear",
       "product_images": {
+        "image_id": 12456,
         "imageUrl": "http://example.com/image.jpg",
         "isPrimary": true,
         "image_text": "image text"
@@ -237,7 +237,7 @@
     ```json
     [
         {
-            "id": "12345",
+            "product_id": "12345",
             "name": "Product Name",
             "description": "Product Description",
             "price": 29.99,
@@ -249,6 +249,7 @@
             "product_line": "footwear",
             "product_images":
                 {
+                    "image_id": 12456,
                     "imageUrl": "http://example.com/image.jpg",
                     "isPrimary": true,
                     "image_text": "image text"
@@ -274,7 +275,7 @@
   - **200 OK**:
     ```json
     {
-      "id": "12345",
+      "product_id": "12345",
       "name": "Product Name",
       "description": "Product Description",
       "price": 29.99,
@@ -284,6 +285,7 @@
       "stock": 100,
       "product_line": "footwear",
       "product_images": {
+        "image_id": 12456,
         "imageUrl": "http://example.com/image.jpg",
         "isPrimary": true,
         "image_text": "image text"
@@ -316,7 +318,7 @@
   - **200 OK**:
     ```json
     {
-      "id": "12345",
+      "product_id": "12345",
       "name": "Updated Product Name",
       "description": "Updated Product Description",
       "price": 34.99,
@@ -326,6 +328,7 @@
       "stock": 80,
       "product_line": "footwear",
       "product_images": {
+        "image_id": 12456,
         "imageUrl": "http://example.com/image.jpg",
         "isPrimary": true,
         "image_text": "image text"
@@ -372,6 +375,7 @@
         "product_line": "footwear",
         "product_images":
             {
+                "image_id": 12456,
                 "imageUrl": "http://example.com/image.jpg",
                 "isPrimary": true,
                 "image_text": "image text"
@@ -388,3 +392,373 @@
         ...
     ]
     ```
+
+## **Reviews API Endpoints**
+
+### 1. **Create a Review**
+
+- **Endpoint**: `POST /api/v1/reviews`
+- **Description**: Adds a new review to a product.
+- **Authentication**: yes
+- **Request Body**:
+  ```json
+  {
+    "productId": "12345",
+    "userId": "67890",
+    "review_date": "2024-08-20T13:00:00Z",
+    "rating": 5,
+    "review": "This product is amazing!"
+  }
+  ```
+- **Response**:
+  - **201 Created**:
+    ```json
+    {
+      "review_id": "abc123",
+      "productId": "12345",
+      "userId": "67890",
+      "review_date": "2024-08-20T13:00:00Z",
+      "rating": 5,
+      "review": "This product is amazing!"
+    }
+    ```
+  - **400 Bad Request**: Invalid input data.
+
+### 2. **Get All Reviews**
+
+- **Endpoint**: `GET /api/v1/reviews`
+- **Description**: Retrieves a list of all reviews.
+- **Query Parameters** (optional):
+  - `?page={pageNumber}&limit={pageSize}`: Pagination options.
+- **Response**:
+  - **200 OK**:
+    ```json
+    [
+        {
+            "review_id": "abc123",
+            "productId": "12345",
+            "userId": "67890",
+            "review_date": "2024-08-20T13:00:00Z",
+            "rating": 5,
+            "review": "This product is amazing!"
+        },
+        ...
+    ]
+    ```
+
+### 3. **Get All Reviews of a Specific Product**
+
+- **Endpoint**: `GET /api/v1/reviews/products/{productId}`
+- **Description**: Retrieves reviews for a specific product.
+- **Response**:
+  - **200 OK**:
+    ```json
+    [
+        {
+            "review_id": "abc123",
+            "productId": "12345",
+            "userId": "67890",
+            "review_date": "2024-08-20T13:00:00Z",
+            "rating": 5,
+            "review": "This product is amazing!"
+        },
+        ...
+    ]
+    ```
+
+### 4. **Get All Reviews of a Specific User**
+
+- **Endpoint**: `GET /api/v1/reviews/users/{userId}`
+- **Description**: Retrieves reviews made by a specific user.
+- **Authentication**: yes
+- **Response**:
+  - **200 OK**:
+    ```json
+    [
+        {
+            "review_id": "abc123",
+            "productId": "12345",
+            "userId": "67890",
+            "review_date": "2024-08-20T13:00:00Z",
+            "rating": 5,
+            "review": "This product is amazing!"
+        },
+        ...
+    ]
+    ```
+
+### 5. **Get a Single Review by ID**
+
+- **Endpoint**: `GET /api/v1/reviews/{reviewId}`
+- **Description**: Retrieves details of a specific review.
+- **Response**:
+  - **200 OK**:
+    ```json
+    {
+      "review_id": "abc123",
+      "productId": "12345",
+      "userId": "67890",
+      "review_date": "2024-08-20T13:00:00Z",
+      "rating": 5,
+      "review": "This product is amazing!"
+    }
+    ```
+  - **404 Not Found**: Review not found.
+
+### 6. **Update a Review**
+
+- **Endpoint**: `PUT /api/v1/reviews/{reviewId}`
+- **Description**: Updates the details of an existing review.
+- **Authentication**: yes
+- **Request Body**:
+  ```json
+  {
+    "rating": 4,
+    "review": "This product is great!"
+  }
+  ```
+- **Response**:
+  - **200 OK**:
+    ```json
+    {
+      "review_id": "abc123",
+      "productId": "12345",
+      "userId": "67890",
+      "review_date": "2024-08-20T13:00:00Z",
+      "rating": 4,
+      "review": "This product is great!"
+    }
+    ```
+  - **404 Not Found**: Review not found.
+
+### 7. **Delete a Review**
+
+- **Endpoint**: `DELETE /api/v1/reviews/{reviewId}`
+- **Description**: Deletes a review.
+- **Authentication**: yes
+- **Response**:
+  - **204 No Content**: Successfully deleted.
+  - **404 Not Found**: Review not found.
+
+## **Orders API Endpoints**
+
+### 1. **Create an Order**
+
+- **Endpoint**: `POST /api/v1/orders`
+- **Description**: Places a new order.
+- **Request Body**:
+  ```json
+  {
+    "userId": "67890",
+    "order_items": [
+      {
+        "order_item_id": "12345",
+        "quantity": 2,
+        "price": 30
+      },
+      {
+        "order_item_id": "52345",
+        "quantity": 2,
+        "price": 30
+      }
+    ],
+    "order_date": "2024-08-20T13:00:00Z",
+    "total_price": 60.0,
+    "shipments": {
+      "shipment_id": 12345,
+      "shipment_date": "2024-08-20T13:00:00Z",
+      "address": {
+        "unit_number": "sdun",
+        "street_number": 23,
+        "address_line1": "wall street",
+        "address_line2": "Marlin street",
+        "city": "Helsinki",
+        "postal_code": 00100,
+        "country": "Finland"
+      }
+    },
+    "order_status": "pending"
+  }
+  ```
+- **Response**:
+  - **201 Created**:
+    ```json
+    {
+      "order_id": 1234,
+      "userId": "67890",
+      "order_items": [
+        {
+          "order_item_id": "12345",
+          "quantity": 2,
+          "price": 30
+        },
+        {
+          "order_item_id": "52345",
+          "quantity": 2,
+          "price": 30
+        }
+      ],
+      "order_date": "2024-08-20T13:00:00Z",
+      "total_price": 60.0,
+      "shipments": {
+        "shipment_id": 12345,
+        "shipment_date": "2024-08-20T13:00:00Z",
+        "address": {
+          "unit_number": "sdun",
+          "street_number": 23,
+          "address_line1": "wall street",
+          "address_line2": "Marlin street",
+          "city": "Helsinki",
+          "postal_code": 00100,
+          "country": "Finland"
+        }
+      },
+      "order_status": "pending"
+    }
+    ```
+  - **400 Bad Request**: Invalid input data.
+
+### 2. **Get All Orders**
+
+- **Endpoint**: `GET /api/v1/orders`
+- **Description**: Retrieves a list of all orders.
+- **Query Parameters** (optional):
+  - `?page={pageNumber}&limit={pageSize}`: Pagination options.
+  - `?userId={userId}`: Filter orders by user.
+- **Response**:
+  - **200 OK**:
+    ```json
+    [
+        {
+            "userId": "67890",
+            "order_items": [
+                {
+                    "order_item_id": "12345",
+                    "quantity": 2,
+                    "price": 30
+                },
+                {
+                    "order_item_id": "52345",
+                    "quantity": 2,
+                    "price": 30
+                }
+            ],
+            "order_date": "2024-08-20T13:00:00Z",
+            "total_price": 60.00,
+            "shipments":
+                {
+                    "shipment_id": 12345,
+                    "shipment_date": "2024-08-20T13:00:00Z",
+                    "address":
+                        {
+                            "unit_number": "sdun",
+                            "street_number": 23,
+                            "address_line1": "wall street",
+                            "address_line2": "Marlin street",
+                            "city": "Helsinki",
+                            "postal_code": 00100,
+                            "country": "Finland"
+                        }
+                },
+            "order_status": "pending"
+        },
+        ...
+    ]
+    ```
+
+### 3. **Get a Single Order by ID**
+
+- **Endpoint**: `GET /api/v1/orders/{orderId}`
+- **Description**: Retrieves details of a specific order.
+- **Response**:
+  - **200 OK**:
+    ```json
+    {
+      "userId": "67890",
+      "order_items": [
+        {
+          "order_item_id": "12345",
+          "quantity": 2,
+          "price": 30
+        },
+        {
+          "order_item_id": "52345",
+          "quantity": 2,
+          "price": 30
+        }
+      ],
+      "order_date": "2024-08-20T13:00:00Z",
+      "total_price": 60.0,
+      "shipments": {
+        "shipment_id": 12345,
+        "shipment_date": "2024-08-20T13:00:00Z",
+        "address": {
+          "unit_number": "sdun",
+          "street_number": 23,
+          "address_line1": "wall street",
+          "address_line2": "Marlin street",
+          "city": "Helsinki",
+          "postal_code": 00100,
+          "country": "Finland"
+        }
+      },
+      "order_status": "pending"
+    }
+    ```
+  - **404 Not Found**: Order not found.
+
+### 4. **Update an Order**
+
+- **Endpoint**: `PUT /api/v1/orders/{orderId}`
+- **Description**: Updates the order (for example reduce order item).
+- **Request Body**:
+  ```json
+  {
+    "order_items": [
+      {
+        "order_item_id": "12345",
+        "quantity": 2,
+        "price": 30
+      }
+    ]
+  }
+  ```
+- **Response**:
+  - **200 OK**:
+    ```json
+    {
+      "userId": "67890",
+      "order_items": [
+        {
+          "order_item_id": "12345",
+          "quantity": 2,
+          "price": 30
+        }
+      ],
+      "order_date": "2024-08-20T13:00:00Z",
+      "total_price": 30.0,
+      "shipments": {
+        "shipment_id": 12345,
+        "shipment_date": "2024-08-20T13:00:00Z",
+        "address": {
+          "unit_number": "sdun",
+          "street_number": 23,
+          "address_line1": "wall street",
+          "address_line2": "Marlin street",
+          "city": "Helsinki",
+          "postal_code": 00100,
+          "country": "Finland"
+        }
+      },
+      "order_status": "pending"
+    }
+    ```
+  - **404 Not Found**: Order not found.
+
+### 5. **Delete an Order**
+
+- **Endpoint**: `DELETE /api/v1/orders/{orderId}`
+- **Description**: Deletes an order.
+- **Response**:
+  - **204 No Content**: Successfully deleted.
+  - **404 Not Found**: Order not found.
