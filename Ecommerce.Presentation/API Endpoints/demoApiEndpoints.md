@@ -14,7 +14,7 @@
     "user_name": "johndoe",
     "email": "john@doe.com",
     "password": "se2345r",
-    "phone_number": 123456,
+    "phone_number": "123456",
     "role": "user",
     "user_address": {
       "is_default": true,
@@ -23,7 +23,7 @@
       "address_line1": "wall street",
       "address_line2": "Marlin street",
       "city": "Helsinki",
-      "postal_code": 00100,
+      "postal_code": "00100",
       "country": "Finland"
     }
   }
@@ -37,7 +37,7 @@
       "email": "john@doe.com",
       "user_name": "johndoe",
       "password": "se2345r",
-      "phone_number": 123456,
+      "phone_number": "123456",
       "role": "user",
       "user_address": {
         "is_default": true,
@@ -46,7 +46,7 @@
         "address_line1": "wall street",
         "address_line2": "Marlin street",
         "city": "Helsinki",
-        "postal_code": 00100,
+        "postal_code": "00100",
         "country": "Finland"
       }
     }
@@ -70,7 +70,7 @@
             "user_id": 23456,
             "email": "john@doe.com",
             "user_name": "johndoe",
-            "phone_number": 123456,
+            "phone_number": "123456",
             "role": "user",
             "user_address":
                 {
@@ -80,7 +80,7 @@
                     "address_line1": "wall street",
                     "address_line2": "Marlin street",
                     "city": "Helsinki",
-                    "postal_code": 00100,
+                    "postal_code": "00100",
                     "country": "Finland"
                 }
         },
@@ -102,7 +102,7 @@
     "user_id": 23456,
     "user_name": "johndoe",
     "email": "john@doe.com",
-    "phone_number": 123456,
+    "phone_number": "123456",
     "role": "user",
     "user_address": {
       "is_default": true,
@@ -111,7 +111,7 @@
       "address_line1": "wall street",
       "address_line2": "Marlin street",
       "city": "Helsinki",
-      "postal_code": 00100,
+      "postal_code": "00100",
       "country": "Finland"
     }
   }
@@ -139,7 +139,7 @@
       "user_name": "Updated John Doe",
       "email": "updatedjohndoe@examp",
       "password": "se2345r",
-      "phone_number": 123456,
+      "phone_number": "123456",
       "role": "user",
       "user_address": {
         "is_default": true,
@@ -148,7 +148,7 @@
         "address_line1": "wall street",
         "address_line2": "Marlin street",
         "city": "Helsinki",
-        "postal_code": 00100,
+        "postal_code": "00100",
         "country": "Finland"
       }
     }
@@ -178,8 +178,7 @@
     "description": "Product Description",
     "price": 29.99,
     "category": {
-      "category_id": 12376,
-      "name": "Men's Clothing"
+      "category_id": 12376
     },
     "stock": 100,
     "product_line": "footwear",
@@ -208,8 +207,7 @@
       "description": "Product Description",
       "price": 29.99,
       "category": {
-        "category_id": 12376,
-        "name": "Men's Clothing"
+        "category_id": 12376
       },
       "stock": 100,
       "product_line": "footwear",
@@ -249,8 +247,7 @@
             "price": 29.99,
             "category":
                 {
-                    "category_id": 12345,
-                    "name": "Men's Clothing"
+                    "category_id": 12345
                 },
             "stock": 100,
             "product_line": "footwear",
@@ -289,8 +286,7 @@
       "description": "Product Description",
       "price": 29.99,
       "category": {
-        "category_id": 12345,
-        "name": "Men's Clothing"
+        "category_id": 12345
       },
       "stock": 100,
       "product_line": "footwear",
@@ -335,8 +331,7 @@
       "description": "Updated Product Description",
       "price": 34.99,
       "category": {
-        "category_id": 12345,
-        "name": "Men's Clothing"
+        "category_id": 12345
       },
       "stock": 80,
       "product_line": "footwear",
@@ -378,14 +373,13 @@
     ```json
     [
         {
-        "id": "12345",
+        "product_id": "12345",
         "name": "Product Name",
         "description": "Product Description",
         "price": 29.99,
         "category":
             {
-                "category_id": 12345,
-                "name": "Men's Clothing"
+                "category_id": 12345
             },
         "stock": 100,
         "product_line": "footwear",
