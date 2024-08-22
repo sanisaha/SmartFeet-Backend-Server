@@ -178,6 +178,7 @@
     "description": "Product Description",
     "price": 29.99,
     "category": {
+      "category_id": 12376,
       "name": "Men's Clothing"
     },
     "stock": 100,
@@ -189,9 +190,11 @@
       "image_text": "image text"
     },
     "product_sizes": {
+      "size_id": 12345,
       "size_value": "L"
     },
     "product_colors": {
+      "color_id": 234567,
       "color_name": "red"
     }
   }
@@ -205,6 +208,7 @@
       "description": "Product Description",
       "price": 29.99,
       "category": {
+        "category_id": 12376,
         "name": "Men's Clothing"
       },
       "stock": 100,
@@ -216,9 +220,11 @@
         "image_text": "image text"
       },
       "product_sizes": {
+        "size_id": 12345,
         "size_value": "L"
       },
       "product_colors": {
+        "color_id": 234567,
         "color_name": "red"
       }
     }
@@ -243,6 +249,7 @@
             "price": 29.99,
             "category":
                 {
+                    "category_id": 12345,
                     "name": "Men's Clothing"
                 },
             "stock": 100,
@@ -256,10 +263,12 @@
                 },
             "product_sizes":
                 {
+                    "size_id": 12345,
                     "size_value": "L"
                 },
             "product_colors":
                 {
+                    "color_id": 12346,
                     "color_name": "red"
                 }
         },
@@ -280,6 +289,7 @@
       "description": "Product Description",
       "price": 29.99,
       "category": {
+        "category_id": 12345,
         "name": "Men's Clothing"
       },
       "stock": 100,
@@ -291,9 +301,11 @@
         "image_text": "image text"
       },
       "product_sizes": {
+        "size_id": 12345,
         "size_value": "L"
       },
       "product_colors": {
+        "color_id": 12345,
         "color_name": "red"
       }
     }
@@ -323,6 +335,7 @@
       "description": "Updated Product Description",
       "price": 34.99,
       "category": {
+        "category_id": 12345,
         "name": "Men's Clothing"
       },
       "stock": 80,
@@ -334,9 +347,11 @@
         "image_text": "image text"
       },
       "product_sizes": {
+        "size_id": 12345,
         "size_value": "L"
       },
       "product_colors": {
+        "color_id": 12345,
         "color_name": "red"
       }
     }
@@ -369,6 +384,7 @@
         "price": 29.99,
         "category":
             {
+                "category_id": 12345,
                 "name": "Men's Clothing"
             },
         "stock": 100,
@@ -382,10 +398,12 @@
             },
         "product_sizes":
             {
+                "size_id": 12345,
                 "size_value": "L"
             },
         "product_colors":
             {
+                "color_id": 12345,
                 "color_name": "red"
             }
     },
@@ -568,6 +586,7 @@
       "shipment_id": 12345,
       "shipment_date": "2024-08-20T13:00:00Z",
       "address": {
+        "address_id": 1234,
         "unit_number": "sdun",
         "street_number": 23,
         "address_line1": "wall street",
@@ -604,6 +623,7 @@
         "shipment_id": 12345,
         "shipment_date": "2024-08-20T13:00:00Z",
         "address": {
+          "address_id": 1234,
           "unit_number": "sdun",
           "street_number": 23,
           "address_line1": "wall street",
@@ -651,6 +671,7 @@
                     "shipment_date": "2024-08-20T13:00:00Z",
                     "address":
                         {
+                            "address_id": 1234,
                             "unit_number": "sdun",
                             "street_number": 23,
                             "address_line1": "wall street",
@@ -693,6 +714,7 @@
         "shipment_id": 12345,
         "shipment_date": "2024-08-20T13:00:00Z",
         "address": {
+          "address_id": 1234,
           "unit_number": "sdun",
           "street_number": 23,
           "address_line1": "wall street",
@@ -741,6 +763,7 @@
         "shipment_id": 12345,
         "shipment_date": "2024-08-20T13:00:00Z",
         "address": {
+          "address_id": 1234,
           "unit_number": "sdun",
           "street_number": 23,
           "address_line1": "wall street",
@@ -777,6 +800,7 @@
     "payment_date": "2024-08-20T13:00:00Z",
     "amount": 30.0,
     "payment_method": {
+      "payment_method_id": 1234,
       "payment_type": "credit card",
       "provider": "nordea",
       "card_number": "4111111111111111",
@@ -795,6 +819,7 @@
       "payment_date": "2024-08-20T13:00:00Z",
       "amount": 30.0,
       "payment_method": {
+        "payment_method_id": 1234,
         "payment_type": "credit card",
         "provider": "nordea",
         "card_number": "4111111111111111",
@@ -819,6 +844,7 @@
       "payment_date": "2024-08-20T13:00:00Z",
       "amount": 30.0,
       "payment_method": {
+        "payment_method_id": 1234,
         "payment_type": "credit card"
       }
     }
@@ -846,6 +872,7 @@
             "amount": 30.0,
             "payment_method":
                 {
+                    "payment_method_id": 1234,
                     "payment_type": "credit card"
                 }
         },
@@ -874,6 +901,7 @@
       "payment_date": "2024-08-20T13:00:00Z",
       "amount": 30.0,
       "payment_method": {
+        "payment_method_id": 1234,
         "payment_type": "credit card",
         "provider": "nordea",
         "card_number": "4111111111111111",
