@@ -130,11 +130,11 @@ $$ LANGUAGE plpgsql;
 --update product
 CREATE OR REPLACE FUNCTION update_product(
     p_product_id UUID,
-    p_category_id UUID,
-    p_description CHAR(100),
-    p_price DECIMAL(10,2),
-    p_stock INT,
-    p_product_line CHAR(100),
+    p_category_id UUID DEFAULT NULL,
+    p_description CHAR(100)DEFAULT NULL,
+    p_price DECIMAL(10,2)DEFAULT NULL,
+    p_stock INT DEFAULT NULL,
+    p_product_line CHAR(100) DEFAULT NULL,
     p_image_URL CHAR(200) DEFAULT NULL,
     p_isPrimary BOOL DEFAULT NULL,
     p_image_text CHAR(200) DEFAULT NULL,
@@ -142,38 +142,25 @@ CREATE OR REPLACE FUNCTION update_product(
     p_stock_quantity INT DEFAULT NULL,
     p_color_name CHAR(100) DEFAULT NULL
 ) RETURNS BOOLEAN AS $$
+DECLARE
+    v_sql TEXT;
 BEGIN
-    
-    UPDATE products
-    SET category_id = p_category_id,
-        description = p_description,
-        price = p_price,
-        stock = p_stock,
-        product_line = p_product_line
-    WHERE product_id = p_product_id;
+    v_sql := 'UPDATE products SET';
+    IF p_category_id IS NOT NULL THEN v_sql := v_sql || ' category_id = ' || quote_literal(p_category_id) || ','; END IF;
+    IF p_description IS NOT NULL THEN v_sql := v_sql || ' description = ' || quote_literal(p_description) || ','; END IF;
+    IF p_price IS NOT NULL THEN v_sql := v_sql || ' price = ' || p_price || ','; END IF;
+    IF p_stock IS NOT NULL THEN v_sql := v_sql || ' stock = ' || p_stock || ','; END IF;
+    IF p_product_line IS NOT NULL THEN v_sql := v_sql || ' product_line = ' || quote_literal(p_product_line) || ','; END IF;
 
-    IF p_image_URL IS NOT NULL OR p_isPrimary IS NOT NULL OR p_image_text IS NOT NULL THEN
-        UPDATE product_images
-        SET image_URL = COALESCE(p_image_URL, image_URL),
-            isPrimary = COALESCE(p_isPrimary, isPrimary),
-            image_text = COALESCE(p_image_text, image_text)
-        WHERE product_id = p_product_id;
-    END IF;
+    v_sql := rtrim(v_sql, ',') || ' WHERE product_id = ' || quote_literal(p_product_id) || ';';
 
-    IF p_size_value IS NOT NULL OR p_stock_quantity IS NOT NULL THEN
-        UPDATE product_sizes
-        SET size_value = COALESCE(p_size_value, size_value),
-            stock_quantity = COALESCE(p_stock_quantity, stock_quantity)
-        WHERE product_id = p_product_id;
-    END IF;
+    EXECUTE v_sql;
 
-    IF p_color_name IS NOT NULL THEN
-        UPDATE product_colors
-        SET color_name = COALESCE(p_color_name, color_name)
-        WHERE product_id = p_product_id;
-    END IF;
+    PERFORM update_product_images(p_product_id, p_image_URL, p_isPrimary, p_image_text);
+    PERFORM update_product_sizes(p_product_id, p_size_value, p_stock_quantity);
+    PERFORM update_product_colors(p_product_id, p_color_name);
 
-    IF FOUND THEN
+    IF SQL%ROWCOUNT > 0 THEN
         RETURN TRUE;
     ELSE
         RETURN FALSE;
@@ -209,3 +196,90 @@ END;
 $$ LANGUAGE plpgsql;
 
 --get most purchased products
+CREATE OR REPLACE FUNCTION get_most_purchased_products(
+	p_limit INT
+)
+RETURNS TABLE (
+    product_id UUID,
+    product_name CHAR(100),
+    total_quantity_purchased INT
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        p.product_id,
+        p.description AS product_name,
+        SUM(oi.quantity) AS total_quantity_purchased
+    FROM
+        products p
+    JOIN
+        order_items oi ON p.product_id = oi.product_id
+    JOIN
+        orders o ON o.order_id = oi.order_id
+    WHERE
+        o.order_status = 'completed'
+    GROUP BY
+        p.product_id, p.description
+    ORDER BY
+        total_quantity_purchased DESC
+	LIMIT p_limit;
+END;
+$$ LANGUAGE plpgsql;
+
+
+--update product images
+CREATE OR REPLACE FUNCTION update_product_images(
+    p_product_id UUID,
+    p_image_URL CHAR(200) DEFAULT NULL,
+    p_isPrimary BOOL DEFAULT NULL,
+    p_image_text CHAR(200) DEFAULT NULL
+) RETURNS VOID AS $$
+DECLARE
+    v_sql TEXT;
+BEGIN
+    v_sql := 'UPDATE product_images SET';
+    IF p_image_URL IS NOT NULL THEN v_sql := v_sql || ' image_URL = ' || quote_literal(p_image_URL) || ','; END IF;
+    IF p_isPrimary IS NOT NULL THEN v_sql := v_sql || ' isPrimary = ' || p_isPrimary || ','; END IF;
+    IF p_image_text IS NOT NULL THEN v_sql := v_sql || ' image_text = ' || quote_literal(p_image_text) || ','; END IF;
+
+    v_sql := rtrim(v_sql, ',') || ' WHERE product_id = ' || quote_literal(p_product_id) || ';';
+
+    EXECUTE v_sql;
+END;
+$$ LANGUAGE plpgsql;
+
+--update product size
+CREATE OR REPLACE FUNCTION update_product_sizes(
+    p_product_id UUID,
+    p_size_value CHAR(100) DEFAULT NULL,
+    p_stock_quantity INT DEFAULT NULL
+) RETURNS VOID AS $$
+DECLARE
+    v_sql TEXT;
+BEGIN
+    v_sql := 'UPDATE product_sizes SET';
+    IF p_size_value IS NOT NULL THEN v_sql := v_sql || ' size_value = ' || quote_literal(p_size_value) || ','; END IF;
+    IF p_stock_quantity IS NOT NULL THEN v_sql := v_sql || ' stock_quantity = ' || p_stock_quantity || ','; END IF;
+
+    v_sql := rtrim(v_sql, ',') || ' WHERE product_id = ' || quote_literal(p_product_id) || ';';
+
+    EXECUTE v_sql;
+END;
+$$ LANGUAGE plpgsql;
+
+--update product colors
+CREATE OR REPLACE FUNCTION update_product_colors(
+    p_product_id UUID,
+    p_color_name CHAR(100) DEFAULT NULL
+) RETURNS VOID AS $$
+DECLARE
+    v_sql TEXT;
+BEGIN
+    v_sql := 'UPDATE product_colors SET';
+    IF p_color_name IS NOT NULL THEN v_sql := v_sql || ' color_name = ' || quote_literal(p_color_name) || ','; END IF;
+
+    v_sql := rtrim(v_sql, ',') || ' WHERE product_id = ' || quote_literal(p_product_id) || ';';
+
+    EXECUTE v_sql;
+END;
+$$ LANGUAGE plpgsql;
