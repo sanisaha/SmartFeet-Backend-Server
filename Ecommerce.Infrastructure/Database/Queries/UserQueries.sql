@@ -10,7 +10,7 @@ $$
 DECLARE
     new_user_id UUID;
 BEGIN
-    INSERT INTO public.users (user_name, email, password, phone_number, role)
+    INSERT INTO users (user_name, email, password, phone_number, role)
     VALUES (_user_name, _email, _password, _phone_number, _role)
     RETURNING user_id INTO new_user_id;
 
@@ -19,7 +19,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Get all Users
-CREATE OR REPLACE FUNCTION get_all_users() 
+CREATE OR REPLACE FUNCTION fun_get_all_users() 
 RETURNS TABLE (
     user_id UUID, 
     user_name VARCHAR, 
@@ -29,12 +29,12 @@ RETURNS TABLE (
 ) AS 
 $$
 BEGIN
-    RETURN QUERY SELECT user_id, user_name, email, phone_number, role FROM public.users;
+    RETURN QUERY SELECT user_id, user_name, email, phone_number, role FROM users;
 END;
 $$ LANGUAGE plpgsql;
 
 -- Get user by id
-CREATE OR REPLACE FUNCTION get_user(_user_id UUID) 
+CREATE OR REPLACE FUNCTION fun_get_user(_user_id UUID) 
 RETURNS TABLE (
     user_id UUID, 
     user_name VARCHAR, 
@@ -44,12 +44,12 @@ RETURNS TABLE (
 ) AS 
 $$
 BEGIN
-    RETURN QUERY SELECT user_id, user_name, email, phone_number, role FROM public.users WHERE user_id = _user_id;
+    RETURN QUERY SELECT user_id, user_name, email, phone_number, role FROM users WHERE user_id = _user_id;
 END;
 $$ LANGUAGE plpgsql;
 
 -- Update user information
-CREATE OR REPLACE FUNCTION update_user(
+CREATE OR REPLACE FUNCTION fun_update_user(
     _user_id UUID,
     _user_name VARCHAR, 
     _email VARCHAR, 
@@ -58,18 +58,18 @@ CREATE OR REPLACE FUNCTION update_user(
 ) RETURNS VOID AS 
 $$
 BEGIN
-    UPDATE public.users
+    UPDATE users
     SET user_name = _user_name, email = _email, phone_number = _phone_number, role = _role
     WHERE user_id = _user_id;
 END;
 $$ LANGUAGE plpgsql;
 
 -- Delete user
-CREATE OR REPLACE FUNCTION delete_user(
+CREATE OR REPLACE FUNCTION fun_delete_user(
   _user_id UUID
 ) RETURNS VOID AS $$
 BEGIN
-    DELETE FROM public.users WHERE user_id = _user_id;
+    DELETE FROM users WHERE user_id = _user_id;
 END;
 $$ LANGUAGE plpgsql;
 

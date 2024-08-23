@@ -1,7 +1,9 @@
-CREATE TYPE order_status AS ENUM ('pending', 'cancelled');
-CREATE TYPE shipment_status AS ENUM ('pending', 'cancelled');
+CREATE TYPE order_status AS ENUM ('pending','completed', 'cancelled');
+CREATE TYPE shipment_status AS ENUM ('pending','completed', 'cancelled');
 CREATE TYPE role_type AS ENUM ('admin', 'customer');
+CREATE TYPE order_item_type AS ENUM ('product_id', 'stock');
 
+order_item_type
 -- Creating address table
 CREATE TABLE IF NOT EXISTS public.address
 (

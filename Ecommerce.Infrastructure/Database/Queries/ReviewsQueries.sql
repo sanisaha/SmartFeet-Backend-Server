@@ -8,7 +8,7 @@ CREATE OR REPLACE FUNCTION fun_create_review(
 DECLARE
     new_review_id UUID;
 BEGIN
-    INSERT INTO public.reviews (user_id, product_id, comment_text, rating)
+    INSERT INTO reviews (user_id, product_id, comment_text, rating)
     VALUES (_user_id, _product_id, _comment_text, _rating)
     RETURNING review_id INTO new_review_id;
 
@@ -27,7 +27,7 @@ RETURNS TABLE (
     review_date TIMESTAMP
 ) AS $$
 BEGIN
-    RETURN QUERY SELECT * FROM public.reviews;
+    RETURN QUERY SELECT * FROM reviews;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -42,7 +42,7 @@ RETURNS TABLE (
 ) AS $$
 BEGIN
     RETURN QUERY SELECT review_id, user_id, comment_text, rating, review_date 
-    FROM public.reviews WHERE product_id = _product_id;
+    FROM reviews WHERE product_id = _product_id;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -53,7 +53,7 @@ CREATE OR REPLACE FUNCTION fun_update_review(
     _rating INTEGER
 ) RETURNS VOID AS $$
 BEGIN
-    UPDATE public.reviews
+    UPDATE reviews
     SET comment_text = _comment_text, rating = _rating
     WHERE review_id = _review_id;
 END;
@@ -62,6 +62,6 @@ $$ LANGUAGE plpgsql;
 -- Delete one review
 CREATE OR REPLACE FUNCTION fun_delete_review(_review_id UUID) RETURNS VOID AS $$
 BEGIN
-    DELETE FROM public.reviews WHERE review_id = _review_id;
+    DELETE FROM reviews WHERE review_id = _review_id;
 END;
 $$ LANGUAGE plpgsql;
