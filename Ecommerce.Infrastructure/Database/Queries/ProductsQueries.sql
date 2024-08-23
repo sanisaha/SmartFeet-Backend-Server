@@ -15,23 +15,40 @@ CREATE OR REPLACE FUNCTION create_product(
 DECLARE
     new_product_id UUID;
 BEGIN
+	IF NOT EXISTS (SELECT 1 FROM categories WHERE category_id = p_category_id) THEN
+        RAISE EXCEPTION 'Category ID % does not exist', p_category_id;
+    END IF;
+
+	IF p_price < 0 THEN
+        RAISE EXCEPTION 'Price cannot be negative';
+    END IF;
+
+	IF p_stock < 0 THEN
+        RAISE EXCEPTION 'Stock cannot be negative';
+    END IF;
+	
     INSERT INTO products (product_id, category_id, description, price, stock, product_line)
     VALUES (p_product_id, p_category_id, p_description, p_price, p_stock, p_product_line);
 
-	INSERT INTO product_images (product_id, image_URL, isPrimary, image_text)
-    VALUES (new_product_id, p_image_URL, p_isPrimary, p_image_text);
-
-	INSERT INTO product_sizes (product_id, size_value, stock_quantity)
-    VALUES (new_product_id, p_size_value, p_stock_quantity);
-
-	INSERT INTO product_colors (product_id, color_name)
-    VALUES (new_product_id, p_color_name);
-	
-    IF FOUND THEN
-        RETURN TRUE;
-    ELSE
-        RETURN FALSE;
+    IF p_image_URL IS NOT NULL THEN
+        INSERT INTO product_images (product_id, image_URL, isPrimary, image_text)
+        VALUES (new_product_id, p_image_URL, p_isPrimary, p_image_text);
     END IF;
+
+	IF p_size_value IS NOT NULL AND p_stock_quantity IS NOT NULL THEN
+        INSERT INTO product_sizes (product_id, size_value, stock_quantity)
+        VALUES (new_product_id, p_size_value, p_stock_quantity);
+    END IF;
+	
+	IF p_color_name IS NOT NULL THEN
+        INSERT INTO product_colors (product_id, color_name)
+        VALUES (new_product_id, p_color_name);
+    END IF;
+	
+    RETURN TRUE;
+EXCEPTION
+    WHEN OTHERS THEN
+        RETURN FALSE;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -74,7 +91,16 @@ BEGIN
     LEFT JOIN 
         product_sizes ps ON p.product_id = ps.product_id
     LEFT JOIN 
-        product_colors pc ON p.product_id = pc.product_id;
+        product_colors pc ON p.product_id = pc.product_id
+	WHERE 
+        p.product_id IS NOT NULL 
+        AND p.category_id IS NOT NULL 
+        AND p.price >= 0 
+        AND p.stock >= 0;
+EXCEPTION
+    WHEN OTHERS THEN
+        RAISE WARNING 'An error occurred while retrieving products.';
+        RETURN;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -99,6 +125,14 @@ RETURNS TABLE (
     color_name CHAR(100)
 ) AS $$
 BEGIN
+	IF p_product_id IS NULL THEN
+        RAISE EXCEPTION 'Product ID cannot be NULL';
+    END IF;
+
+    IF NOT EXISTS (SELECT 1 FROM products WHERE product_id = p_product_id) THEN
+        RAISE EXCEPTION 'Product with ID % does not exist', p_product_id;
+    END IF;
+	
     RETURN QUERY
     SELECT 
         p.product_id,
@@ -123,6 +157,10 @@ BEGIN
         product_colors pc ON p.product_id = pc.product_id
     WHERE 
         p.product_id = p_product_id;
+EXCEPTION
+    WHEN OTHERS THEN
+        RAISE WARNING 'An error occurred while retrieving product with ID %: %', p_product_id, SQLERRM;
+        RETURN;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -144,14 +182,27 @@ CREATE OR REPLACE FUNCTION update_product(
 ) RETURNS BOOLEAN AS $$
 DECLARE
     v_sql TEXT;
+	v_fields_updated BOOLEAN := FALSE;
 BEGIN
-    v_sql := 'UPDATE products SET';
-    IF p_category_id IS NOT NULL THEN v_sql := v_sql || ' category_id = ' || quote_literal(p_category_id) || ','; END IF;
-    IF p_description IS NOT NULL THEN v_sql := v_sql || ' description = ' || quote_literal(p_description) || ','; END IF;
-    IF p_price IS NOT NULL THEN v_sql := v_sql || ' price = ' || p_price || ','; END IF;
-    IF p_stock IS NOT NULL THEN v_sql := v_sql || ' stock = ' || p_stock || ','; END IF;
-    IF p_product_line IS NOT NULL THEN v_sql := v_sql || ' product_line = ' || quote_literal(p_product_line) || ','; END IF;
+	IF p_product_id IS NULL THEN
+        RAISE EXCEPTION 'Product ID cannot be NULL';
+    END IF;
 
+	IF NOT EXISTS (SELECT 1 FROM products WHERE product_id = p_product_id) THEN
+        RAISE EXCEPTION 'Product with ID % does not exist', p_product_id;
+    END IF;
+	
+    v_sql := 'UPDATE products SET';
+    IF p_category_id IS NOT NULL THEN v_sql := v_sql || ' category_id = ' || quote_literal(p_category_id) || ','; v_fields_updated := TRUE; END IF;
+    IF p_description IS NOT NULL THEN v_sql := v_sql || ' description = ' || quote_literal(p_description) || ','; v_fields_updated := TRUE; END IF;
+    IF p_price IS NOT NULL THEN v_sql := v_sql || ' price = ' || p_price || ','; v_fields_updated := TRUE; END IF;
+    IF p_stock IS NOT NULL THEN v_sql := v_sql || ' stock = ' || p_stock || ','; v_fields_updated := TRUE; END IF;
+    IF p_product_line IS NOT NULL THEN v_sql := v_sql || ' product_line = ' || quote_literal(p_product_line) || ','; v_fields_updated := TRUE; END IF;
+
+	IF NOT v_fields_updated THEN
+        RAISE EXCEPTION 'No fields provided for update';
+    END IF;
+	 
     v_sql := rtrim(v_sql, ',') || ' WHERE product_id = ' || quote_literal(p_product_id) || ';';
 
     EXECUTE v_sql;
@@ -165,6 +216,11 @@ BEGIN
     ELSE
         RETURN FALSE;
     END IF;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        RAISE WARNING 'An error occurred while updating product with ID %: %', p_product_id, SQLERRM;
+        RETURN FALSE;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -172,9 +228,20 @@ $$ LANGUAGE plpgsql;
 -- delete product
 CREATE OR REPLACE FUNCTION delete_product(
     p_product_id UUID
-) RETURNS BOOLEAN AS $$
+) 
+RETURNS BOOLEAN AS $$
+DECLARE
+    v_product_exists BOOLEAN;
 BEGIN
- 
+ 	IF p_product_id IS NULL THEN
+        RAISE EXCEPTION 'Product ID cannot be NULL';
+    END IF;
+
+    SELECT EXISTS(SELECT 1 FROM products WHERE product_id = p_product_id) INTO v_product_exists;
+    IF NOT v_product_exists THEN
+        RAISE EXCEPTION 'Product with ID % does not exist', p_product_id;
+    END IF;
+
     DELETE FROM product_images
     WHERE product_id = p_product_id;
     
@@ -192,6 +259,11 @@ BEGIN
     ELSE
         RETURN FALSE;
     END IF;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        RAISE WARNING 'An error occurred while deleting product with ID %: %', p_product_id, SQLERRM;
+        RETURN FALSE;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -205,11 +277,15 @@ RETURNS TABLE (
     total_quantity_purchased INT
 ) AS $$
 BEGIN
+	IF p_limit IS NULL OR p_limit <= 0 THEN
+        RAISE EXCEPTION 'The limit must be a positive integer greater than 0';
+    END IF;
+	
     RETURN QUERY
     SELECT
         p.product_id,
         p.description AS product_name,
-        SUM(oi.quantity) AS total_quantity_purchased
+        COALESCE(SUM(oi.quantity), 0) AS total_quantity_purchased
     FROM
         products p
     JOIN
@@ -223,6 +299,11 @@ BEGIN
     ORDER BY
         total_quantity_purchased DESC
 	LIMIT p_limit;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        RAISE WARNING 'An error occurred while retrieving most purchased products: %', SQLERRM;
+        RETURN;
 END;
 $$ LANGUAGE plpgsql;
 
