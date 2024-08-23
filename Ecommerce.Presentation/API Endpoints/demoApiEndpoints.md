@@ -283,7 +283,8 @@
     },
     "product_sizes": {
       "size_id": 12345,
-      "size_value": "L"
+      "size_value": "L",
+      "quantity": 5
     },
     "product_colors": {
       "color_id": 234567,
@@ -312,7 +313,8 @@
       },
       "product_sizes": {
         "size_id": 12345,
-        "size_value": "L"
+        "size_value": "L",
+        "quantity": 5
       },
       "product_colors": {
         "color_id": 234567,
@@ -354,7 +356,8 @@
             "product_sizes":
                 {
                     "size_id": 12345,
-                    "size_value": "L"
+                    "size_value": "L",
+                    "quantity": 5
                 },
             "product_colors":
                 {
@@ -391,7 +394,8 @@
       },
       "product_sizes": {
         "size_id": 12345,
-        "size_value": "L"
+        "size_value": "L",
+        "quantity": 5
       },
       "product_colors": {
         "color_id": 12345,
@@ -436,7 +440,8 @@
       },
       "product_sizes": {
         "size_id": 12345,
-        "size_value": "L"
+        "size_value": "L",
+        "quantity": 5
       },
       "product_colors": {
         "color_id": 12345,
@@ -486,7 +491,8 @@
         "product_sizes":
             {
                 "size_id": 12345,
-                "size_value": "L"
+                "size_value": "L",
+                "quantity": 5
             },
         "product_colors":
             {
