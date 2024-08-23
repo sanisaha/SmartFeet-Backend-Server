@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\mohamad\\courses\\Fullstack\\Integrify\\Back-end\\Back-End Project\\Project\\fs18_CSharp_Teamwork\\Ecommerce.Domain\\Ecommerce.Domain.csproj": {}
+    "/Users/asangikasandamini/Documents/Integrify/BackEnd/fs18_CSharp_Teamwork/Ecommerce.Domain/Ecommerce.Domain.csproj": {}
   },
   "projects": {
-    "C:\\mohamad\\courses\\Fullstack\\Integrify\\Back-end\\Back-End Project\\Project\\fs18_CSharp_Teamwork\\Ecommerce.Domain\\Ecommerce.Domain.csproj": {
+    "/Users/asangikasandamini/Documents/Integrify/BackEnd/fs18_CSharp_Teamwork/Ecommerce.Domain/Ecommerce.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\mohamad\\courses\\Fullstack\\Integrify\\Back-end\\Back-End Project\\Project\\fs18_CSharp_Teamwork\\Ecommerce.Domain\\Ecommerce.Domain.csproj",
+        "projectUniqueName": "/Users/asangikasandamini/Documents/Integrify/BackEnd/fs18_CSharp_Teamwork/Ecommerce.Domain/Ecommerce.Domain.csproj",
         "projectName": "Ecommerce.Domain",
-        "projectPath": "C:\\mohamad\\courses\\Fullstack\\Integrify\\Back-end\\Back-End Project\\Project\\fs18_CSharp_Teamwork\\Ecommerce.Domain\\Ecommerce.Domain.csproj",
-        "packagesPath": "C:\\Users\\moham\\.nuget\\packages\\",
-        "outputPath": "C:\\mohamad\\courses\\Fullstack\\Integrify\\Back-end\\Back-End Project\\Project\\fs18_CSharp_Teamwork\\Ecommerce.Domain\\obj\\",
+        "projectPath": "/Users/asangikasandamini/Documents/Integrify/BackEnd/fs18_CSharp_Teamwork/Ecommerce.Domain/Ecommerce.Domain.csproj",
+        "packagesPath": "/Users/asangikasandamini/.nuget/packages/",
+        "outputPath": "/Users/asangikasandamini/Documents/Integrify/BackEnd/fs18_CSharp_Teamwork/Ecommerce.Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\moham\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/asangikasandamini/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -58,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.304/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
