@@ -1,9 +1,38 @@
-CREATE TYPE order_status AS ENUM ('pending','completed', 'cancelled');
-CREATE TYPE shipment_status AS ENUM ('pending','completed', 'cancelled');
+CREATE TYPE order_status AS ENUM ('pending','confirmed', 'cancelled');
+CREATE TYPE shipment_status AS ENUM ('pending','confirmed', 'cancelled');
+CREATE TYPE payment_status ASk ENUM ('pending', 'payed', 'cnacelled');
 CREATE TYPE role_type AS ENUM ('admin', 'customer');
-CREATE TYPE order_item_type AS ENUM ('product_id', 'stock');
+CREATE TYPE order_item_type AS (product_id UUID, quantity INTEGER, price NUMERiC);
+CREATE TYPE order_summary_type AS (
+    order_id UUID,
+    user_id UUID,
+    order_date TIMESTAMP,
+    total_price NUMERIC,
+    order_status VARCHAR,
+    shipment_id UUID,
+    shipment_date TIMESTAMP,
+);
 
-order_item_type
+
+CREATE TYPE shipment_type AS (
+    shipmet_date date,
+    shipment_status shipment_status,
+    shipment_address address[]
+);
+
+CREATE TYPE address_type AS (
+    address_id UUID,
+    unit_number VARCHAR,
+    street_number INTEGER,
+    address_line1 VARCHAR,
+    address_line2 VARCHAR,
+    city VARCHAR,
+    postal_code VARCHAR,
+    country VARCHAR
+);
+
+CREAT Type
+
 -- Creating address table
 CREATE TABLE IF NOT EXISTS public.address
 (
