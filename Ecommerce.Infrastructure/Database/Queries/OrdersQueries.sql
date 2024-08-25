@@ -7,8 +7,7 @@ CREATE OR REPLACE FUNCTION create_order_func(
     p_shipment shipment_type,
     p_order_status VARCHAR
 )
-RETURNS order_summary_type
-LANGUAGE plpgsql AS
+RETURNS order_summary_type AS
 $$
 DECLARE
     new_order_id UUID;
@@ -108,7 +107,7 @@ BEGIN
     RETURN order_summary;
 
 END;
-$$;
+$$ LANGUAGE plpgsql;
 
 
 -- Get all orders
@@ -133,8 +132,7 @@ RETURNS TABLE (
     postal_code VARCHAR,
     country VARCHAR,
     order_status VARCHAR
-)
-LANGUAGE plpgsql AS
+) AS
 $$
 BEGIN
     RETURN QUERY
@@ -166,7 +164,7 @@ BEGIN
     OFFSET (p_page - 1) * p_limit
     LIMIT p_limit;
 END;
-$$;
+$$ LANGUAGE plpgsql;
 
 -- Get one order
 CREATE OR REPLACE FUNCTION get_order_by_id_func(p_order_id UUID)

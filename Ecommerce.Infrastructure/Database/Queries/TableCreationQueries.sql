@@ -1,6 +1,6 @@
 CREATE TYPE order_status AS ENUM ('pending','confirmed', 'cancelled');
 CREATE TYPE shipment_status AS ENUM ('pending','confirmed', 'cancelled');
-CREATE TYPE payment_status ASk ENUM ('pending', 'payed', 'cnacelled');
+CREATE TYPE payment_status AS ENUM ('pending', 'payed', 'cnacelled');
 CREATE TYPE role_type AS ENUM ('admin', 'customer');
 CREATE TYPE order_item_type AS (product_id UUID, quantity INTEGER, price NUMERiC);
 CREATE TYPE order_summary_type AS (
@@ -20,6 +20,20 @@ CREATE TYPE shipment_type AS (
     shipment_address address[]
 );
 
+CREATE TYPE user_address_type AS(
+    user_id UUID,
+    address_id UUID,
+    is_default boolean
+)
+
+CREATE TYPE user_type AS(
+    user_name VARCHAR,
+    email VARCHAR,
+    phone_number VARCHAR,
+    role role_type,
+    address f,
+)
+
 CREATE TYPE address_type AS (
     address_id UUID,
     unit_number VARCHAR,
@@ -30,8 +44,6 @@ CREATE TYPE address_type AS (
     postal_code VARCHAR,
     country VARCHAR
 );
-
-CREAT Type
 
 -- Creating address table
 CREATE TABLE IF NOT EXISTS public.address
@@ -77,6 +89,7 @@ CREATE TABLE IF NOT EXISTS public.users
     user_name varchar(100) NOT NULL,
     email character varying(250) NOT NULL UNIQUE,
     password varchar(255) NOT NULL,
+    salt VARCHAR NOT NULL,
     phone_number varchar(15), -- it may contain non-numeric characters like '+'
     role role_type,
     CONSTRAINT users_pkey PRIMARY KEY (user_id)
