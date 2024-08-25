@@ -278,7 +278,9 @@ $$;
 
 
 -- Delete an order
-CREATE OR REPLACE FUNCTION fun_delete_order_func(_order_id UUID) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION fun_delete_order_func(_order_id UUID) 
+RETURNS VOID AS 
+$$
 BEGIN
     -- Check if the order exists
     IF NOT EXISTS (SELECT 1 FROM orders WHERE order_id = p_order_id) THEN
@@ -295,43 +297,3 @@ BEGIN
     DELETE FROM shipments WHERE order_id = p_order_id;
 END;
 $$ LANGUAGE plpgsql;
-
-
-
-
-
-
-
-
-
-CREATE OR REPLACE PROCEDURE order_processing(user_id int, order_items  order_item_type[])
-LANGUAGE plpgsql AS
-$$
-DECLARE
-      new_order_id int
-      item order_item_type
-      item_price numeric
-BEGIN
-      
-      IF IS NOT EXISTS (SELECT * FROM users WHERE id= user_id) THEN RAISE EXCEPTION 'User does not exist';
-      END IF;
-
-      INSERT INTO orders(user_id) VALUES(user_id) returning id INTO new_order_id;
-
-      FOREACH item IN array order_items
-      LOOP
-            SELECT * FROM products where product_id = item.product_id;
-
-            IF NOT EXISTS then raise exception 'Product_id does not exists';
-            END IF;
-
-            IF(SELECT stock FROM products where product_id = item.product_id) < item.orders then raise exception 'Not enough inventory.';
-            END IF;
-
-            SELECT price into item_price FROM products WHERE product_id= item.product;
-            INSERT INTO order_items(order_id, produt_id, quantity, price) VALUES(new_order_id, item.produxt_id, item.quantity, item_price)
-            UPDATE products SET stock = stock - item.quantity where id = item.product_id;
-
-      END LOOP;
-END;
-$$;
