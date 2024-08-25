@@ -98,42 +98,140 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Get user by id
-CREATE OR REPLACE FUNCTION fun_get_user(_user_id UUID) 
-RETURNS TABLE (
-    user_id UUID, 
-    user_name VARCHAR, 
-    email VARCHAR, 
-    phone_number VARCHAR, 
-    role role_type
-) AS 
+CREATE OR REPLACE FUNCTION get_user_by_id_func(p_user_id UUID) 
+RETURNS user_type AS 
 $$
+DECLARE
+    user_summary user_type;
 BEGIN
-    RETURN QUERY SELECT user_id, user_name, email, phone_number, role FROM users WHERE user_id = _user_id;
+    SELECT u.user_id, u.user_name, u.email, u.phone_number, u.role 
+        a.address_id,
+        a.unit_number,
+        a.street_number,
+        a.address_line1,
+        a.address_line2,
+        a.city,
+        a.postal_code,
+        a.country,
+        ua.is_default
+    INTO user_summary
+    FROM users u 
+    JOIN user_address ua ON ua.user_id = u.user_id
+    JOIN address a ON a.address_id = ua.address_id
+    WHERE u.user_id = p_user_id;
+
+    RETURN user_summary
 END;
 $$ LANGUAGE plpgsql;
 
 -- Update user information
-CREATE OR REPLACE FUNCTION fun_update_user(
-    _user_id UUID,
-    _user_name VARCHAR, 
-    _email VARCHAR, 
-    _phone_number VARCHAR, 
-    _role role_type
-) RETURNS VOID AS 
+CREATE OR REPLACE FUNCTION update_user_func(
+    p_user_id UUID,
+    p_user_name VARCHAR DEFAULT NULL,
+    p_email VARCHAR DEFAULT NULL,
+    p_phone_number VARCHAR DEFAULT NULL,
+    p_password VARCHAR DEFAULT NULL,
+    p_unit_number VARCHAR DEFAULT NULL,
+    p_street_number INTEGER DEFAULT NULL,
+    p_address_line1 VARCHAR DEFAULT NULL,
+    p_address_line2 VARCHAR DEFAULT NULL,
+    p_city VARCHAR DEFAULT NULL,
+    p_postal_code VARCHAR DEFAULT NULL,
+    p_country VARCHAR DEFAULT NULL,
+    p_is_default BOOLEAN DEFAULT NULL
+)
+RETURNS TABLE (
+    user_id UUID,
+    user_name VARCHAR,
+    email VARCHAR,
+    phone_number VARCHAR,
+    role role_type,
+    unit_number VARCHAR,
+    street_number INTEGER,
+    address_line1 VARCHAR,
+    address_line2 VARCHAR,
+    city VARCHAR,
+    postal_code VARCHAR,
+    country VARCHAR,
+    is_default BOOLEAN
+) AS
 $$
 BEGIN
+    -- Update user details only for provided fields
     UPDATE users
-    SET user_name = _user_name, email = _email, phone_number = _phone_number, role = _role
-    WHERE user_id = _user_id;
+    SET 
+        user_name = COALESCE(p_user_name, user_name),
+        email = COALESCE(p_email, email),
+        phone_number = COALESCE(p_phone_number, phone_number),
+        password = COALESCE(p_password, password)
+    WHERE user_id = p_user_id;
+
+    -- Update user address only if any address field is provided
+    IF p_unit_number IS NOT NULL OR p_street_number IS NOT NULL OR 
+       p_address_line1 IS NOT NULL OR p_address_line2 IS NOT NULL OR 
+       p_city IS NOT NULL OR p_postal_code IS NOT NULL OR p_country IS NOT NULL THEN
+       
+       UPDATE address
+       SET 
+           unit_number = COALESCE(p_unit_number, unit_number),
+           street_number = COALESCE(p_street_number, street_number),
+           address_line1 = COALESCE(p_address_line1, address_line1),
+           address_line2 = COALESCE(p_address_line2, address_line2),
+           city = COALESCE(p_city, city),
+           postal_code = COALESCE(p_postal_code, postal_code),
+           country = COALESCE(p_country, country)
+       WHERE address_id = (SELECT address_id FROM user_address WHERE user_id = p_user_id AND is_default = TRUE);
+
+       -- Update the is_default flag only if provided
+       IF p_is_default IS NOT NULL THEN
+           UPDATE user_address
+           SET is_default = p_is_default
+           WHERE user_id = p_user_id AND address_id = (SELECT address_id FROM user_address WHERE user_id = p_user_id AND is_default = TRUE);
+       END IF;
+    END IF;
+
+    -- Return the updated user info
+    RETURN QUERY
+    SELECT 
+        u.user_id, u.user_name, u.email, u.phone_number, u.role,
+        a.unit_number, a.street_number, a.address_line1, a.address_line2, a.city, a.postal_code, a.country,
+        ua.is_default
+    FROM users u
+    LEFT JOIN user_address ua ON ua.user_id = u.user_id AND ua.is_default = TRUE
+    LEFT JOIN address a ON a.address_id = ua.address_id
+    WHERE u.user_id = p_user_id;
 END;
 $$ LANGUAGE plpgsql;
 
+
 -- Delete user
-CREATE OR REPLACE FUNCTION fun_delete_user(
-  _user_id UUID
-) RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION fun_delete_user(p_user_id UUID) 
+RETURNS VOID AS 
+$$
 BEGIN
-    DELETE FROM users WHERE user_id = _user_id;
+    -- Check if user exists
+    PERFORM 1 FROM users WHERE user_id = p_user_id;
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'User does not exist';
+    END IF;
+
+    -- Delete user addresses
+    DELETE FROM user_address WHERE user_id = p_user_id;
+
+    -- Delete addresses only if they are not shared with other users
+    DELETE FROM address WHERE address_id NOT IN (SELECT address_id FROM user_address);
+
+    -- anonymize orders instead of deleting them
+    UPDATE orders
+    SET user_id = NULL
+    WHERE user_id = p_user_id;
+
+    UPDATE payments
+    SET user_id = NULL
+    WHERE user_id = p_user_id;
+    
+    -- delete the user
+    DELETE FROM users WHERE user_id = p_user_id;
 END;
 $$ LANGUAGE plpgsql;
 

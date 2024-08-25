@@ -31,7 +31,7 @@ CREATE TYPE user_type AS(
     email VARCHAR,
     phone_number VARCHAR,
     role role_type,
-    address f,
+    address address_type,
 )
 
 CREATE TYPE address_type AS (
