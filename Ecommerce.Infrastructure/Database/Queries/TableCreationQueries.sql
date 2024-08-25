@@ -45,6 +45,15 @@ CREATE TYPE address_type AS (
     country VARCHAR
 );
 
+CREATE TYPE review_type AS (
+    review_id UUID,
+    user_id UUID,
+    product_id UUID,
+    review_date TIMESTAMP,
+    review_text VARCHAR,
+    rating INTEGER
+);
+
 -- Creating address table
 CREATE TABLE IF NOT EXISTS public.address
 (
@@ -101,7 +110,7 @@ ALTER TABLE IF EXISTS public.users OWNER TO postgres;
 
 -- Creating products table
 
-CREATE TABLE IF NOT EXISTS PUBLIC.products
+CREATE TABLE IF NOT EXISTS public.products
 (
 	product_id UUID NOT NULL DEFAULT gen_random_uuid(),
 	title character varying(255) COLLATE pg_catalog."default" NOT NULL,
@@ -153,7 +162,6 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.product_colors OWNER TO postgres;
 
 -- Creating product_sizes table
-
 CREATE TABLE IF NOT EXISTS public.product_sizes
 (
     size_id UUID NOT NULL DEFAULT gen_random_uuid(),
@@ -298,7 +306,7 @@ CREATE TABLE IF NOT EXISTS public.reviews
     user_id UUID NOT NULL,
     product_id UUID NOT NULL,
     review_date timestamp DEFAULT CURRENT_TIMESTAMP,
-    comment_text character varying(500) NOT NULL,
+    review_text character varying(500),
     rating integer NOT NULL CHECK(rating > 0 AND rating < 6),  -- Fixed typo in CHECK constraint
 
     CONSTRAINT reviews_pkey PRIMARY KEY (review_id),

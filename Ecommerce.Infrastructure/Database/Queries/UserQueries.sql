@@ -59,7 +59,7 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION get_all_users_func(
     p_page INTEGER DEFAULT 1,
     p_limit INTEGER DEFAULT 10
-) 
+)
 RETURNS TABLE (
     user_id UUID, 
     user_name VARCHAR, 
@@ -205,7 +205,7 @@ $$ LANGUAGE plpgsql;
 
 
 -- Delete user
-CREATE OR REPLACE FUNCTION fun_delete_user(p_user_id UUID) 
+CREATE OR REPLACE FUNCTION delete_user_func(p_user_id UUID) 
 RETURNS VOID AS 
 $$
 BEGIN
