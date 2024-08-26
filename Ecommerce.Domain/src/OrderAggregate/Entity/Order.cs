@@ -2,10 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Ecommerce.Domain.Enums;
+using Ecommerce.Domain.src.OrderAggregate.Interface;
 
 namespace Ecommerce.Domain.src.OrderAggregate
 {
-    public class Order : BaseEntity
+    public class Order : BaseEntity, IOrder
     {
         [ForeignKey("User")]
         public Guid UserId { get; set; }
