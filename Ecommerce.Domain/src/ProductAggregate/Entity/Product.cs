@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Ecommerce.Domain.src.ProductAggregate.Interface;
 
 namespace Ecommerce.Domain.src.ProductAggregate
 {
-    public class Product : BaseEntity
+    public class Product : BaseEntity, IProduct
     {
         [MaxLength(100)]
         public string Title { get; set; }
