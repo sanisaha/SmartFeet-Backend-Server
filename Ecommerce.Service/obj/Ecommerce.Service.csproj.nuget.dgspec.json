@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/asangikasandamini/Documents/Integrify/BackEnd/fs18_CSharp_Teamwork/Ecommerce.Service/Ecommerce.Service.csproj": {}
+    "C:\\mohamad\\courses\\Fullstack\\Integrify\\Back-end\\Back-End Project\\Project\\fs18_CSharp_Teamwork\\Ecommerce.Service\\Ecommerce.Service.csproj": {}
   },
   "projects": {
-    "/Users/asangikasandamini/Documents/Integrify/BackEnd/fs18_CSharp_Teamwork/Ecommerce.Service/Ecommerce.Service.csproj": {
+    "C:\\mohamad\\courses\\Fullstack\\Integrify\\Back-end\\Back-End Project\\Project\\fs18_CSharp_Teamwork\\Ecommerce.Service\\Ecommerce.Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/asangikasandamini/Documents/Integrify/BackEnd/fs18_CSharp_Teamwork/Ecommerce.Service/Ecommerce.Service.csproj",
+        "projectUniqueName": "C:\\mohamad\\courses\\Fullstack\\Integrify\\Back-end\\Back-End Project\\Project\\fs18_CSharp_Teamwork\\Ecommerce.Service\\Ecommerce.Service.csproj",
         "projectName": "Ecommerce.Service",
-        "projectPath": "/Users/asangikasandamini/Documents/Integrify/BackEnd/fs18_CSharp_Teamwork/Ecommerce.Service/Ecommerce.Service.csproj",
-        "packagesPath": "/Users/asangikasandamini/.nuget/packages/",
-        "outputPath": "/Users/asangikasandamini/Documents/Integrify/BackEnd/fs18_CSharp_Teamwork/Ecommerce.Service/obj/",
+        "projectPath": "C:\\mohamad\\courses\\Fullstack\\Integrify\\Back-end\\Back-End Project\\Project\\fs18_CSharp_Teamwork\\Ecommerce.Service\\Ecommerce.Service.csproj",
+        "packagesPath": "C:\\Users\\moham\\.nuget\\packages\\",
+        "outputPath": "C:\\mohamad\\courses\\Fullstack\\Integrify\\Back-end\\Back-End Project\\Project\\fs18_CSharp_Teamwork\\Ecommerce.Service\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/asangikasandamini/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\moham\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -58,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.304/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
