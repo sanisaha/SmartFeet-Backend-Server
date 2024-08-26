@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Ecommerce.Presentation
-build_property.ProjectDir = C:\mohamad\courses\Fullstack\Integrify\Back-end\Back-End Project\Project\fs18_CSharp_Teamwork\Ecommerce.Presentation\
+build_property.ProjectDir = c:\mohamad\courses\Fullstack\Integrify\Back-end\Back-End Project\Project\fs18_CSharp_Teamwork\Ecommerce.Presentation\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
