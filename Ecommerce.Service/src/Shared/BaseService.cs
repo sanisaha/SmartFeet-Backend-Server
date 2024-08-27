@@ -1,3 +1,5 @@
+using Ecommerce.Domain.src.Shared;
+
 namespace Ecommerce.Service.src.Shared
 {
     public class BaseService<T, TReadDto, TCreateDto, TUpdateDto> : IBaseService<T, TReadDto, TCreateDto, TUpdateDto>

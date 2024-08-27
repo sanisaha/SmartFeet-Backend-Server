@@ -1,19 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using Ecommerce.Domain.src.CategoryAggregate;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.CategoryService
 {
-    public class Category : BaseEntity
-    {
-        [Key]
-        public int CategoryId { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string? Name { get; set; }
-
-        public int ParentCategoryId { get; set; }
-    }
     public class CategoryReadDto : BaseReadDto<Category>
     {
         public int CategoryId { get; set; }

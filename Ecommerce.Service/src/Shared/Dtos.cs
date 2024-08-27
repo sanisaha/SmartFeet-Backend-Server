@@ -1,25 +1,8 @@
 using System.ComponentModel.DataAnnotations;
+using Ecommerce.Domain.src.Shared;
 
 namespace Ecommerce.Service.src.Shared
 {
-    public class BaseEntity
-    {
-        [Key]
-        public Guid Id { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        public BaseEntity()
-        {
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-        }
-
-        public void UpdateTimestamps()
-        {
-            UpdatedAt = DateTime.UtcNow;
-        }
-    }
-    // public class BaseEntity mainly stay in the domain layer, need to remove
     public interface IReadDto<T> where T : BaseEntity
     {
         Guid Id { get; set; }
