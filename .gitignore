@@ -1,4 +1,14 @@
-.DS_Store
-bin/
-obj/
-.vscode
+# .DS_Store
+# /bin/
+# /obj/
+# .vscode
+
+
+# Ignore .NET build artifacts
+/obj/
+/bin/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.sln.ide
