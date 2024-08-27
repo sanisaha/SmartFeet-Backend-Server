@@ -2,8 +2,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Ecommerce.Domain.Enums;
+using Ecommerce.Domain.src.ProductAggregate;
+using Ecommerce.Domain.src.Shared;
 
-namespace Ecommerce.Domain.src.ProductAggregate
+namespace Ecommerce.Domain.src.Entities.ProductAggregate
 {
     public class ProductColor : BaseEntity
     {
@@ -14,6 +16,6 @@ namespace Ecommerce.Domain.src.ProductAggregate
         public ColorName ColorName { get; set; }
 
         // Navigation property
-        public virtual Product Product { get; set; }
+        public virtual Product? Product { get; set; }
     }
 }

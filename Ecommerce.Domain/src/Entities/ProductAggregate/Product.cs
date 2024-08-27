@@ -1,20 +1,21 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Ecommerce.Domain.src.ProductAggregate.Interface;
+using Ecommerce.Domain.src.CategoryAggregate;
+using Ecommerce.Domain.src.Shared;
 
 namespace Ecommerce.Domain.src.ProductAggregate
 {
-    public class Product : BaseEntity, IProduct
+    public class Product : BaseEntity
     {
         [MaxLength(100)]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         [ForeignKey("Category")]
         public Guid CategoryId { get; set; }
 
         [Required]
         [MaxLength(100)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(10,2)")]
@@ -24,12 +25,10 @@ namespace Ecommerce.Domain.src.ProductAggregate
         public int Stock { get; set; }
 
         [MaxLength(100)]
-        public string ProductLine { get; set; }
-
-
+        public string? ProductLine { get; set; }
 
         // Navigation property
-        public virtual Category Category { get; set; }
+        public virtual Category? Category { get; set; }
 
         public bool IsInStock()
         {
