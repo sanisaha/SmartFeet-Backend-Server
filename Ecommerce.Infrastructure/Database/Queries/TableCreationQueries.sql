@@ -1,9 +1,59 @@
-CREATE TYPE order_status AS ENUM ('pending','completed', 'cancelled');
-CREATE TYPE shipment_status AS ENUM ('pending','completed', 'cancelled');
+CREATE TYPE order_status AS ENUM ('pending','confirmed', 'cancelled');
+CREATE TYPE shipment_status AS ENUM ('pending','confirmed', 'cancelled');
+CREATE TYPE payment_status AS ENUM ('pending', 'payed', 'cnacelled');
 CREATE TYPE role_type AS ENUM ('admin', 'customer');
-CREATE TYPE order_item_type AS ENUM ('product_id', 'stock');
+CREATE TYPE order_item_type AS (product_id UUID, quantity INTEGER, price NUMERiC);
+CREATE TYPE order_summary_type AS (
+    order_id UUID,
+    user_id UUID,
+    order_date TIMESTAMP,
+    total_price NUMERIC,
+    order_status VARCHAR,
+    shipment_id UUID,
+    shipment_date TIMESTAMP,
+);
 
-order_item_type
+
+CREATE TYPE shipment_type AS (
+    shipmet_date date,
+    shipment_status shipment_status,
+    shipment_address address[]
+);
+
+CREATE TYPE user_address_type AS(
+    user_id UUID,
+    address_id UUID,
+    is_default boolean
+)
+
+CREATE TYPE user_type AS(
+    user_name VARCHAR,
+    email VARCHAR,
+    phone_number VARCHAR,
+    role role_type,
+    address address_type,
+)
+
+CREATE TYPE address_type AS (
+    address_id UUID,
+    unit_number VARCHAR,
+    street_number INTEGER,
+    address_line1 VARCHAR,
+    address_line2 VARCHAR,
+    city VARCHAR,
+    postal_code VARCHAR,
+    country VARCHAR
+);
+
+CREATE TYPE review_type AS (
+    review_id UUID,
+    user_id UUID,
+    product_id UUID,
+    review_date TIMESTAMP,
+    review_text VARCHAR,
+    rating INTEGER
+);
+
 -- Creating address table
 CREATE TABLE IF NOT EXISTS public.address
 (
@@ -48,6 +98,7 @@ CREATE TABLE IF NOT EXISTS public.users
     user_name varchar(100) NOT NULL,
     email character varying(250) NOT NULL UNIQUE,
     password varchar(255) NOT NULL,
+    salt VARCHAR NOT NULL,
     phone_number varchar(15), -- it may contain non-numeric characters like '+'
     role role_type,
     CONSTRAINT users_pkey PRIMARY KEY (user_id)
@@ -59,7 +110,7 @@ ALTER TABLE IF EXISTS public.users OWNER TO postgres;
 
 -- Creating products table
 
-CREATE TABLE IF NOT EXISTS PUBLIC.products
+CREATE TABLE IF NOT EXISTS public.products
 (
 	product_id UUID NOT NULL DEFAULT gen_random_uuid(),
 	title character varying(255) COLLATE pg_catalog."default" NOT NULL,
@@ -111,7 +162,6 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.product_colors OWNER TO postgres;
 
 -- Creating product_sizes table
-
 CREATE TABLE IF NOT EXISTS public.product_sizes
 (
     size_id UUID NOT NULL DEFAULT gen_random_uuid(),
@@ -256,7 +306,7 @@ CREATE TABLE IF NOT EXISTS public.reviews
     user_id UUID NOT NULL,
     product_id UUID NOT NULL,
     review_date timestamp DEFAULT CURRENT_TIMESTAMP,
-    comment_text character varying(500) NOT NULL,
+    review_text character varying(500),
     rating integer NOT NULL CHECK(rating > 0 AND rating < 6),  -- Fixed typo in CHECK constraint
 
     CONSTRAINT reviews_pkey PRIMARY KEY (review_id),
