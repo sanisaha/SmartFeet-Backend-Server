@@ -1,14 +1,108 @@
-# .DS_Store
-# /bin/
-# /obj/
-# .vscode
+# User-specific files
+.vscode/
+*.code-workspace
 
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
 
-# Ignore .NET build artifacts
-/obj/
-/bin/
+# Visual Studio Code workspace settings
+.vscode/
+
+# User-specific files
+*.rsuser
+*.suo
 *.user
+*.userosscache
+*.sln.docstates
+
+# Mono auto generated files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Build folders (You can keep bin if you'd like to check in binaries)
+[Bb]in/
+[Oo]bj/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+# R project
+*.Rproj.user/
+
+# Mac files
+*.DS_Store
+
+# JetBrains Rider
+.idea/
+
+# Rider projects and workspace files
+*.sln.iml
+.idea/
+*.idea/
+*.idea/*
+*.iws
+.idea/modules.xml
+.idea/workspace.xml
+.idea/description.xml
+.idea/misc.xml
+.idea/dictionaries/*
+.idea/.idea/*
+
+# Rider / Intellij
+*.iml
+
+# Rider specific files
+.idea/
+*.ipr
+*.iws
+.idea/libraries/*
+.idea/modules.xml
+.idea/workspace.xml
+
+# File-based project format
+*.csproj.user
 *.suo
 *.userosscache
 *.sln.docstates
-*.sln.ide
+
+# User-specific files
+*.user
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+# Build results
+*/bin/
+*/obj/
+
+# Comment if you have other development environments
+.vscode/
+
+# End of the `.gitignore` file
