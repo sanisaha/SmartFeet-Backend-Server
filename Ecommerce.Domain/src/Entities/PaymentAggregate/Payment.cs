@@ -4,13 +4,6 @@ using Ecommerce.Domain.src.UserAggregate;
 
 namespace Ecommerce.Domain.src.PaymentAggregate
 {
-    public enum PaymentStatus
-    {
-        Pending,
-        Completed,
-        Failed,
-        Refunded
-    }
     public class Payment : BaseEntity
     {
         [Required]
@@ -21,7 +14,7 @@ namespace Ecommerce.Domain.src.PaymentAggregate
 
         [Required]
         [StringLength(50)]
-        public Guid PaymentMethodId { get; set; } // "Credit Card", "PayPal"
+        public Guid PaymentMethodId { get; set; }
 
         [Required]
         public decimal Amount { get; set; }
