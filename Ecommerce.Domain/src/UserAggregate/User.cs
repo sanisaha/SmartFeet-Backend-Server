@@ -25,7 +25,6 @@ namespace Ecommerce.Domain.src.UserAggregate
         [DataType(DataType.Password)]
         public string? Password { get; set; }
 
-        [Required]
         public required byte[] Salt { get; set; }
 
         [Required]

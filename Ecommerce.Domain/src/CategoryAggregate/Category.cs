@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using Ecommerce.Domain.src.Shared;
 
 namespace Ecommerce.Domain.src.CategoryAggregate
 {
-    public class Category
+    public class Category : BaseEntity
     {
         [Key]
         public int CategoryId { get; set; }
