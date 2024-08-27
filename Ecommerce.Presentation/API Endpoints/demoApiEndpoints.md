@@ -4,7 +4,7 @@
 
 ### 1. **Create a User**
 
-- **Endpoint**: `POST /api/v1/users`
+- **Endpoint**: `POST /api/v1/user`
 - **Description**: Register a new user
 - **Authentication**: No
 - **Request Body**:
@@ -18,13 +18,15 @@
     "role": "user",
     "user_address": {
       "is_default": true,
-      "unit_number": "sdun",
-      "street_number": 23,
-      "address_line1": "wall street",
-      "address_line2": "Marlin street",
-      "city": "Helsinki",
-      "postal_code": "00100",
-      "country": "Finland"
+      "address": {
+        "unit_number": "sdun",
+        "street_number": 23,
+        "address_line1": "wall street",
+        "address_line2": "Marlin street",
+        "city": "Helsinki",
+        "postal_code": "00100",
+        "country": "Finland"
+      }
     }
   }
   ```
@@ -36,18 +38,19 @@
       "user_id": 23456,
       "email": "john@doe.com",
       "user_name": "johndoe",
-      "password": "se2345r",
       "phone_number": "123456",
       "role": "user",
       "user_address": {
         "is_default": true,
-        "unit_number": "sdun",
-        "street_number": 23,
-        "address_line1": "wall street",
-        "address_line2": "Marlin street",
-        "city": "Helsinki",
-        "postal_code": "00100",
-        "country": "Finland"
+        "address": {
+          "unit_number": "sdun",
+          "street_number": 23,
+          "address_line1": "wall street",
+          "address_line2": "Marlin street",
+          "city": "Helsinki",
+          "postal_code": "00100",
+          "country": "Finland"
+        }
       }
     }
     ```
@@ -72,17 +75,19 @@
             "user_name": "johndoe",
             "phone_number": "123456",
             "role": "user",
-            "user_address":
+            "user_address": {
+              "is_default": true,
+              "address":
                 {
-                    "is_default": true,
-                    "unit_number": "sdun",
-                    "street_number": 23,
-                    "address_line1": "wall street",
-                    "address_line2": "Marlin street",
-                    "city": "Helsinki",
-                    "postal_code": "00100",
-                    "country": "Finland"
+                  "unit_number": "sdun",
+                  "street_number": 23,
+                  "address_line1": "wall street",
+                  "address_line2": "Marlin street",
+                  "city": "Helsinki",
+                  "postal_code": "00100",
+                  "country": "Finland"
                 }
+    }
         },
         ...
     ]
@@ -106,13 +111,15 @@
     "role": "user",
     "user_address": {
       "is_default": true,
-      "unit_number": "sdun",
-      "street_number": 23,
-      "address_line1": "wall street",
-      "address_line2": "Marlin street",
-      "city": "Helsinki",
-      "postal_code": "00100",
-      "country": "Finland"
+      "address": {
+        "unit_number": "sdun",
+        "street_number": 23,
+        "address_line1": "wall street",
+        "address_line2": "Marlin street",
+        "city": "Helsinki",
+        "postal_code": "00100",
+        "country": "Finland"
+      }
     }
   }
   ```
@@ -138,37 +145,45 @@
       "user_id": 23456,
       "user_name": "Updated John Doe",
       "email": "updatedjohndoe@examp",
-      "password": "se2345r",
       "phone_number": "123456",
       "role": "user",
       "user_address": {
         "is_default": true,
-        "unit_number": "sdun",
-        "street_number": 23,
-        "address_line1": "wall street",
-        "address_line2": "Marlin street",
-        "city": "Helsinki",
-        "postal_code": "00100",
-        "country": "Finland"
+        "address": {
+          "unit_number": "sdun",
+          "street_number": 23,
+          "address_line1": "wall street",
+          "address_line2": "Marlin street",
+          "city": "Helsinki",
+          "postal_code": "00100",
+          "country": "Finland"
+        }
       }
     }
     ```
   - **404 Not Found**: User not found.
 
-### 5. **Delete a User**
+## Hard Delete User
 
-- **Endpoint**: `DELETE /api/v1/users/{userId}`
-- **Description**: Deletes a user.
-- **Authorization**: yes
-- **Response**:
+- **Endpoint**: `DELETE /api/v1/users/{user_id}`
+- **Description**: Permanently deletes a user and associated records.
+- **Responses**:
   - **204 No Content**: Successfully deleted.
   - **404 Not Found**: User not found.
 
-# Categories API Endpoints
+## Soft Delete User (optional)
 
-## **1. Create a Category**
+- **Endpoint**: `DELETE /api/v1/users/{user_id}`
+- **Description**: Marks a user as deleted without removing the record.
+- **Responses**:
+  - **204 No Content**: Successfully marked as deleted.
+  - **404 Not Found**: User not found.
 
-- **Endpoint**: `POST /api/v1/categories`
+## Categories API Endpoints
+
+### **1. Create a Category**
+
+- **Endpoint**: `POST /api/v1/category`
 - **Description**: Creates a new product category.
 - **Request Body**:
   ```json
@@ -188,7 +203,7 @@
     ```
   - **400 Bad Request**: Invalid input data.
 
-## **2. Get All Categories**
+### **2. Get All Categories**
 
 - **Endpoint**: `GET /api/v1/categories`
 - **Description**: Retrieves a list of all product categories.
@@ -212,7 +227,7 @@
     ]
     ```
 
-## **3. Get Category by ID**
+### **3. Get Category by ID**
 
 - **Endpoint**: `GET /api/v1/categories/{categoryId}`
 - **Description**: Retrieves details of a specific category by its ID.
@@ -227,7 +242,7 @@
     ```
   - **404 Not Found**: Category not found.
 
-## **4. Update a Category**
+### **4. Update a Category**
 
 - **Endpoint**: `PUT /api/v1/categories/{categoryId}`
 - **Description**: Updates the details of an existing category.
@@ -249,7 +264,7 @@
     ```
   - **404 Not Found**: Category not found.
 
-## **5. Delete a Category**
+### **5. Delete a Category**
 
 - **Endpoint**: `DELETE /api/v1/categories/{categoryId}`
 - **Description**: Deletes a category by its ID.
@@ -261,7 +276,7 @@
 
 ### 1. **Create a Product**
 
-- **Endpoint**: `POST /api/v1/products`
+- **Endpoint**: `POST /api/v1/product`
 - **Description**: Adds a new product to the inventory.
 - **Authorization**: yes
 - **Request Body**:
@@ -508,7 +523,7 @@
 
 ### 1. **Create a Review**
 
-- **Endpoint**: `POST /api/v1/reviews`
+- **Endpoint**: `POST /api/v1/review`
 - **Description**: Adds a new review to a product.
 - **Authentication**: yes
 - **Request Body**:
@@ -518,7 +533,8 @@
     "userId": "67890",
     "review_date": "2024-08-20T13:00:00Z",
     "rating": 5,
-    "review": "This product is amazing!"
+    "review": "This product is amazing!",
+    "anonymize": true
   }
   ```
 - **Response**:
@@ -530,7 +546,8 @@
       "userId": "67890",
       "review_date": "2024-08-20T13:00:00Z",
       "rating": 5,
-      "review": "This product is amazing!"
+      "review": "This product is amazing!",
+      "anonymize": true
     }
     ```
   - **400 Bad Request**: Invalid input data.
@@ -655,7 +672,7 @@
 
 ### 1. **Create an Order**
 
-- **Endpoint**: `POST /api/v1/orders`
+- **Endpoint**: `POST /api/v1/order`
 - **Description**: Places a new order.
 - **Request Body**:
   ```json
@@ -698,6 +715,9 @@
     {
       "order_id": 1234,
       "userId": "67890",
+      "order_date": "2024-08-20T13:00:00Z",
+      "total_price": 60.0,
+      "order_status": "pending"
       "order_items": [
         {
           "order_item_id": "12345",
@@ -709,24 +729,7 @@
           "quantity": 2,
           "price": 30
         }
-      ],
-      "order_date": "2024-08-20T13:00:00Z",
-      "total_price": 60.0,
-      "shipments": {
-        "shipment_id": 12345,
-        "shipment_date": "2024-08-20T13:00:00Z",
-        "address": {
-          "address_id": 1234,
-          "unit_number": "sdun",
-          "street_number": 23,
-          "address_line1": "wall street",
-          "address_line2": "Marlin street",
-          "city": "Helsinki",
-          "postal_code": 00100,
-          "country": "Finland"
-        }
-      },
-      "order_status": "pending"
+      ]
     }
     ```
   - **400 Bad Request**: Invalid input data.
@@ -734,10 +737,11 @@
 ### 2. **Get All Orders**
 
 - **Endpoint**: `GET /api/v1/orders`
-- **Description**: Retrieves a list of all orders.
+- **Description**: Retrieves a list of orders for a user.
 - **Query Parameters** (optional):
   - `?page={pageNumber}&limit={pageSize}`: Pagination options.
   - `?userId={userId}`: Filter orders by user.
+  - `?order_status={order_status}`: Filter orders by user.
 - **Response**:
   - **200 OK**:
     ```json
@@ -879,9 +883,9 @@
   - **204 No Content**: Successfully deleted.
   - **404 Not Found**: Order not found.
 
-# Payments API Endpoints
+## Payments API Endpoints
 
-## **1. Create a Payment**
+### **1. Create a Payment**
 
 - **Endpoint**: `POST /api/v1/payments`
 - **Description**: Initiates a new payment for an order.
@@ -923,7 +927,7 @@
     ```
   - **400 Bad Request**: Invalid input data (e.g., missing fields, invalid card details).
 
-## **2. Get Payment Details**
+### **2. Get Payment Details**
 
 - **Endpoint**: `GET /api/v1/payments/{paymentId}`
 - **Description**: Retrieves details of a specific payment.
@@ -944,7 +948,7 @@
     ```
   - **404 Not Found**: Payment not found.
 
-## **3. Get All Payments**
+### **3. Get All Payments**
 
 - **Endpoint**: `GET /api/v1/payments`
 - **Description**: Retrieves a list of all payments.
@@ -973,7 +977,7 @@
     ]
     ```
 
-## **4. Update Payment Status**
+### **4. Update Payment Status**
 
 - **Endpoint**: `PUT /api/v1/payments/{paymentId}`
 - **Description**: Updates the status of a payment (e.g., from "processing" to "completed").
@@ -1005,7 +1009,7 @@
     ```
   - **404 Not Found**: Payment not found.
 
-## **5. Delete a Payment**
+### **5. Delete a Payment**
 
 - **Endpoint**: `DELETE /api/v1/payments/{paymentId}`
 - **Description**: Deletes a payment record.
@@ -1013,6 +1017,174 @@
 - **Response**:
   - **204 No Content**: Successfully deleted.
   - **404 Not Found**: Payment not found.
+
+## Shipments API Endpoints
+
+### 1. Create a Shipment
+
+- **Endpoint**: `POST /api/v1/shipment`
+- **Description**: Creates a new shipment.
+- **Request Body**:
+
+  ```json
+  {
+    "order_id": 1234,
+    "shipment_date": "2024-08-20T13:00:00Z",
+    "address": {
+      "address_id": 1234,
+      "unit_number": "sdun",
+      "street_number": 23,
+      "address_line1": "wall street",
+      "address_line2": "Marlin street",
+      "city": "Helsinki",
+      "postal_code": 00100,
+      "country": "Finland"
+    }
+  }
+  ```
+
+  - **Response**:
+  - **200 OK**:
+
+    ```json
+    {
+      "shipment_id": 5678,
+      "order_id": 1234,
+      "shipment_date": "2024-08-20T13:00:00Z",
+      "address": {
+        "address_id": 1234,
+        "unit_number": "sdun",
+        "street_number": 23,
+        "address_line1": "wall street",
+        "address_line2": "Marlin street",
+        "city": "Helsinki",
+        "postal_code": 00100,
+        "country": "Finland"
+      }
+    }
+    ```
+
+- **400 Bad Request**: Invalid input data.
+
+### 2. Update a Shipment
+
+- **Endpoint**: `PUT /api/v1/shipments/{shipment_id}`
+- **Description**: Updates an existing shipment.
+- **Request Body**:
+
+  ```json
+  {
+    "shipment_date": "2024-08-21T13:00:00Z",
+    "address": {
+      "address_id": 1234,
+      "unit_number": "new_unit",
+      "street_number": 25,
+      "address_line1": "new street",
+      "address_line2": "New Marlin street",
+      "city": "Helsinki",
+      "postal_code": 00200,
+      "country": "Finland"
+    }
+  }
+  ```
+
+  - **Response**:
+  - **200 OK**:
+
+    ```json
+    {
+      "shipment_id": 5678,
+      "order_id": 1234,
+      "shipment_date": "2024-08-21T13:00:00Z",
+      "address": {
+        "address_id": 1234,
+        "unit_number": "new_unit",
+        "street_number": 25,
+        "address_line1": "new street",
+        "address_line2": "New Marlin street",
+        "city": "Helsinki",
+        "postal_code": 00200,
+        "country": "Finland"
+      }
+    }
+    ```
+
+    - **400 Bad Request**: Invalid input data.
+    - **404 Not Found**: Shipment not found.
+
+### 3. Delete a Shipment
+
+- **Endpoint**: `DELETE /api/v1/shipments/{shipment_id}`
+- **Description**: Deletes a shipment.
+- **Responses**:
+  - **204 No Content**: Successfully deleted.
+  - **404 Not Found**: Shipment not found.
+
+### 4. Get Shipment Details
+
+- **Endpoint**: `GET /api/v1/shipments/{shipment_id}`
+- **Description**: Retrieves details of a specific shipment.
+- **Responses**:
+  - **200 OK**:
+    ```json
+    {
+      "shipment_id": 5678,
+      "order_id": 1234,
+      "shipment_date": "2024-08-20T13:00:00Z",
+      "address": {
+        "address_id": 1234,
+        "unit_number": "sdun",
+        "street_number": 23,
+        "address_line1": "wall street",
+        "address_line2": "Marlin street",
+        "city": "Helsinki",
+        "postal_code": 00100,
+        "country": "Finland"
+      }
+    }
+    ```
+  - **404 Not Found**: Shipment not found.
+
+### 5. List Shipments
+
+- **Endpoint**: `GET /api/v1/shipments`
+- **Description**: Retrieves a list of all shipments.
+- **Responses**:
+  - **200 OK**:
+    ```json
+    [
+      {
+        "shipment_id": 5678,
+        "order_id": 1234,
+        "shipment_date": "2024-08-20T13:00:00Z",
+        "address": {
+          "address_id": 1234,
+          "unit_number": "sdun",
+          "street_number": 23,
+          "address_line1": "wall street",
+          "address_line2": "Marlin street",
+          "city": "Helsinki",
+          "postal_code": 00100,
+          "country": "Finland"
+        }
+      },
+      {
+        "shipment_id": 5679,
+        "order_id": 1235,
+        "shipment_date": "2024-08-21T13:00:00Z",
+        "address": {
+          "address_id": 1235,
+          "unit_number": "another_unit",
+          "street_number": 25,
+          "address_line1": "another street",
+          "address_line2": "Another Marlin street",
+          "city": "Helsinki",
+          "postal_code": 00200,
+          "country": "Finland"
+        }
+      }
+    ]
+    ```
 
 ---
 

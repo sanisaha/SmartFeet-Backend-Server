@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Ecommerce.Domain.src.AddressAggregate;
 using Ecommerce.Domain.src.Shared;
 
 namespace Ecommerce.Domain.src.UserAggregate
@@ -34,6 +35,10 @@ namespace Ecommerce.Domain.src.UserAggregate
 
         [Required]
         public Role Role { get; set; }
+
+        // Navigation Properties
+        public IEnumerable<UserAddress>? UserAddresses { get; set; }
+        public IEnumerable<Order>? Orders { get; set; }
 
     }
 }
