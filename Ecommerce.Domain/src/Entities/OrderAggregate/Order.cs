@@ -26,11 +26,11 @@ namespace Ecommerce.Domain.src.Entities.OrderAggregate
         public OrderStatus OrderStatus { get; set; }
 
         // Navigation Properties
-        public virtual List<OrderItem> OrderItems { get; set; }
+        public virtual IEnumerable<OrderItem> OrderItems { get; set; }
 
-        public virtual User User { get; set; }
+        // public virtual User User { get; set; }
 
-        public virtual Address Address { get; set; }
+        // public virtual Address Address { get; set; }
 
 
         // Constructor
@@ -39,19 +39,19 @@ namespace Ecommerce.Domain.src.Entities.OrderAggregate
             OrderItems = new List<OrderItem>();
         }
 
-        public void AddOrderItem(OrderItem item)
-        {
-            OrderItems.Add(item);
-            TotalPrice += item.Price * item.Quantity;
-        }
+        // public void AddOrderItem(OrderItem item)
+        // {
+        //     OrderItems.Add(item);
+        //     TotalPrice += item.Price * item.Quantity;
+        // }
 
-        public void RemoveOrderItem(OrderItem item)
-        {
-            if (OrderItems.Remove(item))
-            {
-                TotalPrice -= item.Price * item.Quantity;
-            }
-        }
+        // public void RemoveOrderItem(OrderItem item)
+        // {
+        //     if (OrderItems.Remove(item))
+        //     {
+        //         TotalPrice -= item.Price * item.Quantity;
+        //     }
+        // }
 
         public void UpdateOrderStatus(OrderStatus status)
         {
