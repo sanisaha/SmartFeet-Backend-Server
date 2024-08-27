@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Ecommerce.Service.src.Shared;
 
-namespace Ecommerce.Service.src.CategoryService
+namespace Ecommerce.Service.src.PaymentService
 {
-    public class CategoryManagement : BaseService<Category, CategoryReadDto, CategoryCreateDto, CategoryUpdateDto>, ICategoryManagement
+    public class PaymentManagement : BaseService<Payment, PaymentReadDto, PaymentCreateDto, PaymentUpdateDto>, IPaymentManagement
     {
-        public async Task<CategoryCreateDto> CreateAsync(CategoryCreateDto createDto)
+        public async Task<PaymentCreateDto> CreateAsync(PaymentCreateDto createDto)
         {
             throw new NotImplementedException();
         }
@@ -18,12 +18,12 @@ namespace Ecommerce.Service.src.CategoryService
             throw new NotImplementedException();
         }
 
-        public async Task<CategoryReadDto> GetByIdAsync(Guid id)
+        public async Task<PaymentReadDto> GetByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<CategoryUpdateDto> UpdateAsync(Guid id, CategoryUpdateDto updateDto)
+        public async Task<PaymentUpdateDto> UpdateAsync(Guid id, PaymentUpdateDto updateDto)
         {
             throw new NotImplementedException();
         }
