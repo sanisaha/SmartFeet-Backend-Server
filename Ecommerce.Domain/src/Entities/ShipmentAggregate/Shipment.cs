@@ -7,8 +7,8 @@ namespace Ecommerce.Domain.src.Entities.ShipmentAggregate
 {
     public class Shipment : BaseEntity
     {
-        public Guid OrderId { get; set; }
         public DateTime ShipmentDate { get; set; }
+        public Guid OrderId { get; set; }
         public Guid AddressId { get; set; }
         public ShippingStatus ShipmentStatus { get; set; }
 

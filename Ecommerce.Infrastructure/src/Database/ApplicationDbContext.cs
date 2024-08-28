@@ -4,6 +4,7 @@ using Ecommerce.Domain.src.Entities.OrderAggregate;
 using Ecommerce.Domain.src.Entities.PaymentAggregate;
 using Ecommerce.Domain.src.Entities.ProductAggregate;
 using Ecommerce.Domain.src.Entities.ReviewAggregate;
+using Ecommerce.Domain.src.Entities.ShipmentAggregate;
 using Ecommerce.Domain.src.Entities.UserAggregate;
 using Ecommerce.Domain.src.PaymentAggregate;
 using Ecommerce.Domain.src.ProductAggregate;
@@ -23,10 +24,11 @@ namespace Ecommerce.Infrastructure.src.Database
         public DbSet<ProductSize> ProductSizes { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderItem> OrdersItems { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Shipment> Shipments { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
