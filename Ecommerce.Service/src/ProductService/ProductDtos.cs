@@ -10,6 +10,8 @@ namespace Ecommerce.Service.src.ProductService
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int Stock { get; set; }
+        public Guid CategoryId { get; set; }
+        public string ProductLine { get; set; }
 
         public override void FromEntity(Product entity)
         {
@@ -18,6 +20,8 @@ namespace Ecommerce.Service.src.ProductService
             Description = entity.Description;
             Price = entity.Price;
             Stock = entity.Stock;
+            CategoryId = entity.CategoryId;
+            ProductLine = entity.ProductLine;
         }
     }
     public class ProductCreateDto : ICreateDto<Product>
@@ -26,6 +30,8 @@ namespace Ecommerce.Service.src.ProductService
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int Stock { get; set; }
+        public Guid CategoryId { get; set; }
+        public string ProductLine { get; set; }
         public Product CreateEntity()
         {
             return new Product
@@ -33,7 +39,9 @@ namespace Ecommerce.Service.src.ProductService
                 Title = Title,
                 Description = Description,
                 Price = Price,
-                Stock = Stock
+                Stock = Stock,
+                CategoryId = CategoryId,
+                ProductLine = ProductLine
             };
         }
     }
@@ -44,12 +52,16 @@ namespace Ecommerce.Service.src.ProductService
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int Stock { get; set; }
+        public Guid CategoryId { get; set; }
+        public string ProductLine { get; set; }
         public Product UpdateEntity(Product entity)
         {
             entity.Title = Title;
             entity.Description = Description;
             entity.Price = Price;
             entity.Stock = Stock;
+            entity.CategoryId = CategoryId;
+            entity.ProductLine = ProductLine;
             return entity;
         }
     }
