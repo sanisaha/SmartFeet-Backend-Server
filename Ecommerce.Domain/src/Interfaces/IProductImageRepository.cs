@@ -1,6 +1,7 @@
+using Ecommerce.Domain.src.Interface;
 using Ecommerce.Domain.src.ProductAggregate;
 
-namespace Ecommerce.Domain.src.Interface.ProductInterface
+namespace Ecommerce.Domain.src.Interfaces
 {
     public interface IProductImageRepository : IBaseRepository<ProductImage>
     {

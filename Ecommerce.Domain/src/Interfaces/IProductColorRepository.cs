@@ -1,6 +1,7 @@
 using Ecommerce.Domain.src.Entities.ProductAggregate;
+using Ecommerce.Domain.src.Interface;
 
-namespace Ecommerce.Domain.src.Interface.ProductInterface
+namespace Ecommerce.Domain.src.Interfaces
 {
     public interface IProductColorRepository : IBaseRepository<ProductColor>
     {

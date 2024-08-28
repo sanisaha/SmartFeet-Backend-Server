@@ -1,7 +1,8 @@
 using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.Entities.OrderAggregate;
+using Ecommerce.Domain.src.Interface;
 
-namespace Ecommerce.Domain.src.Interface.OrderInterface
+namespace Ecommerce.Domain.src.Interfaces
 {
     public interface IOrderRepository : IBaseRepository<Order>
     {
