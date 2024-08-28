@@ -5,10 +5,10 @@ namespace Ecommerce.Domain.src.Interfaces
 {
     public interface IAddressRepository
     {
-        public bool CreateAddress(Address address);
-        public bool UpdateAddress(Address address);
-        public bool DeleteAddress(Guid addressId);
-        public Address GetAddressById(Guid addressId);
-        public IEnumerable<Address> GetAllAddresses();
+        Task<bool> CreateAddressAsync(Address address);
+        Task<bool> UpdateAddressAsync(Address address);
+        Task<bool> DeleteAddressAsync(Guid addressId);
+        Task<Address> GetAddressByIdAsync(Guid addressId);
+        Task<IEnumerable<Address>> GetAllAddressesAsync();
     }
 }

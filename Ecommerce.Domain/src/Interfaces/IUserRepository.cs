@@ -4,11 +4,11 @@ namespace Ecommerce.Domain.src.Interfaces
 {
     public interface IUserRepository
     {
-        public bool CreateUser(User user);
-        public bool UpdateUser(User user);
-        public bool DeleteUser(Guid userId);
-        public User GetUserById(Guid userId);
-        public User GetUserByEmail(string email);
-        public IEnumerable<User> GetAllUsers();
+        Task<bool> CreateUser(User user);
+        Task<bool> UpdateUser(User user);
+        Task<bool> DeleteUser(Guid userId);
+        Task<User> GetUserById(Guid userId);
+        Task<User> GetUserByEmail(string email);
+        Task<IEnumerable<User>> GetAllUsers();
     }
 }

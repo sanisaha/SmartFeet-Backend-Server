@@ -4,10 +4,10 @@ namespace Ecommerce.Domain.src.Interfaces
 {
     public interface ICategoryRepository
     {
-        public Category CreateCategory(Category category);
-        public Category UpdateCategory(Category user);
-        public bool DeleteCategory(Guid userId);
-        public Category GetCategoryById(Guid userId);
-        public IEnumerable<Category> GetAllCategory();
+        Task<bool> CreateCategoryAsync(Category category);
+        Task<bool> UpdateCategoryAsync(Category user);
+        Task<bool> DeleteCategoryAsync(Guid userId);
+        Task<Category> GetCategoryByIdAsync(Guid userId);
+        Task<IEnumerable<Category>> GetAllCategoryAsync();
     }
 }

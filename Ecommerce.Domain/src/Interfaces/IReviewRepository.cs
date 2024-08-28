@@ -4,12 +4,12 @@ namespace Ecommerce.Domain.src.Interfaces
 {
     public interface IReviewRepository
     {
-        public bool CreateReviewAsync(Review review);
-        public bool UpdateReviewAsync(Review review);
-        public bool DeleteReviewAsync(Guid reviewId);
-        public Review GetReviewByIdAsync(Guid reviewId);
+        Task<bool> CreateReviewAsync(Review review);
+        Task<bool> UpdateReviewAsync(Review review);
+        Task<bool> DeleteReviewAsync(Guid reviewId);
+        Task<Review> GetReviewByIdAsync(Guid reviewId);
         Task<IEnumerable<Review>> GetReviewsByProductIdAsync(Guid productId);
-        public IEnumerable<Review> GetReviewsByUserIdAsync(Guid userId);
-        public IEnumerable<Review> GetAllReviewsAsync();
+        Task<IEnumerable<Review>> GetReviewsByUserIdAsync(Guid userId);
+        Task<IEnumerable<Review>> GetAllReviewsAsync();
     }
 }
