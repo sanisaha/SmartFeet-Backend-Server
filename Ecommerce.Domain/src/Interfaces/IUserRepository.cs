@@ -1,14 +1,11 @@
+using Ecommerce.Domain.src.Interface;
 using Ecommerce.Domain.src.UserAggregate;
 
 namespace Ecommerce.Domain.src.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IBaseRepository<User>
     {
-        public bool CreateUser(User user);
-        public bool UpdateUser(User user);
-        public bool DeleteUser(Guid userId);
-        public User GetUserById(Guid userId);
-        public User GetUserByEmail(string email);
-        public IEnumerable<User> GetAllUsers();
+        Task<User> GetUserByEmail(string email);
+        Task<IEnumerable<User>> GetAllUsers();
     }
 }

@@ -1,13 +1,10 @@
 using Ecommerce.Domain.src.Entities.UserAggregate;
+using Ecommerce.Domain.src.Interface;
 
 namespace Ecommerce.Domain.src.Interfaces
 {
-    public interface IUserAddressRepository
+    public interface IUserAddressRepository : IBaseRepository<UserAddress>
     {
-        public bool CreateUserAd(UserAddress userAddress);
-        public bool UpdateUserAddress(UserAddress userAddress);
-        public bool DeleteUserAddress(Guid userId, Guid addressId);
-        public UserAddress GetUserAddress(Guid userId, Guid addressId);
-        public IEnumerable<UserAddress> GetUserAddressesByUserId(Guid userId);
+        Task<IEnumerable<UserAddress>> GetUserAddressesByUserId(Guid userId);
     }
 }

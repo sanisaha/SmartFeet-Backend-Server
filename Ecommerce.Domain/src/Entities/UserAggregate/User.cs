@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using Ecommerce.Domain.src.AddressAggregate;
+using Ecommerce.Domain.src.Entities.OrderAggregate;
+using Ecommerce.Domain.src.Entities.ReviewAggregate;
+using Ecommerce.Domain.src.Entities.UserAggregate;
 using Ecommerce.Domain.src.Shared;
 
 namespace Ecommerce.Domain.src.UserAggregate
@@ -37,8 +39,9 @@ namespace Ecommerce.Domain.src.UserAggregate
         public Role Role { get; set; }
 
         // Navigation Properties
-        public IEnumerable<UserAddress>? UserAddresses { get; set; }
-        public IEnumerable<Order>? Orders { get; set; }
+        public virtual IEnumerable<UserAddress>? UserAddresses { get; set; }
+        public virtual IEnumerable<Review>? Reviews { get; set; }
+        public virtual IEnumerable<Order>? Orders { get; set; }
 
     }
 }
