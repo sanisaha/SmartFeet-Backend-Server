@@ -22,23 +22,23 @@ namespace Ecommerce.Service.src.ProductService
         {
             try
             {
-                var product = productCreateDto.CreateEntity();
-
-                if (string.IsNullOrWhiteSpace(product.Title))
+                if (string.IsNullOrWhiteSpace(productCreateDto.Title))
                     throw new ArgumentException("Product title is required.");
 
-                if (string.IsNullOrWhiteSpace(product.Description))
+                if (string.IsNullOrWhiteSpace(productCreateDto.Description))
                     throw new ArgumentException("Product description is required.");
 
-                if (product.Price <= 0)
+                if (productCreateDto.Price <= 0)
                     throw new ArgumentException("Product price must be positive.");
 
-                if (product.Stock < 0)
+                if (productCreateDto.Stock < 0)
                     throw new ArgumentException("Product stock cannot be negative.");
 
-                var category = await _categoryRepository.GetAsync(c => c.Id == product.CategoryId);
+                var category = await _categoryRepository.GetAsync(c => c.Id == productCreateDto.CategoryId);
                 if (category == null)
                     throw new ArgumentException("Invalid category.");
+
+                var product = productCreateDto.CreateEntity();
 
                 return await _productRepository.CreateAsync(product);
             }
@@ -74,9 +74,9 @@ namespace Ecommerce.Service.src.ProductService
                 if (category == null)
                     throw new ArgumentException("Invalid category.");
 
-                productUpdateDto.UpdateEntity(existingProduct);
+                var productToUpdate = productUpdateDto.UpdateEntity(existingProduct);
 
-                return await _productRepository.UpdateByIdAsync(existingProduct);
+                return await _productRepository.UpdateByIdAsync(productToUpdate);
             }
             catch (Exception)
             {
