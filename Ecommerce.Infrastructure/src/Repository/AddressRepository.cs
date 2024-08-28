@@ -28,7 +28,7 @@ namespace Ecommerce.Infrastructure.src.Repository
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> DeleteByIdAsync(int id)
+        public async Task<bool> DeleteByIdAsync(Guid id)
         {
             var address = await _context.Addresses.FindAsync(id);
             if (address == null) return false;
@@ -56,5 +56,6 @@ namespace Ecommerce.Infrastructure.src.Repository
         {
             return await _context.Addresses.ToListAsync();
         }
+
     }
 }

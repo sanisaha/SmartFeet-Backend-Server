@@ -30,7 +30,7 @@ namespace Ecommerce.Infrastructure.Repositories
             return result > 0;
         }
 
-        public async Task<bool> DeleteByIdAsync(int id)
+        public async Task<bool> DeleteByIdAsync(Guid id)
         {
             var productSize = await _context.ProductSizes.FindAsync(id);
             if (productSize == null)
@@ -73,5 +73,9 @@ namespace Ecommerce.Infrastructure.Repositories
                 .FirstOrDefaultAsync(ps => ps.SizeValue == sizeValue);
         }
 
+        public Task<ProductSize> GetSizeByValueAsync(SizeValue sizeValue)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

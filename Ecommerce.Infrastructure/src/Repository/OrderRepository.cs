@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
 using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.Entities.OrderAggregate;
-using Ecommerce.Domain.src.Interface.OrderInterface;
+using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Infrastructure.src.Database;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,7 +30,7 @@ namespace Ecommerce.Infrastructure.src.Repository
             return result > 0;
         }
 
-        public async Task<bool> DeleteByIdAsync(int id)
+        public async Task<bool> DeleteByIdAsync(Guid id)
         {
             var order = await _context.Orders.FindAsync(id);
             if (order == null)

@@ -3,7 +3,6 @@ using Ecommerce.Infrastructure.src.Repository;
 using Ecommerce.Infrastructure.src.Database;
 using Microsoft.EntityFrameworkCore;
 using Ecommerce.Infrastructure.Repositories;
-using Ecommerce.Domain.src.Interface.OrderInterface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +30,10 @@ builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductColorRepository, ProductColorRepository>();
+builder.Services.AddScoped<IProductSizeRepository, ProductSizeRepository>();
+builder.Services.AddScoped<IProductImageRepository, ProductImageRepository>();
 
 
 // Configure the HTTP request pipeline.

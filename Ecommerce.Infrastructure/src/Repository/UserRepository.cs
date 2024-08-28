@@ -35,7 +35,7 @@ namespace Ecommerce.Infrastructure.src.Repository
             return true;
         }
 
-        public async Task<bool> DeleteByIdAsync(int id)
+        public async Task<bool> DeleteByIdAsync(Guid id)
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null)

@@ -28,7 +28,7 @@ namespace Ecommerce.Infrastructure.Repositories
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> DeleteByIdAsync(int id)
+        public async Task<bool> DeleteByIdAsync(Guid id)
         {
             var payment = await _context.Payments.FindAsync(id);
             if (payment == null) return false;

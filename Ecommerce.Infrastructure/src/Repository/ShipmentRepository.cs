@@ -28,7 +28,7 @@ namespace Ecommerce.Infrastructure.src.Repository
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> DeleteByIdAsync(int id)
+        public async Task<bool> DeleteByIdAsync(Guid id)
         {
             var shipment = await _context.Shipments.FindAsync(id);
             if (shipment == null) return false;

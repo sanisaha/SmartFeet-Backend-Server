@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Ecommerce.Domain.src.ProductAggregate;
-using Ecommerce.Domain.src.Interface.ProductInterface;
-using Microsoft.EntityFrameworkCore;
 using Ecommerce.Domain.src.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Ecommerce.Infrastructure.src.Database;
 
 namespace Ecommerce.Infrastructure.Repositories
@@ -34,7 +29,7 @@ namespace Ecommerce.Infrastructure.Repositories
             return result > 0;
         }
 
-        public async Task<bool> DeleteByIdAsync(int id)
+        public async Task<bool> DeleteByIdAsync(Guid id)
         {
             var productImage = await _context.ProductImages.FindAsync(id);
             if (productImage == null)
