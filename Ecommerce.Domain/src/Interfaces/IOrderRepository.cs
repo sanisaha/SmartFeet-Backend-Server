@@ -9,6 +9,5 @@ namespace Ecommerce.Domain.src.Interface.OrderInterface
         Task<IEnumerable<Order>> GetOrdersByStatusAsync(OrderStatus status);
         Task<IEnumerable<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate);
         Task<decimal> GetTotalPriceByOrderIdAsync(Guid orderId);
-        Task<int> GetTotalOrdersAsync(DateTime? startDate = null, DateTime? endDate = null);
     }
 }
