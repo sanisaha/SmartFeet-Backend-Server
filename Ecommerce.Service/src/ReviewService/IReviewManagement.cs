@@ -1,11 +1,12 @@
 
+using Ecommerce.Domain.src.Entities.ReviewAggregate;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.ReviewService
 {
     public interface IReviewManagement : IBaseService<Review, ReviewReadDto, ReviewCreateDto, ReviewUpdateDto>
     {
-        Task<ReviewCreateDto> CreateAsync(ReviewCreateDto createDto);
+        Task<Review> CreateAsync(ReviewCreateDto createDto);
         Task<ReviewUpdateDto> UpdateAsync(Guid id, ReviewUpdateDto updateDto);
         Task DeleteAsync(Guid id);
         Task<IEnumerable<ReviewReadDto>> GetReviewsByProductIdAsync(Guid productId);
