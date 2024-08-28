@@ -1,13 +1,10 @@
 using Ecommerce.Domain.src.Entities.ReviewAggregate;
+using Ecommerce.Domain.src.Interface;
 
 namespace Ecommerce.Domain.src.Interfaces
 {
-    public interface IReviewRepository
+    public interface IReviewRepository : IBaseRepository<Review>
     {
-        Task<bool> CreateReviewAsync(Review review);
-        Task<bool> UpdateReviewAsync(Review review);
-        Task<bool> DeleteReviewAsync(Guid reviewId);
-        Task<Review> GetReviewByIdAsync(Guid reviewId);
         Task<IEnumerable<Review>> GetReviewsByProductIdAsync(Guid productId);
         Task<IEnumerable<Review>> GetReviewsByUserIdAsync(Guid userId);
         Task<IEnumerable<Review>> GetAllReviewsAsync();

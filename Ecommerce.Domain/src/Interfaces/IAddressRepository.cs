@@ -1,13 +1,11 @@
 
 using Ecommerce.Domain.src.AddressAggregate;
+using Ecommerce.Domain.src.Interface;
 
 namespace Ecommerce.Domain.src.Interfaces
 {
-    public interface IAddressRepository
+    public interface IAddressRepository : IBaseRepository<Address>
     {
-        Task<bool> CreateAddressAsync(Address address);
-        Task<bool> UpdateAddressAsync(Address address);
-        Task<bool> DeleteAddressAsync(Guid addressId);
         Task<Address> GetAddressByIdAsync(Guid addressId);
         Task<IEnumerable<Address>> GetAllAddressesAsync();
     }
