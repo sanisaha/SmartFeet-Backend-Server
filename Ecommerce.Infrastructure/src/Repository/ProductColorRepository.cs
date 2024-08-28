@@ -1,11 +1,11 @@
 using System.Linq.Expressions;
 using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.Entities.ProductAggregate;
-using Ecommerce.Domain.src.Interface.ProductInterface;
+using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Infrastructure.src.Database;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ecommerce.Infrastructure.Repositories
+namespace Ecommerce.Infrastructure.src.Repository
 {
     public class ProductColorRepository : IProductColorRepository
     {
@@ -30,7 +30,7 @@ namespace Ecommerce.Infrastructure.Repositories
             return result > 0;
         }
 
-        public async Task<bool> DeleteByIdAsync(int id)
+        public async Task<bool> DeleteByIdAsync(Guid id)
         {
             var productColor = await _context.ProductColors.FindAsync(id);
             if (productColor == null)

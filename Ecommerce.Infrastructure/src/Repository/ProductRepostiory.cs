@@ -1,7 +1,7 @@
 
 using System.Linq.Expressions;
 using Ecommerce.Domain.src.ProductAggregate;
-using Ecommerce.Domain.src.Interface;
+using Ecommerce.Domain.src.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Ecommerce.Infrastructure.src.Database;
 
@@ -30,7 +30,7 @@ namespace Ecommerce.Infrastructure.src.Repository
             return result > 0;
         }
 
-        public async Task<bool> DeleteByIdAsync(int id)
+        public async Task<bool> DeleteByIdAsync(Guid id)
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null)
