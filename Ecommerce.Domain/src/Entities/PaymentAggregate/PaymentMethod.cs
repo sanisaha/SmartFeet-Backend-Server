@@ -1,5 +1,6 @@
 
 using System.ComponentModel.DataAnnotations;
+using Ecommerce.Domain.src.Entities.PaymentAggregate;
 using Ecommerce.Domain.src.Shared;
 
 namespace Ecommerce.Domain.src.PaymentAggregate
@@ -19,6 +20,10 @@ namespace Ecommerce.Domain.src.PaymentAggregate
         public string? CardNumber { get; set; }
 
         public DateTime ExpiryDate { get; set; }
+
+        // Navigation properties
+        public virtual IEnumerable<Payment>? Payments { get; set; }
+
 
     }
 }

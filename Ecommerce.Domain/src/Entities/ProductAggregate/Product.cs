@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Ecommerce.Domain.src.CategoryAggregate;
+using Ecommerce.Domain.src.Entities.ProductAggregate;
 using Ecommerce.Domain.src.Shared;
 
 namespace Ecommerce.Domain.src.ProductAggregate
@@ -29,6 +30,9 @@ namespace Ecommerce.Domain.src.ProductAggregate
 
         // Navigation property
         public virtual Category? Category { get; set; }
+        public virtual IEnumerable<ProductImage>? ProductImages { get; set; }
+        public virtual IEnumerable<ProductSize>? ProductSizes { get; set; }
+        public virtual IEnumerable<ProductColor>? ProductColors { get; set; }
 
         public bool IsInStock()
         {

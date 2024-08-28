@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Ecommerce.Domain.Enums;
+using Ecommerce.Domain.src.Entities.OrderAggregate;
+using Ecommerce.Domain.src.PaymentAggregate;
 using Ecommerce.Domain.src.Shared;
 using Ecommerce.Domain.src.UserAggregate;
 
@@ -27,7 +29,8 @@ namespace Ecommerce.Domain.src.Entities.PaymentAggregate
         public PaymentStatus PaymentStatus { get; set; }
 
         // Navigation properties
-        public User? User { get; set; }
-        public Order? Order { get; set; }
+        public virtual User? User { get; set; }
+        public virtual Order? Order { get; set; }
+        public virtual PaymentMethod? PaymentMethod { get; set; }
     }
 }
