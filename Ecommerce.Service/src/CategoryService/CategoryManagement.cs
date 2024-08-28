@@ -1,32 +1,89 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Ecommerce.Domain.src.CategoryAggregate;
+using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.CategoryService
 {
     public class CategoryManagement : BaseService<Category, CategoryReadDto, CategoryCreateDto, CategoryUpdateDto>, ICategoryManagement
     {
-        public async Task<CategoryCreateDto> CreateAsync(CategoryCreateDto createDto)
+        private readonly ICategoryRepository _categoryRepository;
+
+        public CategoryManagement(ICategoryRepository categoryRepository)
         {
-            throw new NotImplementedException();
+            _categoryRepository = categoryRepository;
+        }
+        public async Task<Category> CreateAsync(CategoryCreateDto createDto)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(createDto.Name))
+                    throw new ArgumentException("Category name is required.");
+
+                var categoryEntity = createDto.CreateEntity();
+                return await _categoryRepository.CreateAsync(categoryEntity);
+
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error creating category!.");
+            }
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var category = await _categoryRepository.GetAsync(c => c.Id == id);
+                if (category == null)
+                    throw new ArgumentException("Category not found.");
+
+                return await _categoryRepository.DeleteByIdAsync(id);
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error deleting category!.");
+            }
         }
 
         public async Task<CategoryReadDto> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var category = await _categoryRepository.GetAsync(c => c.Id == id);
+                if (category == null)
+                    throw new ArgumentException("Category not found.");
+
+                var categoryDto = new CategoryReadDto();
+                categoryDto.FromEntity(category);
+
+                return categoryDto;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error retrieving category!.");
+            }
         }
 
-        public async Task<CategoryUpdateDto> UpdateAsync(Guid id, CategoryUpdateDto updateDto)
+        public async Task<bool> UpdateAsync(Guid id, CategoryUpdateDto updateDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var existingCategory = await _categoryRepository.GetAsync(c => c.Id == id);
+                if (existingCategory == null)
+                    throw new ArgumentException("Category not found.");
+
+                if (string.IsNullOrWhiteSpace(updateDto.Name))
+                    throw new ArgumentException("Category name is required.");
+
+                var updatedCategory = updateDto.UpdateEntity(existingCategory);
+
+                return await _categoryRepository.UpdateByIdAsync(updatedCategory);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error updating category!.");
+            }
         }
     }
 }

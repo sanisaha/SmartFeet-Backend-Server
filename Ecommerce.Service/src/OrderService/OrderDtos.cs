@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Ecommerce.Domain.src.CategoryAggregate;
+using Ecommerce.Domain.src.Shared;
 using Ecommerce.Service.src.AddressService;
-using Ecommerce.Service.src.CategoryService;
 using Ecommerce.Service.src.Shared;
 using Ecommerce.Service.src.UserService;
 

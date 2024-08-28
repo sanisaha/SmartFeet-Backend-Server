@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Ecommerce.Domain.src.CategoryAggregate;
 using Ecommerce.Service.src.Shared;
 

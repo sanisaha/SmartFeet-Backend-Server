@@ -5,9 +5,9 @@ namespace Ecommerce.Service.src.ProductColorService
 {
     public interface IProductColorManagement : IBaseService<ProductColor, ProductColorReadDto, ProductColorCreateDto, ProductColorUpdateDto>
     {
-        Task<ProductColorCreateDto> CreateAsync(ProductColorCreateDto createDto);
-        Task<ProductColorUpdateDto> UpdateAsync(Guid id, ProductColorUpdateDto updateDto);
-        public Task DeleteAsync(Guid id);
+        Task<ProductColor> CreateAsync(ProductColorCreateDto createDto);
+        Task<bool> UpdateAsync(Guid id, ProductColorUpdateDto updateDto);
+        Task<bool> DeleteAsync(Guid id);
         Task<IEnumerable<ProductColorReadDto>> GetColorsByProductIdAsync(Guid productId);
         Task<ProductColorReadDto> GetColorByNameAsync(string colorName);
 
