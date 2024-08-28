@@ -1,3 +1,4 @@
+using Ecommerce.Domain.src.Interface;
 using Ecommerce.Domain.src.Shared;
 
 namespace Ecommerce.Service.src.Shared
@@ -8,7 +9,13 @@ namespace Ecommerce.Service.src.Shared
         where TCreateDto : ICreateDto<T>
         where TUpdateDto : IUpdateDto<T>
     {
-        public Task<TReadDto> CreateAsync(TCreateDto createDto)
+        private readonly IBaseRepository<T> _repository;
+
+        public BaseService(IBaseRepository<T> repository)
+        {
+            _repository = repository;
+        }
+        public virtual async Task<TReadDto> CreateAsync(TCreateDto createDto)
         {
             throw new NotImplementedException();
         }

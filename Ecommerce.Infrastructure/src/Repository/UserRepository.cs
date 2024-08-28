@@ -3,6 +3,7 @@ using Ecommerce.Domain.src.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using Ecommerce.Infrastructure.src.Database;
+using Ecommerce.Domain.src.Auth;
 
 namespace Ecommerce.Infrastructure.src.Repository
 {
@@ -79,6 +80,25 @@ namespace Ecommerce.Infrastructure.src.Repository
                 .Include(u => u.UserAddresses)
                 .ThenInclude(ua => ua.Address)
                 .ToListAsync();
+        }
+
+        public async Task<User> GetUserByCredentialAsync(UserCredentials userCredentials)
+        {
+            return await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == userCredentials.Email);
+        }
+
+        public async Task<bool> UpdatePasswordAsync(int userId, string newPassword)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return false;
+            }
+
+            user.Password = newPassword;
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }
