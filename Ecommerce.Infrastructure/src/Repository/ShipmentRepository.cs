@@ -51,5 +51,10 @@ namespace Ecommerce.Infrastructure.src.Repository
         {
             return await _context.Shipments.ToListAsync();
         }
+
+        public async Task<IEnumerable<Shipment>> GetShipmentsByOrderIdAsync(Guid orderId)
+        {
+            return await _context.Shipments.Where(s => s.Order.Id == orderId).ToListAsync();
+        }
     }
 }
