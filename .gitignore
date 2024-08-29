@@ -105,4 +105,9 @@ $RECYCLE.BIN/
 # Comment if you have other development environments
 .vscode/
 
+# Ignore Migrations folder
+# [Mm]igrations/
+
+# Ignore appsettings.json file
+# .appsettings.json
 # End of the `.gitignore` file

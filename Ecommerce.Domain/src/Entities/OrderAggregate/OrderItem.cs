@@ -22,7 +22,6 @@ namespace Ecommerce.Domain.src.Entities.OrderAggregate
 
         // Navigation Property
         public virtual Order? Order { get; set; }
-
         public virtual Product? Product { get; set; }
     }
 }

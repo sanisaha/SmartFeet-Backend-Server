@@ -8,7 +8,8 @@ namespace Ecommerce.Domain.src.Interface
     {
         Task<T> CreateAsync(T entity);
         Task<bool> UpdateByIdAsync(T entity);
-        Task<bool> DeleteByIdAsync(int id);
+        Task<bool> DeleteByIdAsync(Guid id);
         Task<T> GetAsync(Expression<Func<T, bool>>? filter = null, bool tracked = true);
+        Task<IEnumerable<T>> GetAllAsync();
     }
 }
