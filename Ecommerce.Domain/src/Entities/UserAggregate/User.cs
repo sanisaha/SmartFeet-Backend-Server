@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.Entities.OrderAggregate;
 using Ecommerce.Domain.src.Entities.ReviewAggregate;
 using Ecommerce.Domain.src.Entities.UserAggregate;
@@ -6,11 +7,6 @@ using Ecommerce.Domain.src.Shared;
 
 namespace Ecommerce.Domain.src.UserAggregate
 {
-    public enum Role
-    {
-        Admin,
-        User
-    }
     public class User : BaseEntity
     {
         [Required]
@@ -28,7 +24,7 @@ namespace Ecommerce.Domain.src.UserAggregate
         [DataType(DataType.Password)]
         public string? Password { get; set; }
 
-        public required byte[] Salt { get; set; }
+        public byte[] Salt { get; set; }
 
         [Required]
         [Phone]
@@ -36,7 +32,7 @@ namespace Ecommerce.Domain.src.UserAggregate
         public string? PhoneNumber { get; set; }
 
         [Required]
-        public Role Role { get; set; }
+        public UserRole Role { get; set; }
 
         // Navigation Properties
         public virtual IEnumerable<UserAddress>? UserAddresses { get; set; }
