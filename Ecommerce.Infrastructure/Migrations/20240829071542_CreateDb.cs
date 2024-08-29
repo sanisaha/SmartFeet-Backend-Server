@@ -112,17 +112,23 @@ namespace Ecommerce.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     order_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     total_price = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
-                    shipping_address_id = table.Column<Guid>(type: "uuid", nullable: false),
                     order_status = table.Column<int>(type: "integer", nullable: false),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    shipping_address_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_orders", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_orders_addresses_shipping_address_id",
+                        column: x => x.shipping_address_id,
+                        principalTable: "addresses",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_orders_users_user_id",
                         column: x => x.user_id,
@@ -254,7 +260,7 @@ namespace Ecommerce.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "orders_items",
+                name: "order_items",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -267,15 +273,15 @@ namespace Ecommerce.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_orders_items", x => x.id);
+                    table.PrimaryKey("pk_order_items", x => x.id);
                     table.ForeignKey(
-                        name: "fk_orders_items_orders_order_id",
+                        name: "fk_order_items_orders_order_id",
                         column: x => x.order_id,
                         principalTable: "orders",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_orders_items_products_product_id",
+                        name: "fk_order_items_products_product_id",
                         column: x => x.product_id,
                         principalTable: "products",
                         principalColumn: "id",
@@ -319,20 +325,54 @@ namespace Ecommerce.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "shipments",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    shipment_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    order_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    address_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    shipment_status = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_shipments", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_shipments_addresses_address_id",
+                        column: x => x.address_id,
+                        principalTable: "addresses",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_shipments_orders_order_id",
+                        column: x => x.order_id,
+                        principalTable: "orders",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "ix_order_items_order_id",
+                table: "order_items",
+                column: "order_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_order_items_product_id",
+                table: "order_items",
+                column: "product_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_orders_shipping_address_id",
+                table: "orders",
+                column: "shipping_address_id");
+
             migrationBuilder.CreateIndex(
                 name: "ix_orders_user_id",
                 table: "orders",
                 column: "user_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_orders_items_order_id",
-                table: "orders_items",
-                column: "order_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_orders_items_product_id",
-                table: "orders_items",
-                column: "product_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_payments_order_id",
@@ -380,6 +420,16 @@ namespace Ecommerce.Infrastructure.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
+                name: "ix_shipments_address_id",
+                table: "shipments",
+                column: "address_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_shipments_order_id",
+                table: "shipments",
+                column: "order_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_user_address_address_id",
                 table: "user_address",
                 column: "address_id");
@@ -394,7 +444,7 @@ namespace Ecommerce.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "orders_items");
+                name: "order_items");
 
             migrationBuilder.DropTable(
                 name: "payments");
@@ -412,10 +462,10 @@ namespace Ecommerce.Infrastructure.Migrations
                 name: "reviews");
 
             migrationBuilder.DropTable(
-                name: "user_address");
+                name: "shipments");
 
             migrationBuilder.DropTable(
-                name: "orders");
+                name: "user_address");
 
             migrationBuilder.DropTable(
                 name: "payment_methods");
@@ -424,13 +474,16 @@ namespace Ecommerce.Infrastructure.Migrations
                 name: "products");
 
             migrationBuilder.DropTable(
+                name: "orders");
+
+            migrationBuilder.DropTable(
+                name: "categories");
+
+            migrationBuilder.DropTable(
                 name: "addresses");
 
             migrationBuilder.DropTable(
                 name: "users");
-
-            migrationBuilder.DropTable(
-                name: "categories");
         }
     }
 }
