@@ -1,23 +1,9 @@
 
-using Ecommerce.Domain.src.ProductAggregate;
-using Ecommerce.Domain.src.Shared;
-using Ecommerce.Domain.src.UserAggregate;
+using Ecommerce.Domain.src.Entities.ReviewAggregate;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.ReviewService
 {
-    public class Review : BaseEntity
-    {
-        public DateTime ReviewDate { get; set; }
-        public int Rating { get; set; }
-        public string? ReviewText { get; set; }
-
-        // Navigation properties
-        public virtual User? User { get; set; }
-        public virtual Product? Product { get; set; }
-
-    }
-    // Review entity remain the same as Review entity in Ecommerce.Domain, need to remove this class later
     public class ReviewReadDto : BaseReadDto<Review>
     {
         public DateTime ReviewDate { get; set; }
