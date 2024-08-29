@@ -7,57 +7,13 @@ using Ecommerce.Infrastructure.src.Database;
 
 namespace Ecommerce.Infrastructure.src.Repository
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : BaseRepository<Product>, IProductRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public ProductRepository(ApplicationDbContext context)
+        public ProductRepository(ApplicationDbContext context) : base(context)
         {
             _context = context;
-        }
-
-        public async Task<Product> CreateAsync(Product entity)
-        {
-            _context.Products.Add(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task<bool> UpdateByIdAsync(Product entity)
-        {
-            _context.Products.Update(entity);
-            var result = await _context.SaveChangesAsync();
-            return result > 0;
-        }
-
-        public async Task<bool> DeleteByIdAsync(Guid id)
-        {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
-            {
-                return false;
-            }
-
-            _context.Products.Remove(product);
-            var result = await _context.SaveChangesAsync();
-            return result > 0;
-        }
-
-        public async Task<Product> GetAsync(Expression<Func<Product, bool>>? filter = null, bool tracked = true)
-        {
-            IQueryable<Product> query = _context.Products;
-
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            if (!tracked)
-            {
-                query = query.AsNoTracking();
-            }
-
-            return await query.FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid categoryId)

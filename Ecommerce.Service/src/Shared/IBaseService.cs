@@ -12,6 +12,6 @@ namespace Ecommerce.Service.src.Shared
         Task<TReadDto> GetByIdAsync(Guid id);
         Task<TReadDto> CreateAsync(TCreateDto createDto);
         Task<TReadDto> UpdateAsync(Guid id, TUpdateDto updateDto);
-        Task DeleteAsync(Guid id);
+        Task<bool> DeleteAsync(Guid id);
     }
 }

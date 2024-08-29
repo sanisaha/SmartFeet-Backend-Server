@@ -16,7 +16,7 @@ namespace Ecommerce.Service.src.ProductService
             _categoryRepository = categoryRepository;
             _orderItemRepository = orderItemRepository;
         }
-        public async Task<Product> CreateAsync(ProductCreateDto productCreateDto)
+        /* public async Task<Product> CreateAsync(ProductCreateDto productCreateDto)
         {
             try
             {
@@ -45,9 +45,9 @@ namespace Ecommerce.Service.src.ProductService
                 throw new Exception("Error creating product!");
             }
 
-        }
+        } */
 
-        public async Task<bool> UpdateAsync(Guid productId, ProductUpdateDto productUpdateDto)
+        /* public async Task<bool> UpdateAsync(Guid productId, ProductUpdateDto productUpdateDto)
         {
             try
             {
@@ -81,47 +81,7 @@ namespace Ecommerce.Service.src.ProductService
                 throw new Exception("Error Updating Product!.");
             }
 
-        }
-
-        public async Task<bool> DeleteAsync(Guid productId)
-        {
-            try
-            {
-                var product = await _productRepository.GetAsync(p => p.Id == productId);
-                if (product == null)
-                    throw new ArgumentException("Product not found.");
-
-                var orderItem = await _orderItemRepository.GetOrderItemsByProductIdAsync(productId);
-                if (orderItem != null)
-                    throw new InvalidOperationException("Product cannot be deleted because it is part of an active order.");
-
-                return await _productRepository.DeleteByIdAsync(productId);
-            }
-            catch (Exception)
-            {
-                throw new Exception("Error Deleting Product!.");
-            }
-        }
-
-        public async Task<ProductReadDto> GetByIdAsync(Guid productId)
-        {
-            try
-            {
-                var product = await _productRepository.GetAsync(p => p.Id == productId);
-                if (product == null)
-                    throw new ArgumentException("Product not found.");
-
-                var productReadDto = new ProductReadDto();
-                productReadDto.FromEntity(product);
-
-                return productReadDto;
-            }
-            catch (Exception)
-            {
-                throw new Exception("Error Retrieving Product!.");
-            }
-
-        }
+        } */
 
         public async Task<IEnumerable<ProductReadDto>> GetProductsByCategoryAsync(Guid categoryId)
         {

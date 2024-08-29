@@ -1,5 +1,6 @@
 using Ecommerce.Domain.src.Entities.ProductAggregate;
 using Ecommerce.Domain.src.Interfaces;
+using Ecommerce.Service.src.ProductColorService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Presentation.src.Controllers
@@ -9,75 +10,39 @@ namespace Ecommerce.Presentation.src.Controllers
     [Route("api/v1/[controller]")]
     public class ProductColorController : ControllerBase
     {
-        private readonly IProductColorRepository _productColorRepository;
+        private readonly IProductColorManagement _productColorManagement;
 
-        public ProductColorController(IProductColorRepository productColorRepository)
+        public ProductColorController(IProductColorManagement productColorManagement)
         {
-            _productColorRepository = productColorRepository;
+            _productColorManagement = productColorManagement;
         }
 
-        // GET: api/v1/productcolors/product/{productId}
-        [HttpGet("product/{productId}")]
-        public async Task<IActionResult> GetColorsByProductId(Guid productId)
+        [HttpGet("{productId}")]
+        public async Task<ActionResult<IEnumerable<ProductColorReadDto>>> GetColorsByProductIdAsync(Guid productId)
         {
-            var colors = await _productColorRepository.GetColorsByProductIdAsync(productId);
-            return Ok(colors);
+            try
+            {
+                var entities = await _productColorManagement.GetColorsByProductIdAsync(productId);
+                return Ok(entities);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error getting entities!.");
+            }
         }
 
-        // GET: api/v1/productcolors/name/{colorName}
-        [HttpGet("name/{colorName}")]
-        public async Task<IActionResult> GetColorByName(string colorName)
+        [HttpGet("{colorName}")]
+        public async Task<ActionResult<ProductColorReadDto>> GetColorByNameAsync(string colorName)
         {
-            var color = await _productColorRepository.GetColorByNameAsync(colorName);
-            if (color == null)
+            try
             {
-                return NotFound();
+                var entity = await _productColorManagement.GetColorByNameAsync(colorName);
+                return Ok(entity);
             }
-            return Ok(color);
-        }
-
-        // POST: api/v1/productcolors
-        [HttpPost]
-        public async Task<IActionResult> CreateProductColor([FromBody] ProductColor productColor)
-        {
-            if (!ModelState.IsValid)
+            catch (Exception)
             {
-                return BadRequest(ModelState);
+                return StatusCode(500, "Error getting entity!.");
             }
-
-            var createdProductColor = await _productColorRepository.CreateAsync(productColor);
-            return CreatedAtAction(nameof(GetColorsByProductId), new { productId = createdProductColor.ProductId }, createdProductColor);
-        }
-
-        // PUT: api/v1/productcolors/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProductColor(Guid id, [FromBody] ProductColor productColor)
-        {
-            if (id != productColor.Id)
-            {
-                return BadRequest("ProductColor ID mismatch");
-            }
-
-            var result = await _productColorRepository.UpdateByIdAsync(productColor);
-            if (!result)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-        }
-
-        // DELETE: api/v1/productcolors/{id}
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProductColor(Guid id)
-        {
-            var result = await _productColorRepository.DeleteByIdAsync(id);
-            if (!result)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
         }
     }
 }

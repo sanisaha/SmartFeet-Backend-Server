@@ -12,15 +12,18 @@ namespace Ecommerce.Service.src.PaymentService
         {
             _paymentRepository = paymentRepository;
         }
-        public async Task<PaymentReadDto> CreateAsync(PaymentCreateDto createDto)
+
+        public async Task<IEnumerable<PaymentReadDto>> GetAllUserPaymentAsync(Guid userId)
         {
             try
             {
-                var payment = createDto.CreateEntity();
-                await _paymentRepository.CreateAsync(payment);
-                var paymentDto = new PaymentReadDto();
-                paymentDto.FromEntity(payment);
-                return paymentDto;
+                var payments = await _paymentRepository.GetAllUserPaymentAsync(userId);
+                return payments.Select(p =>
+                {
+                    var paymentDto = new PaymentReadDto();
+                    paymentDto.FromEntity(p);
+                    return paymentDto;
+                });
             }
             catch (Exception ex)
             {
@@ -28,57 +31,5 @@ namespace Ecommerce.Service.src.PaymentService
             }
         }
 
-        public async Task DeleteAsync(Guid id)
-        {
-            try
-            {
-                var payment = await _paymentRepository.GetAsync(p => p.Id == id);
-                if (payment == null)
-                    throw new ArgumentException("Payment not found.");
-
-                await _paymentRepository.DeleteByIdAsync(id);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public async Task<PaymentReadDto> GetByIdAsync(Guid id)
-        {
-            try
-            {
-                var payment = await _paymentRepository.GetAsync(p => p.Id == id);
-                if (payment == null)
-                    throw new ArgumentException("Payment not found.");
-
-                var paymentDto = new PaymentReadDto();
-                paymentDto.FromEntity(payment);
-
-                return paymentDto;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public async Task<PaymentUpdateDto> UpdateAsync(Guid id, PaymentUpdateDto updateDto)
-        {
-            try
-            {
-                var payment = await _paymentRepository.GetAsync(p => p.Id == id);
-                if (payment == null)
-                    throw new ArgumentException("Payment not found.");
-
-                payment = updateDto.UpdateEntity(payment);
-                await _paymentRepository.UpdateByIdAsync(payment);
-                return updateDto;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
     }
 }

@@ -14,62 +14,6 @@ namespace Ecommerce.Service.src.ProductImageService
             _productImageRepository = productImageRepository;
             _productRepository = productRepository;
         }
-        public async Task<ProductImage> CreateAsync(ProductImageCreateDto createDto)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(createDto.ImageURL))
-                    throw new ArgumentException("Image URL is required.");
-
-                var product = await _productRepository.GetAsync(p => p.Id == createDto.ProductId);
-                if (product == null)
-                    throw new ArgumentException("Invalid product.");
-
-                var productImage = createDto.CreateEntity();
-
-                return await _productImageRepository.CreateAsync(productImage);
-
-            }
-            catch (Exception)
-            {
-                throw new Exception("Error creating product image!");
-            }
-        }
-
-        public async Task<bool> DeleteAsync(Guid id)
-        {
-            try
-            {
-                var productImage = await _productImageRepository.GetAsync(pi => pi.Id == id);
-                if (productImage == null)
-                    throw new ArgumentException("Product image not found.");
-
-                return await _productImageRepository.DeleteByIdAsync(id);
-            }
-            catch (Exception)
-            {
-                throw new Exception("Error deleting product image!");
-            }
-        }
-
-        public async Task<ProductImageReadDto> GetByIdAsync(Guid id)
-        {
-            try
-            {
-                var productImage = await _productImageRepository.GetAsync(p => p.Id == id);
-                if (productImage == null)
-                    throw new ArgumentException("Product Image not found.");
-
-                var productImageReadDto = new ProductImageReadDto();
-                productImageReadDto.FromEntity(productImage);
-
-                return productImageReadDto;
-            }
-            catch (Exception)
-            {
-                throw new Exception("Error Retrieving Product Image!.");
-            }
-        }
 
         public async Task<IEnumerable<ProductImageReadDto>> GetImagesByProductIdAsync(Guid productId)
         {
@@ -92,32 +36,6 @@ namespace Ecommerce.Service.src.ProductImageService
             catch (Exception)
             {
                 throw new Exception("Error Retrieving Product Images!.");
-            }
-        }
-
-        public async Task<bool> UpdateAsync(Guid id, ProductImageUpdateDto updateDto)
-        {
-            try
-            {
-                var existingImage = await _productImageRepository.GetAsync(p => p.Id == id);
-
-                if (existingImage == null)
-                    throw new ArgumentException("Product image not found.");
-
-                if (string.IsNullOrWhiteSpace(updateDto.ImageURL))
-                    throw new ArgumentException("Image URL is required.");
-
-                var product = await _productRepository.GetAsync(p => p.Id == updateDto.ProductId);
-                if (product == null)
-                    throw new ArgumentException("Invalid product.");
-
-                var productImageToUpdate = updateDto.UpdateEntity(existingImage);
-
-                return await _productImageRepository.UpdateByIdAsync(productImageToUpdate);
-            }
-            catch (Exception)
-            {
-                throw new Exception("Error Updating Product image!.");
             }
         }
 

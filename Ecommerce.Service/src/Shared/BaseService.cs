@@ -24,9 +24,9 @@ namespace Ecommerce.Service.src.Shared
             return readDto;
         }
 
-        public virtual async Task DeleteAsync(Guid id)
+        public virtual async Task<bool> DeleteAsync(Guid id)
         {
-            await _repo.DeleteByIdAsync(id);
+            return await _repo.DeleteByIdAsync(id);
         }
 
         public virtual async Task<IEnumerable<TReadDto>> GetAllAsync()

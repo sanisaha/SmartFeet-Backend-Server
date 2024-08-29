@@ -18,7 +18,7 @@ namespace Ecommerce.Service.src.OrderItemService
             _productRepository = productRepository;
         }
 
-        public async Task<OrderItem> CreateAsync(OrderItemCreateDto createDto)
+        /* public async Task<OrderItem> CreateAsync(OrderItemCreateDto createDto)
         {
             try
             {
@@ -84,42 +84,8 @@ namespace Ecommerce.Service.src.OrderItemService
             {
                 throw new Exception("Error Updating Order item!.");
             }
-        }
+        } */
 
-        public async Task<OrderItemReadDto> GetByIdAsync(Guid id)
-        {
-            try
-            {
-                var orderItem = await _orderItemRepository.GetAsync(oi => oi.Id == id);
-                if (orderItem == null)
-                    throw new ArgumentException("Order item not found.");
-
-                var orderItemReadDto = new OrderItemReadDto();
-                orderItemReadDto.FromEntity(orderItem);
-
-                return orderItemReadDto;
-            }
-            catch
-            {
-                throw new Exception("Error Retrieving Order item!.");
-            }
-        }
-
-        public async Task<bool> DeleteAsync(Guid id)
-        {
-            try
-            {
-                var orderItem = await _orderItemRepository.GetAsync(oi => oi.Id == id);
-                if (orderItem == null)
-                    throw new ArgumentException("Order item not found.");
-
-                return await _orderItemRepository.DeleteByIdAsync(id);
-            }
-            catch
-            {
-                throw new Exception("Error Deleting Order item!.");
-            }
-        }
 
         public async Task<IEnumerable<OrderItemReadDto>> GetOrderItemsByOrderIdAsync(Guid orderId)
         {

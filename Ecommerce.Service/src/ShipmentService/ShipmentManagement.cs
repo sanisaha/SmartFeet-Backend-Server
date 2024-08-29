@@ -12,55 +12,6 @@ namespace Ecommerce.Service.src.ShipmentService
         {
             _shipmentRepository = shipmentRepository;
         }
-        public async Task<ShipmentReadDto> CreateAsync(ShipmentCreateDto createDto)
-        {
-            try
-            {
-                var shipment = createDto.CreateEntity();
-                await _shipmentRepository.CreateAsync(shipment);
-                var shipmentDto = new ShipmentReadDto();
-                shipmentDto.FromEntity(shipment);
-                return shipmentDto;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public async Task<ShipmentUpdateDto> UpdateAsync(Guid id, ShipmentUpdateDto updateDto)
-        {
-            try
-            {
-                var shipment = await _shipmentRepository.GetAsync(s => s.Id == id);
-                if (shipment == null)
-                    throw new ArgumentException("Shipment not found.");
-
-                shipment = updateDto.UpdateEntity(shipment);
-                await _shipmentRepository.UpdateByIdAsync(shipment);
-                return updateDto;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public async Task DeleteAsync(Guid id)
-        {
-            try
-            {
-                var shipment = await _shipmentRepository.GetAsync(s => s.Id == id);
-                if (shipment == null)
-                    throw new ArgumentException("Shipment not found.");
-
-                await _shipmentRepository.DeleteByIdAsync(id);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
 
         public async Task<IEnumerable<ShipmentReadDto>> GetShipmentsByOrderIdAsync(Guid orderId)
         {

@@ -3,60 +3,17 @@ using Ecommerce.Domain.src.ProductAggregate;
 using Ecommerce.Domain.src.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Ecommerce.Infrastructure.src.Database;
+using Ecommerce.Infrastructure.src.Repository;
 
 namespace Ecommerce.Infrastructure.Repositories
 {
-    public class ProductImageRepository : IProductImageRepository
+    public class ProductImageRepository : BaseRepository<ProductImage>, IProductImageRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public ProductImageRepository(ApplicationDbContext context)
+        public ProductImageRepository(ApplicationDbContext context) : base(context)
         {
             _context = context;
-        }
-
-        public async Task<ProductImage> CreateAsync(ProductImage entity)
-        {
-            _context.ProductImages.Add(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task<bool> UpdateByIdAsync(ProductImage entity)
-        {
-            _context.ProductImages.Update(entity);
-            var result = await _context.SaveChangesAsync();
-            return result > 0;
-        }
-
-        public async Task<bool> DeleteByIdAsync(Guid id)
-        {
-            var productImage = await _context.ProductImages.FindAsync(id);
-            if (productImage == null)
-            {
-                return false;
-            }
-
-            _context.ProductImages.Remove(productImage);
-            var result = await _context.SaveChangesAsync();
-            return result > 0;
-        }
-
-        public async Task<ProductImage> GetAsync(Expression<Func<ProductImage, bool>>? filter = null, bool tracked = true)
-        {
-            IQueryable<ProductImage> query = _context.ProductImages;
-
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            if (!tracked)
-            {
-                query = query.AsNoTracking();
-            }
-
-            return await query.FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<ProductImage>> GetImagesByProductIdAsync(Guid productId)
@@ -76,7 +33,8 @@ namespace Ecommerce.Infrastructure.Repositories
         public async Task<int> GetImageCountByProductIdAsync(Guid productId)
         {
             return await _context.ProductImages
-                .CountAsync(pi => pi.ProductId == productId);
+                .Where(pi => pi.ProductId == productId)
+                .CountAsync();
         }
 
         public async Task<bool> DeleteImagesByProductIdAsync(Guid productId)
@@ -85,20 +43,15 @@ namespace Ecommerce.Infrastructure.Repositories
                 .Where(pi => pi.ProductId == productId)
                 .ToListAsync();
 
-            if (images.Count == 0)
+            if (images == null)
             {
                 return false;
             }
 
             _context.ProductImages.RemoveRange(images);
-            var result = await _context.SaveChangesAsync();
-            return result > 0;
-        }
+            await _context.SaveChangesAsync();
 
-        public async Task<IEnumerable<ProductImage>> GetAllAsync()
-        {
-            return await _context.ProductImages.ToListAsync();
-
+            return true;
         }
     }
 }

@@ -7,6 +7,5 @@ namespace Ecommerce.Domain.src.Interfaces
     {
         Task<IEnumerable<Review>> GetReviewsByProductIdAsync(Guid productId);
         Task<IEnumerable<Review>> GetReviewsByUserIdAsync(Guid userId);
-        Task<IEnumerable<Review>> GetAllReviewsAsync();
     }
 }
