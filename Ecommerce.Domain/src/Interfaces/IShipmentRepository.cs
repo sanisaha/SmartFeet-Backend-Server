@@ -5,7 +5,6 @@ namespace Ecommerce.Domain.src.Interfaces
 {
     public interface IShipmentRepository : IBaseRepository<Shipment>
     {
-        Task<IEnumerable<Shipment>> GetAllShipments();
         Task<IEnumerable<Shipment>> GetShipmentsByOrderIdAsync(Guid orderId);
     }
 }

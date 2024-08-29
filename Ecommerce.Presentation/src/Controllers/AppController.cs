@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ecommerce.Presentation.src.Controllers
 {
     [ApiController]
-    [Route("api/v1/[controller]s")]
+    [Route("api/v1/[controller]")]
     public class AppController<T, TReadDto, TCreateDto, TUpdateDto> : ControllerBase
     where T : BaseEntity
     where TReadDto : IReadDto<T>
