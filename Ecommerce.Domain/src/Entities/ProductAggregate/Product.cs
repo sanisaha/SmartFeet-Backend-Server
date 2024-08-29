@@ -26,7 +26,7 @@ namespace Ecommerce.Domain.src.ProductAggregate
         public int Stock { get; set; }
 
         [MaxLength(100)]
-        public string? ProductLine { get; set; }
+        public string? BrandName { get; set; }
 
         // Navigation property
         public virtual Category? Category { get; set; }
@@ -34,6 +34,10 @@ namespace Ecommerce.Domain.src.ProductAggregate
         public virtual IEnumerable<ProductSize>? ProductSizes { get; set; }
         public virtual IEnumerable<ProductColor>? ProductColors { get; set; }
 
+        public Product()
+        {
+
+        }
         public bool IsInStock()
         {
             return Stock > 0;

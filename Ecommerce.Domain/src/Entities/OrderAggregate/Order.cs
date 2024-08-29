@@ -30,7 +30,10 @@ namespace Ecommerce.Domain.src.Entities.OrderAggregate
         public virtual User? User { get; set; }
         public virtual Address? Address { get; set; }
 
+        public Order()
+        {
 
+        }
         // Methods
         public void AddOrderItem(OrderItem item)
         {

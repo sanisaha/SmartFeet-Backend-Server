@@ -15,7 +15,7 @@
       "category_id": 12376
     },
     "stock": 100,
-    "product_line": "footwear",
+    "brand_name": "footwear",
     "product_images": {
       "image_id": 12345,
       "imageUrl": "http://example.com/image.jpg",
@@ -45,7 +45,7 @@
         "category_id": 12376
       },
       "stock": 100,
-      "product_line": "footwear",
+      "brand_name": "footwear",
       "product_images": {
         "image_id": 12456,
         "imageUrl": "http://example.com/image.jpg",
@@ -86,7 +86,7 @@
                     "category_id": 12345
                 },
             "stock": 100,
-            "product_line": "footwear",
+            "brand_name": "footwear",
             "product_images":
                 {
                     "image_id": 12456,
@@ -126,7 +126,7 @@
         "category_id": 12345
       },
       "stock": 100,
-      "product_line": "footwear",
+      "brand_name": "footwear",
       "product_images": {
         "image_id": 12456,
         "imageUrl": "http://example.com/image.jpg",
@@ -172,7 +172,7 @@
         "category_id": 12345
       },
       "stock": 80,
-      "product_line": "footwear",
+      "brand_name": "footwear",
       "product_images": {
         "image_id": 12456,
         "imageUrl": "http://example.com/image.jpg",
@@ -221,7 +221,7 @@
                 "category_id": 12345
             },
         "stock": 100,
-        "product_line": "footwear",
+        "brand_name": "footwear",
         "product_images":
             {
                 "image_id": 12456,
