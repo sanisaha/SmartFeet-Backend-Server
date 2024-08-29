@@ -10,14 +10,17 @@ namespace Ecommerce.Infrastructure.src.Repository
     {
         private readonly ApplicationDbContext _context;
 
+
         public PaymentRepository(ApplicationDbContext context) : base(context)
         {
             _context = context;
         }
 
+
         public async Task<IEnumerable<Payment>> GetAllUserPaymentAsync(Guid userId)
         {
             return await _context.Payments.Where(p => p.UserId == userId).ToListAsync();
         }
+
     }
 }
