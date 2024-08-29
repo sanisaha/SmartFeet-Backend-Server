@@ -2,6 +2,7 @@ using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.Entities.OrderAggregate;
 using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Service.src.OrderService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Presentation.src.Controllers
@@ -19,6 +20,7 @@ namespace Ecommerce.Presentation.src.Controllers
 
         // GET: api/v1/order/{userId}
         [HttpGet("user/{userId}")]
+        [Authorize]
         public async Task<IActionResult> GetOrdersByUserId(Guid userId)
         {
             var orders = await _orderManagement.GetOrdersByUserIdAsync(userId);

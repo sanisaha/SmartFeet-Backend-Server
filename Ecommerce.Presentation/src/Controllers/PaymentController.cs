@@ -1,6 +1,7 @@
 using Ecommerce.Domain.src.Entities.PaymentAggregate;
 using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Service.src.PaymentService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Presentation.src.Controllers
@@ -18,6 +19,7 @@ namespace Ecommerce.Presentation.src.Controllers
 
         // GET: api/v1/Payment/User/{userId}
         [HttpGet("User/{userId:guid}")]
+        [Authorize]
         public async Task<IActionResult> GetAllUserPaymentAsync(Guid userId)
         {
             var payments = await _paymentManagement.GetAllUserPaymentAsync(userId);

@@ -1,6 +1,7 @@
 using Ecommerce.Domain.src.Entities.ProductAggregate;
 using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Service.src.ProductColorService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Presentation.src.Controllers
@@ -15,6 +16,24 @@ namespace Ecommerce.Presentation.src.Controllers
         public ProductColorController(IProductColorManagement productColorManagement) : base(productColorManagement)
         {
             _productColorManagement = productColorManagement;
+        }
+
+        [Authorize(Roles = "Admin")]
+        public override async Task<ActionResult<ProductColorReadDto>> CreateAsync(ProductColorCreateDto entity)
+        {
+            return await base.CreateAsync(entity);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public override async Task<ActionResult<ProductColorReadDto>> UpdateAsync(Guid id, ProductColorUpdateDto entity)
+        {
+            return await base.UpdateAsync(id, entity);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public override async Task<ActionResult> DeleteAsync(Guid id)
+        {
+            return await base.DeleteAsync(id);
         }
 
         [HttpGet("{productId}")]

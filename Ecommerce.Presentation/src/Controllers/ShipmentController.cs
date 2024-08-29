@@ -1,6 +1,7 @@
 using Ecommerce.Domain.src.Entities.ShipmentAggregate;
 using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Service.src.ShipmentService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Presentation.src.Controllers
@@ -16,8 +17,39 @@ namespace Ecommerce.Presentation.src.Controllers
             _shipmentManagement = shipmentManagement;
         }
 
+        [Authorize(Roles = "Admin")]
+        public override async Task<ActionResult<ShipmentReadDto>> CreateAsync(ShipmentCreateDto entity)
+        {
+            return await base.CreateAsync(entity);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public override async Task<ActionResult<ShipmentReadDto>> UpdateAsync(Guid id, ShipmentUpdateDto entity)
+        {
+            return await base.UpdateAsync(id, entity);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public override async Task<ActionResult> DeleteAsync(Guid id)
+        {
+            return await base.DeleteAsync(id);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public override async Task<ActionResult<IEnumerable<ShipmentReadDto>>> GetAllAsync()
+        {
+            return await base.GetAllAsync();
+        }
+
+        [Authorize(Roles = "Admin")]
+        public override async Task<ActionResult<ShipmentReadDto>> GetByIdAsync(Guid id)
+        {
+            return await base.GetByIdAsync(id);
+        }
+
         // GET: api/v1/Shipment/Order/{orderId}
         [HttpGet("Order/{orderId:guid}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetShipmentsByOrderId(Guid orderId)
         {
             var shipments = await _shipmentManagement.GetShipmentsByOrderIdAsync(orderId);
