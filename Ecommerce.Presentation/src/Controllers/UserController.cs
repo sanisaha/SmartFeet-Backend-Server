@@ -1,6 +1,8 @@
 using Ecommerce.Domain.src.UserAggregate;
 using Ecommerce.Domain.src.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Ecommerce.Service.src.UserService;
+using Ecommerce.Domain.src.Auth;
 
 namespace Ecommerce.Presentation.src.Controllers
 {
@@ -8,76 +10,48 @@ namespace Ecommerce.Presentation.src.Controllers
     [Route("api/v1/users")]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserManagement _userManagement;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserManagement userManagement)
         {
-            _userRepository = userRepository;
+            _userManagement = userManagement;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] User user)
+        // GET: api/v1/users/{userEmail}
+        [HttpGet("{userEmail}")]
+        public async Task<IActionResult> GetUserByEmail(string userEmail)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var createdUser = await _userRepository.CreateAsync(user);
-            return CreatedAtAction(nameof(GetUserById), new { userId = createdUser.Id }, createdUser);
-        }
-
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetUserById(Guid userId)
-        {
-            var user = await _userRepository.GetAsync(u => u.Id == userId);
+            var user = await _userManagement.GetUserByEmail(userEmail);
             if (user == null)
             {
-                return NotFound();
+                return NotFound("User not found.");
             }
             return Ok(user);
         }
 
-        [HttpPut("{userId}")]
-        public async Task<IActionResult> UpdateUser(Guid userId, [FromBody] User updatedUser)
+        // GET: api/v1/users/{usserCredentials}
+        [HttpGet("{userCredentials}")]
+        public async Task<IActionResult> GetUserByCredentials(UserCredentials userCredentials)
         {
-            if (userId != updatedUser.Id)
+            var user = await _userManagement.GetByCredentialsAsync(userCredentials);
+            if (user == null)
             {
-                return BadRequest("User ID mismatch");
+                return NotFound("User not found.");
             }
+            return Ok(user);
+        }
 
-            var existingUser = await _userRepository.GetAsync(u => u.Id == userId);
-            if (existingUser == null)
+        // put: api/v1/users/{userId}/{newPassword}
+        [HttpPut("{userId}/{newPassword}")]
+        public async Task<IActionResult> UpdatePassword(Guid userId, string newPassword)
+        {
+            var result = await _userManagement.UpdatePasswordAsync(userId, newPassword);
+            if (!result)
             {
-                return NotFound();
+                return NotFound("User not found.");
             }
-
-            var success = await _userRepository.UpdateByIdAsync(updatedUser);
-            if (!success)
-            {
-                return StatusCode(500, "A problem occurred while handling your request.");
-            }
-
             return NoContent();
         }
 
-        [HttpDelete("{userId}")]
-        public async Task<IActionResult> DeleteUser(Guid userId)
-        {
-            var success = await _userRepository.DeleteByIdAsync(userId);
-            if (!success)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAllUsers()
-        {
-            var users = await _userRepository.GetAllUsers();
-            return Ok(users);
-        }
     }
 }

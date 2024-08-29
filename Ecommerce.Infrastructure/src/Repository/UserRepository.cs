@@ -1,70 +1,28 @@
 using Ecommerce.Domain.src.UserAggregate;
 using Ecommerce.Domain.src.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 using Ecommerce.Infrastructure.src.Database;
 using Ecommerce.Domain.src.Auth;
+using Ecommerce.Service.src.UserService;
 
 namespace Ecommerce.Infrastructure.src.Repository
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : BaseRepository<User>, IUserRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public UserRepository(ApplicationDbContext context)
+        private readonly IPasswordHasher _passwordHasher;
+
+        private readonly DbSet<User> _dbSet;
+
+        public UserRepository(ApplicationDbContext context, IPasswordHasher passwordHasher) : base(context)
         {
             _context = context;
+            _passwordHasher = passwordHasher;
+            _dbSet = context.Set<User>();
         }
 
-        public async Task<User> CreateAsync(User user)
-        {
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
-            return user;
-        }
 
-        public async Task<bool> UpdateByIdAsync(User user)
-        {
-            var existingUser = await _context.Users.FindAsync(user.Id);
-            if (existingUser == null)
-            {
-                return false;
-            }
-
-            _context.Entry(existingUser).CurrentValues.SetValues(user);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-
-        public async Task<bool> DeleteByIdAsync(Guid id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return false;
-            }
-
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-
-        public async Task<User> GetAsync(Expression<Func<User, bool>>? filter = null, bool tracked = true)
-        {
-            IQueryable<User> query = _context.Users;
-
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            if (!tracked)
-            {
-                query = query.AsNoTracking();
-            }
-
-            return await query.FirstOrDefaultAsync();
-        }
 
         public async Task<User> GetUserByEmail(string email)
         {
@@ -72,14 +30,6 @@ namespace Ecommerce.Infrastructure.src.Repository
                 .Include(u => u.UserAddresses)
                 .ThenInclude(ua => ua.Address)
                 .FirstOrDefaultAsync(u => u.Email == email);
-        }
-
-        public async Task<IEnumerable<User>> GetAllUsers()
-        {
-            return await _context.Users
-                .Include(u => u.UserAddresses)
-                .ThenInclude(ua => ua.Address)
-                .ToListAsync();
         }
 
         public async Task<User> GetUserByCredentialAsync(UserCredentials userCredentials)
@@ -90,20 +40,17 @@ namespace Ecommerce.Infrastructure.src.Repository
 
         public async Task<bool> UpdatePasswordAsync(Guid userId, string newPassword)
         {
-            var user = await _context.Users.FindAsync(userId);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
             if (user == null)
             {
                 return false;
             }
-
-            user.Password = newPassword;
+            _passwordHasher.HashPassword(newPassword, out string hashedPassword, out byte[] salt);
+            user.Password = hashedPassword;
+            user.Salt = salt;
+            _dbSet.Update(user);
             await _context.SaveChangesAsync();
             return true;
-        }
-
-        public async Task<IEnumerable<User>> GetAllAsync()
-        {
-            return await _context.Users.ToListAsync();
         }
     }
 }
