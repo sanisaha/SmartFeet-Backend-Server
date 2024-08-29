@@ -1,6 +1,5 @@
 using Ecommerce.Domain.src.Entities.OrderAggregate;
-using Ecommerce.Domain.src.Interface;
-using Ecommerce.Domain.src.Interface.OrderInterface;
+using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Service.src.OrderService;
 using Ecommerce.Service.src.Shared;
 
@@ -12,7 +11,7 @@ namespace Ecommerce.Service.src.OrderItemService
         private readonly IProductRepository _productRepository;
         private readonly IOrderRepository _orderRepository;
 
-        public OrderItemManagement(IOrderItemRepository orderItemRepository, IOrderRepository orderRepository, IProductRepository productRepository)
+        public OrderItemManagement(IOrderItemRepository orderItemRepository, IOrderRepository orderRepository, IProductRepository productRepository) : base(orderItemRepository)
         {
             _orderItemRepository = orderItemRepository;
             _orderRepository = orderRepository;

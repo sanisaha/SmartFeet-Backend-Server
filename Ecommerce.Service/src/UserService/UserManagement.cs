@@ -45,7 +45,7 @@ namespace Ecommerce.Service.src.UserService
             return await _userRepository.UpdatePasswordAsync(userId, newPassword);
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             return await _userRepository.DeleteByIdAsync(id);
         }

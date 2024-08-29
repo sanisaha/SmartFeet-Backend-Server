@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Ecommerce.Domain.src.Shared;
 
 namespace Ecommerce.Service.src.Shared

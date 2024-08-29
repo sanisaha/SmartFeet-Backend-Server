@@ -1,8 +1,6 @@
-using System.ComponentModel.DataAnnotations;
 using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.Entities.PaymentAggregate;
 using Ecommerce.Service.src.Shared;
-using Ecommerce.Service.src.UserService;
 
 namespace Ecommerce.Service.src.PaymentService
 {

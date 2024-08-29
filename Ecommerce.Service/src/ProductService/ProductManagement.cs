@@ -1,5 +1,3 @@
-using Ecommerce.Domain.src.Interface;
-using Ecommerce.Domain.src.Interface.OrderInterface;
 using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Domain.src.ProductAggregate;
 using Ecommerce.Service.src.Shared;
@@ -12,7 +10,7 @@ namespace Ecommerce.Service.src.ProductService
         private readonly ICategoryRepository _categoryRepository;
         private readonly IOrderItemRepository _orderItemRepository;
 
-        public ProductManagement(IProductRepository productRepository, ICategoryRepository categoryRepository, IOrderItemRepository orderItemRepository)
+        public ProductManagement(IProductRepository productRepository, ICategoryRepository categoryRepository, IOrderItemRepository orderItemRepository) : base(productRepository)
         {
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;

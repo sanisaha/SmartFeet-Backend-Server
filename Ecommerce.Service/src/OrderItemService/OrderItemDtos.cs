@@ -1,7 +1,7 @@
 using Ecommerce.Domain.src.Entities.OrderAggregate;
 using Ecommerce.Service.src.Shared;
 
-namespace Ecommerce.Service.src.OrderService
+namespace Ecommerce.Service.src.OrderItemService
 {
     public class OrderItemCreateDto : ICreateDto<OrderItem>
     {

@@ -1,4 +1,3 @@
-
 using Ecommerce.Domain.src.Entities.ShipmentAggregate;
 using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Service.src.Shared;
@@ -9,7 +8,7 @@ namespace Ecommerce.Service.src.ShipmentService
     {
         private readonly IShipmentRepository _shipmentRepository;
 
-        public ShipmentManagement(IShipmentRepository shipmentRepository)
+        public ShipmentManagement(IShipmentRepository shipmentRepository) : base(shipmentRepository)
         {
             _shipmentRepository = shipmentRepository;
         }

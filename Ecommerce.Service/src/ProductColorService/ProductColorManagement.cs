@@ -1,7 +1,6 @@
 using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.Entities.ProductAggregate;
-using Ecommerce.Domain.src.Interface;
-using Ecommerce.Domain.src.Interface.ProductInterface;
+using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.ProductColorService
@@ -11,7 +10,7 @@ namespace Ecommerce.Service.src.ProductColorService
         private readonly IProductColorRepository _productColorRepository;
         private readonly IProductRepository _productRepository;
 
-        public ProductColorManagement(IProductColorRepository productColorRepository, IProductRepository productRepository)
+        public ProductColorManagement(IProductColorRepository productColorRepository, IProductRepository productRepository) : base(productColorRepository)
         {
             _productColorRepository = productColorRepository;
             _productRepository = productRepository;

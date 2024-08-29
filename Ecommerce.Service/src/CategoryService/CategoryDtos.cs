@@ -11,7 +11,7 @@ namespace Ecommerce.Service.src.CategoryService
         public override void FromEntity(Category entity)
         {
             base.FromEntity(entity);
-            CategoryId = entity.CategoryId;
+            CategoryId = entity.ParentCategoryId;
             Name = entity.Name;
         }
     }
