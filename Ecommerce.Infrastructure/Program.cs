@@ -4,6 +4,9 @@ using Ecommerce.Infrastructure.src.Database;
 using Microsoft.EntityFrameworkCore;
 using Ecommerce.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
     options
+    .EnableSensitiveDataLogging()
+    .LogTo(Console.WriteLine, LogLevel.Information)
+    .AddInterceptors(new TimeStampInterceptor())
     .UseNpgsql(builder.Configuration.GetConnectionString("localhost"))
     .UseSnakeCaseNamingConvention());
 
@@ -39,6 +45,28 @@ builder.Services.AddScoped<IProductSizeRepository, ProductSizeRepository>();
 builder.Services.AddScoped<IProductImageRepository, ProductImageRepository>();
 builder.Services.AddScoped<ExceptionHandlerMiddleware>();
 
+// Add authentication configuration
+builder.Services.AddAuthentication(
+    options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    }
+)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -51,6 +79,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseMiddleware<ExceptionHandlerMiddleware>();
+app.UseAuthentication();
 
 app.MapControllers();
 

@@ -40,8 +40,11 @@ namespace Ecommerce.Service.src.AuthService
             {
                 throw new Exception("Invalid password");
             }
+        }
 
-
+        public async Task LogoutAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }
