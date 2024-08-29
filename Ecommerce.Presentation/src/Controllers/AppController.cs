@@ -1,0 +1,92 @@
+using Ecommerce.Domain.src.Shared;
+using Ecommerce.Service.src.Shared;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Ecommerce.Presentation.src.Controllers
+{
+    [ApiController]
+    [Route("api/v1/[controller]s")]
+    public class AppController<T, TReadDto, TCreateDto, TUpdateDto> : ControllerBase
+    where T : BaseEntity
+    where TReadDto : IReadDto<T>
+    where TCreateDto : ICreateDto<T>
+    where TUpdateDto : IUpdateDto<T>
+    {
+        private readonly IBaseService<T, TReadDto, TCreateDto, TUpdateDto> _baseService;
+
+        public AppController(IBaseService<T, TReadDto, TCreateDto, TUpdateDto> baseService)
+        {
+            _baseService = baseService;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<TReadDto>>> GetAllAsync()
+        {
+            try
+            {
+                var entities = await _baseService.GetAllAsync();
+                return Ok(entities);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error getting entities!.");
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TReadDto>> GetByIdAsync(Guid id)
+        {
+            try
+            {
+                var entity = await _baseService.GetByIdAsync(id);
+                return Ok(entity);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error getting entity!.");
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<TReadDto>> CreateAsync(TCreateDto entity)
+        {
+            try
+            {
+                var createdEntity = await _baseService.CreateAsync(entity);
+                return Ok(createdEntity);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error creating entity!.");
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<TReadDto>> UpdateAsync(Guid id, TUpdateDto entity)
+        {
+            try
+            {
+                var updatedEntity = await _baseService.UpdateAsync(id, entity);
+                return Ok(updatedEntity);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error updating entity!.");
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteAsync(Guid id)
+        {
+            try
+            {
+                await _baseService.DeleteAsync(id);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error deleting entity!.");
+            }
+        }
+    }
+}

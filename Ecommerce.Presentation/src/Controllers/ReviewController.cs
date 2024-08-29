@@ -1,5 +1,6 @@
 using Ecommerce.Domain.src.Entities.ReviewAggregate;
 using Ecommerce.Domain.src.Interfaces;
+using Ecommerce.Service.src.ReviewService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Presentation.src.Controllers
@@ -8,18 +9,18 @@ namespace Ecommerce.Presentation.src.Controllers
     [Route("api/v1/[controller]")]
     public class ReviewController : ControllerBase
     {
-        private readonly IReviewRepository _reviewRepository;
+        private readonly IReviewManagement _reviewManagement;
 
-        public ReviewController(IReviewRepository reviewRepository)
+        public ReviewController(IReviewManagement reviewManagement)
         {
-            _reviewRepository = reviewRepository;
+            _reviewManagement = reviewManagement;
         }
 
         // GET: api/v1/Review
         [HttpGet]
         public async Task<IActionResult> GetAllReviews()
         {
-            var reviews = await _reviewRepository.GetAllReviewsAsync();
+            var reviews = await _reviewManagement.GetAllAsync();
             return Ok(reviews);
         }
 
@@ -27,7 +28,7 @@ namespace Ecommerce.Presentation.src.Controllers
         [HttpGet("Product/{productId:guid}")]
         public async Task<IActionResult> GetReviewsByProductId(Guid productId)
         {
-            var reviews = await _reviewRepository.GetReviewsByProductIdAsync(productId);
+            var reviews = await _reviewManagement.GetReviewsByProductIdAsync(productId);
             if (reviews == null)
             {
                 return NotFound("No reviews found for this product.");
@@ -39,7 +40,7 @@ namespace Ecommerce.Presentation.src.Controllers
         [HttpGet("User/{userId:guid}")]
         public async Task<IActionResult> GetReviewsByUserId(Guid userId)
         {
-            var reviews = await _reviewRepository.GetReviewsByUserIdAsync(userId);
+            var reviews = await _reviewManagement.GetReviewsByUserIdAsync(userId);
             if (reviews == null)
             {
                 return NotFound("No reviews found for this user.");
@@ -51,7 +52,7 @@ namespace Ecommerce.Presentation.src.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetReviewById(Guid id)
         {
-            var review = await _reviewRepository.GetAsync(r => r.Id == id);
+            var review = await _reviewManagement.GetByIdAsync(id);
             if (review == null)
             {
                 return NotFound("Review not found.");
@@ -61,41 +62,35 @@ namespace Ecommerce.Presentation.src.Controllers
 
         // POST: api/v1/Review
         [HttpPost]
-        public async Task<IActionResult> CreateReview([FromBody] Review review)
+        public async Task<IActionResult> CreateReview([FromBody] ReviewCreateDto review)
         {
+            //need to convert Review to ReviewCreateDto
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var createdReview = await _reviewRepository.CreateAsync(review);
+            var createdReview = await _reviewManagement.CreateAsync(review);
             return CreatedAtAction(nameof(GetReviewById), new { id = createdReview.Id }, createdReview);
         }
 
         // PUT: api/v1/Review/{id}
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdateReview(Guid id, [FromBody] Review review)
+        public async Task<IActionResult> UpdateReview(Guid id, [FromBody] ReviewUpdateDto review)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            if (id != review.Id)
-            {
-                return BadRequest("ID mismatch.");
-            }
-            var updateResult = await _reviewRepository.UpdateByIdAsync(review);
-            if (!updateResult)
+            //need to convert Review to ReviewUpdateDto
+            var updatedReview = await _reviewManagement.UpdateAsync(id, review);
+            if (updatedReview == null)
             {
                 return NotFound("Review not found.");
             }
-            return NoContent();
+            return Ok(updatedReview);
         }
 
         // DELETE: api/v1/Review/{id}
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteReview(Guid id)
         {
-            var deleteResult = await _reviewRepository.DeleteByIdAsync(id);
+            var deleteResult = await _reviewManagement.DeleteAsync(id);
             if (!deleteResult)
             {
                 return NotFound("Review not found.");
