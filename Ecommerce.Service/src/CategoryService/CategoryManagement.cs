@@ -58,7 +58,7 @@ namespace Ecommerce.Service.src.CategoryService
 
                 return categoryDto;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new Exception("Error retrieving category!.");
             }
@@ -80,7 +80,7 @@ namespace Ecommerce.Service.src.CategoryService
                 return await _categoryRepository.UpdateByIdAsync(updatedCategory);
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new Exception("Error updating category!.");
             }
