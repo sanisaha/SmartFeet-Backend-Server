@@ -17,7 +17,7 @@ namespace Ecommerce.Service.src.OrderService
             _userRepository = userRepository;
             _addressRepository = addressRepository;
         }
-        public async Task<Order> CreateAsync(OrderCreateDto createDto)
+        /* public async Task<Order> CreateAsync(OrderCreateDto createDto)
         {
             try
             {
@@ -48,39 +48,6 @@ namespace Ecommerce.Service.src.OrderService
             }
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
-        {
-            try
-            {
-                var order = await _orderRepository.GetAsync(o => o.Id == id);
-                if (order == null)
-                    throw new ArgumentException("Order not found.");
-
-                return await _orderRepository.DeleteByIdAsync(id);
-            }
-            catch
-            {
-                throw new Exception("Error Deleting Order!.");
-            }
-        }
-        public async Task<OrderReadDto> GetByIdAsync(Guid id)
-        {
-            try
-            {
-                var order = await _orderRepository.GetAsync(o => o.Id == id);
-                if (order == null)
-                    throw new ArgumentException("Order not found.");
-
-                var orderReadDto = new OrderReadDto();
-                orderReadDto.FromEntity(order);
-
-                return orderReadDto;
-            }
-            catch
-            {
-                throw new Exception("Error Retrieving Order!.");
-            }
-        }
 
         public async Task<bool> UpdateAsync(Guid id, OrderUpdateDto updateDto)
         {
@@ -118,7 +85,7 @@ namespace Ecommerce.Service.src.OrderService
             {
                 throw new Exception("Error Updating Order!.");
             }
-        }
+        } */
 
         public async Task<IEnumerable<OrderReadDto>> GetOrdersByUserIdAsync(Guid userId)
         {

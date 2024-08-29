@@ -7,57 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Infrastructure.src.Repository
 {
-    public class OrderRepository : IOrderRepository
+    public class OrderRepository : BaseRepository<Order>, IOrderRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public OrderRepository(ApplicationDbContext context)
+        public OrderRepository(ApplicationDbContext context) : base(context)
         {
             _context = context;
-        }
-
-        public async Task<Order> CreateAsync(Order entity)
-        {
-            _context.Orders.Add(entity);
-            await _context.SaveChangesAsync();
-            return entity;
-        }
-
-        public async Task<bool> UpdateByIdAsync(Order entity)
-        {
-            _context.Orders.Update(entity);
-            var result = await _context.SaveChangesAsync();
-            return result > 0;
-        }
-
-        public async Task<bool> DeleteByIdAsync(Guid id)
-        {
-            var order = await _context.Orders.FindAsync(id);
-            if (order == null)
-            {
-                return false;
-            }
-
-            _context.Orders.Remove(order);
-            var result = await _context.SaveChangesAsync();
-            return result > 0;
-        }
-
-        public async Task<Order> GetAsync(Expression<Func<Order, bool>>? filter = null, bool tracked = true)
-        {
-            IQueryable<Order> query = _context.Orders;
-
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            if (!tracked)
-            {
-                query = query.AsNoTracking();
-            }
-
-            return await query.FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(Guid userId)
@@ -110,11 +66,6 @@ namespace Ecommerce.Infrastructure.src.Repository
             }
 
             return await query.CountAsync();
-        }
-
-        public async Task<IEnumerable<Order>> GetAllAsync()
-        {
-            return await _context.Orders.ToListAsync();
         }
     }
 }

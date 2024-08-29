@@ -55,56 +55,5 @@ namespace Ecommerce.Presentation.src.Controllers
             }
         }
 
-        // GET: api/v1/order/total-orders
-        [HttpGet("total-orders")]
-        public async Task<IActionResult> GetTotalOrders([FromQuery] DateTime? startDate = null, [FromQuery] DateTime? endDate = null)
-        {
-            var totalOrders = await _orderRepository.GetTotalOrdersAsync(startDate, endDate);
-            return Ok(new { TotalOrders = totalOrders });
-        }
-
-        // POST: api/v1/order
-        [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromBody] Order order)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var createdOrder = await _orderRepository.CreateAsync(order);
-            return CreatedAtAction(nameof(GetOrdersByUserId), new { userId = createdOrder.UserId }, createdOrder);
-        }
-
-        // PUT: api/v1/order/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateOrder(Guid id, [FromBody] Order order)
-        {
-            if (id != order.Id)
-            {
-                return BadRequest("Order ID mismatch");
-            }
-
-            var result = await _orderRepository.UpdateByIdAsync(order);
-            if (!result)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-        }
-
-        // DELETE: api/v1/order/{id}
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrder(Guid id)
-        {
-            var result = await _orderRepository.DeleteByIdAsync(id);
-            if (!result)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-        }
     }
 }
