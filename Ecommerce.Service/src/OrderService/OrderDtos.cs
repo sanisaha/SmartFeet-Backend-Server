@@ -1,5 +1,6 @@
 using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.Entities.OrderAggregate;
+using Ecommerce.Service.src.OrderItemService;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.OrderService

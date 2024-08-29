@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.ProductAggregate;
 using Ecommerce.Service.src.Shared;

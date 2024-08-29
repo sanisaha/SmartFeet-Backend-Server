@@ -1,5 +1,6 @@
 
 using System.ComponentModel.DataAnnotations;
+using Ecommerce.Domain.src.Shared;
 using Ecommerce.Service.src.Shared;
 namespace Ecommerce.Service.src.AddressService
 {

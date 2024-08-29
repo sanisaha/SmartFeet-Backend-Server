@@ -1,4 +1,3 @@
-
 using Ecommerce.Domain.src.Entities.PaymentAggregate;
 using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Service.src.Shared;
@@ -9,7 +8,7 @@ namespace Ecommerce.Service.src.PaymentService
     {
         private readonly IPaymentRepository _paymentRepository;
 
-        public PaymentManagement(IPaymentRepository paymentRepository)
+        public PaymentManagement(IPaymentRepository paymentRepository) : base(paymentRepository)
         {
             _paymentRepository = paymentRepository;
         }

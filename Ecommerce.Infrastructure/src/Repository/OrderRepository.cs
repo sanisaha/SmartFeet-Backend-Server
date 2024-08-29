@@ -111,5 +111,10 @@ namespace Ecommerce.Infrastructure.src.Repository
 
             return await query.CountAsync();
         }
+
+        public async Task<IEnumerable<Order>> GetAllAsync()
+        {
+            return await _context.Orders.ToListAsync();
+        }
     }
 }

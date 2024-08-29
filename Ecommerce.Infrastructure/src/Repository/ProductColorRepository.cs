@@ -79,5 +79,10 @@ namespace Ecommerce.Infrastructure.src.Repository
 
             return null;
         }
+
+        public async Task<IEnumerable<ProductColor>> GetAllAsync()
+        {
+            return await _context.ProductColors.ToListAsync();
+        }
     }
 }

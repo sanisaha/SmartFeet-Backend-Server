@@ -95,5 +95,15 @@ namespace Ecommerce.Infrastructure.src.Repository
                 .Where(p => p.Stock > 0)
                 .ToListAsync();
         }
+
+        public Task<IEnumerable<Product>> GetTopSellingProductsAsync(int count)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Product>> GetAllAsync()
+        {
+            return await _context.Products.ToListAsync();
+        }
     }
 }

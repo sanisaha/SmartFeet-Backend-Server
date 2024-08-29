@@ -51,5 +51,10 @@ namespace Ecommerce.Infrastructure.Repositories
         {
             return await _context.Payments.Where(p => p.UserId == userId).ToListAsync();
         }
+
+        public async Task<IEnumerable<Payment>> GetAllAsync()
+        {
+            return await _context.Payments.ToListAsync();
+        }
     }
 }

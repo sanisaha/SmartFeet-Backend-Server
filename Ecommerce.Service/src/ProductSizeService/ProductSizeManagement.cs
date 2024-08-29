@@ -1,6 +1,5 @@
 using Ecommerce.Domain.Enums;
-using Ecommerce.Domain.src.Interface;
-using Ecommerce.Domain.src.Interface.ProductInterface;
+using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Domain.src.ProductAggregate;
 using Ecommerce.Service.src.Shared;
 
@@ -11,7 +10,7 @@ namespace Ecommerce.Service.src.ProductSizeService
         private readonly IProductSizeRepository _productSizeRepository;
         private readonly IProductRepository _productRepository;
 
-        public ProductSizeManagement(IProductSizeRepository productSizeRepository, IProductRepository productRepository)
+        public ProductSizeManagement(IProductSizeRepository productSizeRepository, IProductRepository productRepository) : base(productSizeRepository)
         {
             _productSizeRepository = productSizeRepository;
             _productRepository = productRepository;

@@ -77,5 +77,10 @@ namespace Ecommerce.Infrastructure.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public async Task<IEnumerable<ProductSize>> GetAllAsync()
+        {
+            return await _context.ProductSizes.ToListAsync();
+        }
     }
 }

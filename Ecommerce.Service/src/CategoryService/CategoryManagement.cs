@@ -8,7 +8,7 @@ namespace Ecommerce.Service.src.CategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
 
-        public CategoryManagement(ICategoryRepository categoryRepository)
+        public CategoryManagement(ICategoryRepository categoryRepository) : base(categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }

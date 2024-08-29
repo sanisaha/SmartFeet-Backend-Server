@@ -100,5 +100,10 @@ namespace Ecommerce.Infrastructure.src.Repository
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<IEnumerable<User>> GetAllAsync()
+        {
+            return await _context.Users.ToListAsync();
+        }
     }
 }
