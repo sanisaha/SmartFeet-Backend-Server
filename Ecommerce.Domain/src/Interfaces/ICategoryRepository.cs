@@ -5,7 +5,6 @@ namespace Ecommerce.Domain.src.Interfaces
 {
     public interface ICategoryRepository : IBaseRepository<Category>
     {
-        Task<Category> GetCategoryByIdAsync(Guid userId);
-        Task<IEnumerable<Category>> GetAllCategoryAsync();
+        Task<IEnumerable<Category>> GetCategoryByIdAsync(Guid userId);
     }
 }

@@ -10,7 +10,7 @@ namespace Ecommerce.Service.src.ProductService
         public decimal Price { get; set; }
         public int Stock { get; set; }
         public Guid CategoryId { get; set; }
-        public string ProductLine { get; set; }
+        public string BrandName { get; set; }
 
         public override void FromEntity(Product entity)
         {
@@ -20,7 +20,7 @@ namespace Ecommerce.Service.src.ProductService
             Price = entity.Price;
             Stock = entity.Stock;
             CategoryId = entity.CategoryId;
-            ProductLine = entity.ProductLine;
+            BrandName = entity.BrandName;
         }
     }
     public class ProductCreateDto : ICreateDto<Product>
@@ -30,7 +30,7 @@ namespace Ecommerce.Service.src.ProductService
         public decimal Price { get; set; }
         public int Stock { get; set; }
         public Guid CategoryId { get; set; }
-        public string ProductLine { get; set; }
+        public string BrandName { get; set; }
         public Product CreateEntity()
         {
             return new Product
@@ -40,7 +40,7 @@ namespace Ecommerce.Service.src.ProductService
                 Price = Price,
                 Stock = Stock,
                 CategoryId = CategoryId,
-                ProductLine = ProductLine
+                BrandName = BrandName
             };
         }
     }
@@ -52,7 +52,7 @@ namespace Ecommerce.Service.src.ProductService
         public decimal Price { get; set; }
         public int Stock { get; set; }
         public Guid CategoryId { get; set; }
-        public string ProductLine { get; set; }
+        public string BrandName { get; set; }
         public Product UpdateEntity(Product entity)
         {
             entity.Title = Title;
@@ -60,7 +60,7 @@ namespace Ecommerce.Service.src.ProductService
             entity.Price = Price;
             entity.Stock = Stock;
             entity.CategoryId = CategoryId;
-            entity.ProductLine = ProductLine;
+            entity.BrandName = BrandName;
             return entity;
         }
     }

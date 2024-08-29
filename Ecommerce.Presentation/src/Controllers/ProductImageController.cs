@@ -1,6 +1,7 @@
 using Ecommerce.Domain.src.ProductAggregate;
 using Ecommerce.Domain.src.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Ecommerce.Service.src.ProductImageService;
 
 namespace Ecommerce.Presentation.src.Controllers
 {
@@ -8,83 +9,67 @@ namespace Ecommerce.Presentation.src.Controllers
     [Route("api/[controller]")]
     public class ProductImageController : ControllerBase
     {
-        private readonly IProductImageRepository _productImageRepository;
+        private readonly IProductImageManagement _productImageManagement;
 
-        public ProductImageController(IProductImageRepository productImageRepository)
+        public ProductImageController(IProductImageManagement productImageManagement)
         {
-            _productImageRepository = productImageRepository;
+            _productImageManagement = productImageManagement;
         }
 
         [HttpGet("{productId}")]
-        public async Task<IActionResult> GetImagesByProductId(Guid productId)
+        public async Task<ActionResult<IEnumerable<ProductImageReadDto>>> GetImagesByProductIdAsync(Guid productId)
         {
-            var images = await _productImageRepository.GetImagesByProductIdAsync(productId);
-            return Ok(images);
+            try
+            {
+                var entities = await _productImageManagement.GetImagesByProductIdAsync(productId);
+                return Ok(entities);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error getting entities!.");
+            }
         }
 
         [HttpGet("main/{productId}")]
-        public async Task<IActionResult> GetMainImageForProduct(Guid productId)
+        public async Task<ActionResult<ProductImageReadDto>> GetMainImageForProductAsync(Guid productId)
         {
-            var image = await _productImageRepository.GetMainImageForProductAsync(productId);
-            if (image == null)
+            try
             {
-                return NotFound();
+                var entity = await _productImageManagement.GetMainImageForProductAsync(productId);
+                return Ok(entity);
             }
-            return Ok(image);
+            catch (Exception)
+            {
+                return StatusCode(500, "Error getting entity!.");
+            }
         }
 
         [HttpGet("count/{productId}")]
-        public async Task<IActionResult> GetImageCountByProductId(Guid productId)
+        public async Task<ActionResult<int>> GetImageCountByProductIdAsync(Guid productId)
         {
-            var count = await _productImageRepository.GetImageCountByProductIdAsync(productId);
-            return Ok(count);
+            try
+            {
+                var count = await _productImageManagement.GetImageCountByProductIdAsync(productId);
+                return Ok(count);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error getting entity!.");
+            }
         }
 
         [HttpDelete("delete/{productId}")]
-        public async Task<IActionResult> DeleteImagesByProductId(Guid productId)
+        public async Task<ActionResult<bool>> DeleteImagesByProductIdAsync(Guid productId)
         {
-            var success = await _productImageRepository.DeleteImagesByProductIdAsync(productId);
-            if (success)
+            try
             {
-                return NoContent();
+                var result = await _productImageManagement.DeleteImagesByProductIdAsync(productId);
+                return Ok(result);
             }
-            return NotFound();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateProductImage(ProductImage productImage)
-        {
-            var createdImage = await _productImageRepository.CreateAsync(productImage);
-            return CreatedAtAction(nameof(GetImagesByProductId), new { productId = createdImage.ProductId }, createdImage);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProductImage(Guid id, ProductImage productImage)
-        {
-            if (id != productImage.Id)
+            catch (Exception)
             {
-                return BadRequest();
+                return StatusCode(500, "Error getting entity!.");
             }
-
-            var success = await _productImageRepository.UpdateByIdAsync(productImage);
-            if (success)
-            {
-                return NoContent();
-            }
-
-            return NotFound();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProductImage(Guid id)
-        {
-            var success = await _productImageRepository.DeleteByIdAsync(id);
-            if (success)
-            {
-                return NoContent();
-            }
-
-            return NotFound();
         }
     }
 }

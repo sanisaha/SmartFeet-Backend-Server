@@ -1,7 +1,9 @@
+using Ecommerce.Domain.src.Entities.OrderAggregate;
+using Ecommerce.Domain.Enums;
 
-namespace Ecommerce.Tests.src.Entities
+namespace Ecommerce.Tests.src.Domain
 {
-    public class OrderTests
+    public class OrderDomainTest
     {
         [Fact]
         public void AddOrderItem_ShouldIncreaseTotalPrice()
@@ -60,7 +62,33 @@ namespace Ecommerce.Tests.src.Entities
             order.AddOrderItem(orderItem1);
 
             // Act
-            order.RemoveOrderItem(orderItem2); // Try removing an item that doesn't exist in the order
+            order.RemoveOrderItem(orderItem2); // Removing an item that doesn't exist in the order
+
+            // Assert
+            Assert.Single(order.OrderItems);
+            Assert.Equal(100m, order.TotalPrice);
+        }
+
+        [Fact]
+        public void RemoveOrderItem_ShouldChangeTotalPrice_WhenItemInOrder()
+        {
+            // Arrange
+            var order = new Order();
+            var orderItem1 = new OrderItem
+            {
+                Price = 50m,
+                Quantity = 2
+            };
+            var orderItem2 = new OrderItem
+            {
+                Price = 30m,
+                Quantity = 1
+            };
+            order.AddOrderItem(orderItem1);
+            order.AddOrderItem(orderItem2);
+
+            // Act
+            order.RemoveOrderItem(orderItem2); // Removing an item exist in the order
 
             // Assert
             Assert.Single(order.OrderItems);

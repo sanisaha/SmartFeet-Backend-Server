@@ -15,69 +15,7 @@ namespace Ecommerce.Service.src.ProductColorService
             _productColorRepository = productColorRepository;
             _productRepository = productRepository;
         }
-        public async Task<ProductColor> CreateAsync(ProductColorCreateDto createDto)
-        {
-            try
-            {
-                var product = await _productRepository.GetAsync(p => p.Id == createDto.ProductId);
-                if (product == null)
-                    throw new ArgumentException("Invalid product.");
 
-                if (string.IsNullOrWhiteSpace(createDto.ColorName))
-                    throw new ArgumentException("Color name is required.");
-
-                var productColor = createDto.CreateEntity();
-
-                return await _productColorRepository.CreateAsync(productColor);
-            }
-            catch
-            {
-                throw new Exception("Error creating product color!");
-            }
-
-        }
-
-        public async Task<bool> DeleteAsync(Guid id)
-        {
-            try
-            {
-                var productColor = await _productColorRepository.GetAsync(pc => pc.Id == id);
-                if (productColor == null)
-                    throw new ArgumentException("Product color not found.");
-
-                return await _productColorRepository.DeleteByIdAsync(id);
-            }
-            catch
-            {
-                throw new Exception("Error deleting product color!");
-            }
-        }
-
-        public async Task<bool> UpdateAsync(Guid id, ProductColorUpdateDto updateDto)
-        {
-            try
-            {
-                var existingColor = await _productColorRepository.GetAsync(pc => pc.Id == id);
-
-                if (existingColor == null)
-                    throw new ArgumentException("Product color not found.");
-
-                if (string.IsNullOrWhiteSpace(updateDto.ColorName))
-                    throw new ArgumentException("Color name is required.");
-
-                var product = await _productRepository.GetAsync(p => p.Id == updateDto.ProductId);
-                if (product == null)
-                    throw new ArgumentException("Invalid product.");
-
-                var productColorToUpdate = updateDto.UpdateEntity(existingColor);
-
-                return await _productColorRepository.UpdateByIdAsync(productColorToUpdate);
-            }
-            catch
-            {
-                throw new Exception("Error Updating Product color!.");
-            }
-        }
         public async Task<IEnumerable<ProductColorReadDto>> GetColorsByProductIdAsync(Guid productId)
         {
             try

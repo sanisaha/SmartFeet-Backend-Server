@@ -40,7 +40,7 @@ namespace Ecommerce.Service.src.UserService
             return userRead;
         }
 
-        public async Task<bool> UpdatePasswordAsync(int userId, string newPassword)
+        public async Task<bool> UpdatePasswordAsync(Guid userId, string newPassword)
         {
             return await _userRepository.UpdatePasswordAsync(userId, newPassword);
         }
