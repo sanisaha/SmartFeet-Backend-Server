@@ -7,11 +7,11 @@ namespace Ecommerce.Presentation.src.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class ShipmentController : ControllerBase
+    public class ShipmentController : AppController<Shipment, ShipmentReadDto, ShipmentCreateDto, ShipmentUpdateDto>
     {
         private readonly IShipmentManagement _shipmentManagement;
 
-        public ShipmentController(IShipmentManagement shipmentManagement)
+        public ShipmentController(IShipmentManagement shipmentManagement) : base(shipmentManagement)
         {
             _shipmentManagement = shipmentManagement;
         }

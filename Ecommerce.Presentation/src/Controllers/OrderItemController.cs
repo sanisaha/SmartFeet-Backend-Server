@@ -7,11 +7,11 @@ namespace Ecommerce.Presentation.src.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class OrderItemController : ControllerBase
+    public class OrderItemController : AppController<OrderItem, OrderItemReadDto, OrderItemCreateDto, OrderItemUpdateDto>
     {
         private readonly IOrderItemManagement _orderItemManagement;
 
-        public OrderItemController(IOrderItemManagement orderItemManagement)
+        public OrderItemController(IOrderItemManagement orderItemManagement) : base(orderItemManagement)
         {
             _orderItemManagement = orderItemManagement;
         }

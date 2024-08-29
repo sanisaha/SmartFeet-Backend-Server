@@ -7,11 +7,11 @@ namespace Ecommerce.Presentation.src.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class CategoryController : ControllerBase
+    public class CategoryController : AppController<Category, CategoryReadDto, CategoryCreateDto, CategoryUpdateDto>
     {
         private readonly ICategoryManagement _categoryManagement;
 
-        public CategoryController(ICategoryManagement categoryManagement)
+        public CategoryController(ICategoryManagement categoryManagement) : base(categoryManagement)
         {
             _categoryManagement = categoryManagement;
         }

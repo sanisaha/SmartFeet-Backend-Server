@@ -7,11 +7,11 @@ namespace Ecommerce.Presentation.src.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductImageController : ControllerBase
+    public class ProductImageController : AppController<ProductImage, ProductImageReadDto, ProductImageCreateDto, ProductImageUpdateDto>
     {
         private readonly IProductImageManagement _productImageManagement;
 
-        public ProductImageController(IProductImageManagement productImageManagement)
+        public ProductImageController(IProductImageManagement productImageManagement) : base(productImageManagement)
         {
             _productImageManagement = productImageManagement;
         }

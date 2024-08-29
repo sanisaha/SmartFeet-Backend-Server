@@ -7,11 +7,11 @@ namespace Ecommerce.Presentation.src.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class PaymentController : ControllerBase
+    public class PaymentController : AppController<Payment, PaymentReadDto, PaymentCreateDto, PaymentUpdateDto>
     {
         private readonly IPaymentManagement _paymentManagement;
 
-        public PaymentController(IPaymentManagement paymentManagement)
+        public PaymentController(IPaymentManagement paymentManagement) : base(paymentManagement)
         {
             _paymentManagement = paymentManagement;
         }

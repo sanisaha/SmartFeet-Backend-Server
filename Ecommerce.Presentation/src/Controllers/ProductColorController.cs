@@ -8,11 +8,11 @@ namespace Ecommerce.Presentation.src.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class ProductColorController : ControllerBase
+    public class ProductColorController : AppController<ProductColor, ProductColorReadDto, ProductColorCreateDto, ProductColorUpdateDto>
     {
         private readonly IProductColorManagement _productColorManagement;
 
-        public ProductColorController(IProductColorManagement productColorManagement)
+        public ProductColorController(IProductColorManagement productColorManagement) : base(productColorManagement)
         {
             _productColorManagement = productColorManagement;
         }

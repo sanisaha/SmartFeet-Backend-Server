@@ -7,11 +7,11 @@ namespace Ecommerce.Presentation.src.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class ReviewController : ControllerBase
+    public class ReviewController : AppController<Review, ReviewReadDto, ReviewCreateDto, ReviewUpdateDto>
     {
         private readonly IReviewManagement _reviewManagement;
 
-        public ReviewController(IReviewManagement reviewManagement)
+        public ReviewController(IReviewManagement reviewManagement) : base(reviewManagement)
         {
             _reviewManagement = reviewManagement;
         }

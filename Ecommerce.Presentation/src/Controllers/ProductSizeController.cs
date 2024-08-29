@@ -1,16 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Domain.Enums;
 using Ecommerce.Service.src.ProductSizeService;
+using Ecommerce.Domain.src.ProductAggregate;
 
 namespace Ecommerce.Presentation.src.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductSizeController : ControllerBase
+    public class ProductSizeController : AppController<ProductSize, ProductSizeReadDto, ProductSizeCreateDto, ProductSizeUpdateDto>
     {
         private readonly IProductSizeManagement _productSizeManagement;
 
-        public ProductSizeController(IProductSizeManagement productSizeManagement)
+        public ProductSizeController(IProductSizeManagement productSizeManagement) : base(productSizeManagement)
         {
             _productSizeManagement = productSizeManagement;
         }

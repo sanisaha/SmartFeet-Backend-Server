@@ -7,11 +7,11 @@ namespace Ecommerce.Presentation.src.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController : ControllerBase
+    public class ProductController : AppController<Product, ProductReadDto, ProductCreateDto, ProductUpdateDto>
     {
         private readonly IProductManagement _productManagement;
 
-        public ProductController(IProductManagement productManagement)
+        public ProductController(IProductManagement productManagement) : base(productManagement)
         {
             _productManagement = productManagement;
         }
