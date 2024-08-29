@@ -9,9 +9,6 @@ namespace Ecommerce.Domain.src.Entities.OrderAggregate
 {
     public class Order : BaseEntity
     {
-        [ForeignKey("User")]
-        public Guid UserId { get; set; }
-
         [Required]
         public DateTime OrderDate { get; set; }
 
@@ -19,39 +16,35 @@ namespace Ecommerce.Domain.src.Entities.OrderAggregate
         [Column(TypeName = "decimal(10,2)")]
         public decimal TotalPrice { get; set; }
 
-        [ForeignKey("Address")]
-        public Guid ShippingAddressId { get; set; }
-
         [Required]
         public OrderStatus OrderStatus { get; set; }
 
+        [ForeignKey("User")]
+        public Guid UserId { get; set; }
+
+        [ForeignKey("Address")]
+        public Guid ShippingAddressId { get; set; }
+
         // Navigation Properties
-        public virtual IEnumerable<OrderItem> OrderItems { get; set; }
-
-        // public virtual User User { get; set; }
-
-        // public virtual Address Address { get; set; }
+        public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public virtual User? User { get; set; }
+        public virtual Address? Address { get; set; }
 
 
-        // Constructor
-        public Order()
+        // Methods
+        public void AddOrderItem(OrderItem item)
         {
-            OrderItems = new List<OrderItem>();
+            OrderItems.Add(item);
+            TotalPrice += item.Price * item.Quantity;
         }
 
-        // public void AddOrderItem(OrderItem item)
-        // {
-        //     OrderItems.Add(item);
-        //     TotalPrice += item.Price * item.Quantity;
-        // }
-
-        // public void RemoveOrderItem(OrderItem item)
-        // {
-        //     if (OrderItems.Remove(item))
-        //     {
-        //         TotalPrice -= item.Price * item.Quantity;
-        //     }
-        // }
+        public void RemoveOrderItem(OrderItem item)
+        {
+            if (OrderItems.Remove(item))
+            {
+                TotalPrice -= item.Price * item.Quantity;
+            }
+        }
 
         public void UpdateOrderStatus(OrderStatus status)
         {

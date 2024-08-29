@@ -9,35 +9,61 @@ namespace Ecommerce.Service.src.Shared
         where TCreateDto : ICreateDto<T>
         where TUpdateDto : IUpdateDto<T>
     {
-        private readonly IBaseRepository<T> _repository;
+        private readonly IBaseRepository<T> _repo;
 
-        public BaseService(IBaseRepository<T> repository)
+        public BaseService(IBaseRepository<T> repo)
         {
-            _repository = repository;
+            _repo = repo;
         }
         public virtual async Task<TReadDto> CreateAsync(TCreateDto createDto)
         {
-            throw new NotImplementedException();
+            var entity = createDto.CreateEntity();
+            await _repo.CreateAsync(entity);
+            var readDto = Activator.CreateInstance<TReadDto>();
+            readDto.FromEntity(entity);
+            return readDto;
         }
 
-        public Task DeleteAsync(Guid id)
+        public virtual async Task DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            await _repo.DeleteByIdAsync(id);
         }
 
-        public Task<IEnumerable<TReadDto>> GetAllAsync()
+        public virtual async Task<IEnumerable<TReadDto>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var entities = await _repo.GetAllAsync();
+            return entities.Select(entity =>
+            {
+                var readDto = Activator.CreateInstance<TReadDto>();
+                readDto.FromEntity(entity);
+                return readDto;
+            });
         }
 
-        public Task<TReadDto> GetByIdAsync(Guid id)
+        public virtual async Task<TReadDto> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var entity = await _repo.GetAsync(e => e.Id == id);
+            if (entity == null)
+            {
+                throw new Exception("Entity not found");
+            }
+            var readDto = Activator.CreateInstance<TReadDto>();
+            readDto.FromEntity(entity);
+            return readDto;
         }
 
-        public Task<TReadDto> UpdateAsync(Guid id, TUpdateDto updateDto)
+        public virtual async Task<TReadDto> UpdateAsync(Guid id, TUpdateDto updateDto)
         {
-            throw new NotImplementedException();
+            var entity = await _repo.GetAsync(e => e.Id == id);
+            if (entity == null)
+            {
+                throw new Exception("Entity not found");
+            }
+            entity = updateDto.UpdateEntity(entity);
+            await _repo.UpdateByIdAsync(entity);
+            var readDto = Activator.CreateInstance<TReadDto>();
+            readDto.FromEntity(entity);
+            return readDto;
         }
     }
 }
