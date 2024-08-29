@@ -14,7 +14,7 @@ namespace Ecommerce.Domain.src.ProductAggregate
         public SizeValue SizeValue { get; set; }
 
         [Required]
-        public int StockQuantity { get; set; }
+        public int Quantity { get; set; }
 
         // Navigation property
         public virtual Product? Product { get; set; }

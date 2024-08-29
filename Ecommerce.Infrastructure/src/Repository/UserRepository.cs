@@ -88,7 +88,7 @@ namespace Ecommerce.Infrastructure.src.Repository
                 .FirstOrDefaultAsync(u => u.Email == userCredentials.Email);
         }
 
-        public async Task<bool> UpdatePasswordAsync(int userId, string newPassword)
+        public async Task<bool> UpdatePasswordAsync(Guid userId, string newPassword)
         {
             var user = await _context.Users.FindAsync(userId);
             if (user == null)

@@ -10,7 +10,7 @@ namespace Ecommerce.Domain.src.CategoryAggregate
         [StringLength(50)]
         public string? Name { get; set; }
 
-        public int ParentCategoryId { get; set; }
+        public Guid ParentCategoryId { get; set; }
 
         // Navigation Properties
         public IEnumerable<Product>? Products { get; set; }
