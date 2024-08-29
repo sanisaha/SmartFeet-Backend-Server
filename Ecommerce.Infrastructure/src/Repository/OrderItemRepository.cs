@@ -80,5 +80,10 @@ namespace Ecommerce.Infrastructure.src.Repository
                 .Where(oi => oi.OrderId == orderId)
                 .SumAsync(oi => oi.Quantity);
         }
+
+        public async Task<IEnumerable<OrderItem>> GetAllAsync()
+        {
+            return await _context.OrderItems.ToListAsync();
+        }
     }
 }

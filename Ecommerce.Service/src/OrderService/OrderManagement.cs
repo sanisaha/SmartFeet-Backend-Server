@@ -1,6 +1,5 @@
 using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.Entities.OrderAggregate;
-using Ecommerce.Domain.src.Interface.OrderInterface;
 using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Service.src.Shared;
 
@@ -12,7 +11,7 @@ namespace Ecommerce.Service.src.OrderService
         private readonly IUserRepository _userRepository;
         private readonly IAddressRepository _addressRepository;
 
-        public OrderManagement(IOrderRepository orderRepository, IUserRepository userRepository, IAddressRepository addressRepository)
+        public OrderManagement(IOrderRepository orderRepository, IUserRepository userRepository, IAddressRepository addressRepository) : base(orderRepository)
         {
             _orderRepository = orderRepository;
             _userRepository = userRepository;

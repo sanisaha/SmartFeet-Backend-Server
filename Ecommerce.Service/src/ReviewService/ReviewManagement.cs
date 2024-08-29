@@ -9,7 +9,7 @@ namespace Ecommerce.Service.src.ReviewService
     {
         private readonly IReviewRepository _reviewRepository;
 
-        public ReviewManagement(IReviewRepository reviewRepository)
+        public ReviewManagement(IReviewRepository reviewRepository) : base(reviewRepository)
         {
             _reviewRepository = reviewRepository;
         }

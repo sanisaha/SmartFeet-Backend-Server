@@ -1,5 +1,4 @@
-using Ecommerce.Domain.src.Interface;
-using Ecommerce.Domain.src.Interface.ProductInterface;
+using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Domain.src.ProductAggregate;
 using Ecommerce.Service.src.Shared;
 
@@ -10,7 +9,7 @@ namespace Ecommerce.Service.src.ProductImageService
         private readonly IProductImageRepository _productImageRepository;
         private readonly IProductRepository _productRepository;
 
-        public ProductImageManagement(IProductImageRepository productImageRepository, IProductRepository productRepository)
+        public ProductImageManagement(IProductImageRepository productImageRepository, IProductRepository productRepository) : base(productImageRepository)
         {
             _productImageRepository = productImageRepository;
             _productRepository = productRepository;

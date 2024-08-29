@@ -1,6 +1,4 @@
-using System.ComponentModel.DataAnnotations;
 using Ecommerce.Domain.Enums;
-using Ecommerce.Domain.src.Shared;
 using Ecommerce.Domain.src.UserAggregate;
 using Ecommerce.Service.src.Shared;
 

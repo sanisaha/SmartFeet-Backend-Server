@@ -61,5 +61,10 @@ namespace Ecommerce.Infrastructure.src.Repository
         {
             return await _context.Reviews.ToListAsync();
         }
+
+        public async Task<IEnumerable<Review>> GetAllAsync()
+        {
+            return await _context.Reviews.ToListAsync();
+        }
     }
 }

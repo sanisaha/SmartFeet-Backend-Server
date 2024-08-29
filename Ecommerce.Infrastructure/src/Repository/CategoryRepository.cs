@@ -61,5 +61,9 @@ namespace Ecommerce.Infrastructure.src.Repository
             return await _context.Categories.ToListAsync();
         }
 
+        public async Task<IEnumerable<Category>> GetAllAsync()
+        {
+            return await _context.Categories.ToListAsync();
+        }
     }
 }

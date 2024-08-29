@@ -56,5 +56,10 @@ namespace Ecommerce.Infrastructure.src.Repository
         {
             return await _context.Shipments.Where(s => s.Order.Id == orderId).ToListAsync();
         }
+
+        public async Task<IEnumerable<Shipment>> GetAllAsync()
+        {
+            return await _context.Shipments.ToListAsync();
+        }
     }
 }

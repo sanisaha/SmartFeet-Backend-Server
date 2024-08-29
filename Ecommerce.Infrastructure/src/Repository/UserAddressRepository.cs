@@ -51,5 +51,10 @@ namespace Ecommerce.Infrastructure.src.Repository
         {
             return await _context.UserAddress.Where(ua => ua.UserId == userId).ToListAsync();
         }
+
+        public async Task<IEnumerable<UserAddress>> GetAllAsync()
+        {
+            return await _context.UserAddress.ToListAsync();
+        }
     }
 }

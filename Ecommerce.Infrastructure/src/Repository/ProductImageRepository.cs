@@ -94,5 +94,11 @@ namespace Ecommerce.Infrastructure.Repositories
             var result = await _context.SaveChangesAsync();
             return result > 0;
         }
+
+        public async Task<IEnumerable<ProductImage>> GetAllAsync()
+        {
+            return await _context.ProductImages.ToListAsync();
+
+        }
     }
 }
