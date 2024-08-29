@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240828090947_CreateDb")]
+    [Migration("20240829071542_CreateDb")]
     partial class CreateDb
     {
         /// <inheritdoc />
@@ -154,6 +154,9 @@ namespace Ecommerce.Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_orders");
 
+                    b.HasIndex("ShippingAddressId")
+                        .HasDatabaseName("ix_orders_shipping_address_id");
+
                     b.HasIndex("UserId")
                         .HasDatabaseName("ix_orders_user_id");
 
@@ -192,15 +195,15 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id")
-                        .HasName("pk_orders_items");
+                        .HasName("pk_order_items");
 
                     b.HasIndex("OrderId")
-                        .HasDatabaseName("ix_orders_items_order_id");
+                        .HasDatabaseName("ix_order_items_order_id");
 
                     b.HasIndex("ProductId")
-                        .HasDatabaseName("ix_orders_items_product_id");
+                        .HasDatabaseName("ix_order_items_product_id");
 
-                    b.ToTable("orders_items", (string)null);
+                    b.ToTable("order_items", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Domain.src.Entities.PaymentAggregate.Payment", b =>
@@ -336,6 +339,49 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasDatabaseName("ix_reviews_user_id");
 
                     b.ToTable("reviews", (string)null);
+                });
+
+            modelBuilder.Entity("Ecommerce.Domain.src.Entities.ShipmentAggregate.Shipment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("AddressId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("address_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("order_id");
+
+                    b.Property<DateTime>("ShipmentDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("shipment_date");
+
+                    b.Property<int>("ShipmentStatus")
+                        .HasColumnType("integer")
+                        .HasColumnName("shipment_status");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_shipments");
+
+                    b.HasIndex("AddressId")
+                        .HasDatabaseName("ix_shipments_address_id");
+
+                    b.HasIndex("OrderId")
+                        .HasDatabaseName("ix_shipments_order_id");
+
+                    b.ToTable("shipments", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Domain.src.Entities.UserAggregate.UserAddress", b =>
@@ -605,12 +651,23 @@ namespace Ecommerce.Infrastructure.Migrations
 
             modelBuilder.Entity("Ecommerce.Domain.src.Entities.OrderAggregate.Order", b =>
                 {
-                    b.HasOne("Ecommerce.Domain.src.UserAggregate.User", null)
+                    b.HasOne("Ecommerce.Domain.src.AddressAggregate.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("ShippingAddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_orders_addresses_shipping_address_id");
+
+                    b.HasOne("Ecommerce.Domain.src.UserAggregate.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_orders_users_user_id");
+
+                    b.Navigation("Address");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Ecommerce.Domain.src.Entities.OrderAggregate.OrderItem", b =>
@@ -620,14 +677,14 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_orders_items_orders_order_id");
+                        .HasConstraintName("fk_order_items_orders_order_id");
 
                     b.HasOne("Ecommerce.Domain.src.ProductAggregate.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_orders_items_products_product_id");
+                        .HasConstraintName("fk_order_items_products_product_id");
 
                     b.Navigation("Order");
 
@@ -691,6 +748,27 @@ namespace Ecommerce.Infrastructure.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Ecommerce.Domain.src.Entities.ShipmentAggregate.Shipment", b =>
+                {
+                    b.HasOne("Ecommerce.Domain.src.AddressAggregate.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_shipments_addresses_address_id");
+
+                    b.HasOne("Ecommerce.Domain.src.Entities.OrderAggregate.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_shipments_orders_order_id");
+
+                    b.Navigation("Address");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Ecommerce.Domain.src.Entities.UserAggregate.UserAddress", b =>
