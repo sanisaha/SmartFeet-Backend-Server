@@ -3,8 +3,11 @@ using Ecommerce.Infrastructure.src.Repository;
 using Ecommerce.Infrastructure.src.Database;
 using Microsoft.EntityFrameworkCore;
 using Ecommerce.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -34,6 +37,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductColorRepository, ProductColorRepository>();
 builder.Services.AddScoped<IProductSizeRepository, ProductSizeRepository>();
 builder.Services.AddScoped<IProductImageRepository, ProductImageRepository>();
+builder.Services.AddScoped<ExceptionHandlerMiddleware>();
 
 
 // Configure the HTTP request pipeline.
@@ -43,7 +47,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Inject middleware to the application
+
 app.UseHttpsRedirection();
+app.UseMiddleware<ExceptionHandlerMiddleware>();
+
+app.MapControllers();
 
 
 app.Run();
