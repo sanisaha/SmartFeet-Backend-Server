@@ -5,7 +5,7 @@ namespace Ecommerce.Service.src.CategoryService
 {
     public class CategoryReadDto : BaseReadDto<Category>
     {
-        public int CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
         public string? Name { get; set; }
 
         public override void FromEntity(Category entity)
@@ -18,7 +18,7 @@ namespace Ecommerce.Service.src.CategoryService
     public class CategoryCreateDto : ICreateDto<Category>
     {
         public string? Name { get; set; }
-        public int ParentCategoryId { get; set; }
+        public Guid ParentCategoryId { get; set; }
         public Category CreateEntity()
         {
             return new Category
@@ -32,7 +32,7 @@ namespace Ecommerce.Service.src.CategoryService
     {
         public Guid Id { get; set; }
         public string? Name { get; set; }
-        public int ParentCategoryId { get; set; }
+        public Guid ParentCategoryId { get; set; }
         public Category UpdateEntity(Category entity)
         {
             entity.Name = Name;

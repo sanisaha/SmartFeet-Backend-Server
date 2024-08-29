@@ -4,7 +4,7 @@ using Ecommerce.Infrastructure.src.Database;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Ecommerce.Infrastructure.Repositories
+namespace Ecommerce.Infrastructure.src.Repository
 {
     public class PaymentRepository : IPaymentRepository
     {
