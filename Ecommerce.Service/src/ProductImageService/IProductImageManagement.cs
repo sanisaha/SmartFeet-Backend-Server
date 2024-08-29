@@ -5,9 +5,6 @@ namespace Ecommerce.Service.src.ProductImageService
 {
     public interface IProductImageManagement : IBaseService<ProductImage, ProductImageReadDto, ProductImageCreateDto, ProductImageUpdateDto>
     {
-        Task<ProductImage> CreateAsync(ProductImageCreateDto createDto);
-        Task<bool> UpdateAsync(Guid id, ProductImageUpdateDto updateDto);
-        Task DeleteAsync(Guid id);
         Task<IEnumerable<ProductImageReadDto>> GetImagesByProductIdAsync(Guid productId);
         Task<int> GetImageCountByProductIdAsync(Guid productId);
         Task<bool> DeleteImagesByProductIdAsync(Guid productId);
