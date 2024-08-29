@@ -37,10 +37,10 @@ namespace Ecommerce.Tests.Service
         [Fact]
         public async Task GetByIdAsync_ShouldReturnReadDto_WhenEntityExists()
         {
+            // Arrange
             var id = Guid.NewGuid();
             var entity = new BaseEntity { Id = id };
-            Expression<Func<BaseEntity, bool>> filter = e => e.Id == id;
-            _mockRepo.Setup(r => r.GetAsync(filter, true)).ReturnsAsync(entity);
+            _mockRepo.Setup(r => r.GetAsync(It.IsAny<Expression<Func<BaseEntity, bool>>>(), true)).ReturnsAsync(entity);
 
             // Act
             var result = await _service.GetByIdAsync(id);
@@ -48,7 +48,7 @@ namespace Ecommerce.Tests.Service
             // Assert
             Assert.NotNull(result);
             Assert.IsType<MockReadDto>(result);
-            _mockRepo.Verify(r => r.GetAsync(filter, true), Times.Once);
+            _mockRepo.Verify(r => r.GetAsync(It.IsAny<Expression<Func<BaseEntity, bool>>>(), true), Times.Once);
         }
 
         [Fact]
@@ -56,12 +56,13 @@ namespace Ecommerce.Tests.Service
         {
             // Arrange
             var id = Guid.NewGuid();
-            Expression<Func<BaseEntity, bool>> filter = e => e.Id == id;
-            _mockRepo.Setup(r => r.GetAsync(filter, true)).ReturnsAsync((BaseEntity?)null);
+            _mockRepo.Setup(r => r.GetAsync(It.IsAny<Expression<Func<BaseEntity, bool>>>(), true)).ReturnsAsync((BaseEntity?)null);
 
             // Act & Assert
             await Assert.ThrowsAsync<Exception>(() => _service.GetByIdAsync(id));
-            _mockRepo.Verify(r => r.GetAsync(filter, true), Times.Once);
+
+            // Verify that GetAsync was called with any filter expression
+            _mockRepo.Verify(r => r.GetAsync(It.IsAny<Expression<Func<BaseEntity, bool>>>(), true), Times.Once);
         }
 
         [Fact]
@@ -71,8 +72,10 @@ namespace Ecommerce.Tests.Service
             var id = Guid.NewGuid();
             var entity = new BaseEntity { Id = id };
             var updateDto = new MockUpdateDto();
-            Expression<Func<BaseEntity, bool>> filter = e => e.Id == id;
-            _mockRepo.Setup(r => r.GetAsync(filter, true)).ReturnsAsync(entity);
+            var updatedEntity = new BaseEntity { Id = id }; // Entity after update
+
+            // Mock the repository methods
+            _mockRepo.Setup(r => r.GetAsync(It.IsAny<Expression<Func<BaseEntity, bool>>>(), true)).ReturnsAsync(entity);
             _mockRepo.Setup(r => r.UpdateByIdAsync(It.IsAny<BaseEntity>())).Returns(Task.FromResult(true));
 
             // Act
@@ -81,22 +84,22 @@ namespace Ecommerce.Tests.Service
             // Assert
             Assert.NotNull(result);
             Assert.IsType<MockReadDto>(result);
-            _mockRepo.Verify(r => r.GetAsync(filter, true), Times.Once);
-            _mockRepo.Verify(r => r.UpdateByIdAsync(It.IsAny<BaseEntity>()), Times.Once);
+            _mockRepo.Verify(r => r.GetAsync(It.IsAny<Expression<Func<BaseEntity, bool>>>(), true), Times.Once);
+            _mockRepo.Verify(r => r.UpdateByIdAsync(It.Is<BaseEntity>(e => e.Id == id)), Times.Once);
+
         }
 
         [Fact]
         public async Task UpdateAsync_ShouldThrowException_WhenEntityDoesNotExist()
         {
-            // Arrange
             var id = Guid.NewGuid();
             var updateDto = new MockUpdateDto();
-            Expression<Func<BaseEntity, bool>> filter = e => e.Id == id;
-            _mockRepo.Setup(r => r.GetAsync(filter, true)).ReturnsAsync((BaseEntity)null);
+            _mockRepo.Setup(r => r.GetAsync(It.IsAny<Expression<Func<BaseEntity, bool>>>(), true))
+                    .ReturnsAsync((BaseEntity?)null);
 
             // Act & Assert
             await Assert.ThrowsAsync<Exception>(() => _service.UpdateAsync(id, updateDto));
-            _mockRepo.Verify(r => r.GetAsync(filter, true), Times.Once);
+            _mockRepo.Verify(r => r.GetAsync(It.IsAny<Expression<Func<BaseEntity, bool>>>(), true), Times.Once);
         }
 
         [Fact]
