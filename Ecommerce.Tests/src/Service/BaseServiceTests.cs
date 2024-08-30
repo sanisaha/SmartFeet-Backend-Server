@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Ecommerce.Domain.src.Interface;
+using Ecommerce.Domain.src.Model;
 using Ecommerce.Domain.src.Shared;
 using Ecommerce.Service.src.Shared;
 using Moq;
@@ -120,16 +121,25 @@ namespace Ecommerce.Tests.Service
         public async Task GetAllAsync_ShouldReturnListOfReadDto()
         {
             // Arrange
-            var entities = new List<BaseEntity> { new BaseEntity() };
-            _mockRepo.Setup(r => r.GetAllAsync()).ReturnsAsync(entities);
+            var paginationOptions = new PaginationOptions();
+            var entities = new PaginatedResult<BaseEntity>
+            {
+                Items = new List<BaseEntity> { new BaseEntity(), new BaseEntity() },
+                CurrentPage = 1,
+                TotalPages = 1
+            };
+
+            // Mock the repository method
+            _mockRepo.Setup(r => r.GetAllAsync(It.IsAny<PaginationOptions>())).ReturnsAsync(entities);
 
             // Act
-            var result = await _service.GetAllAsync();
+            var result = await _service.GetAllAsync(paginationOptions);
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsAssignableFrom<IEnumerable<MockReadDto>>(result);
-            _mockRepo.Verify(r => r.GetAllAsync(), Times.Once);
+            Assert.IsType<PaginatedResult<MockReadDto>>(result);
+            Assert.Equal(2, result.Items.Count());
+            _mockRepo.Verify(r => r.GetAllAsync(It.IsAny<PaginationOptions>()), Times.Once);
         }
     }
 
