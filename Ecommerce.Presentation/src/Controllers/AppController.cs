@@ -45,7 +45,7 @@ namespace Ecommerce.Presentation.src.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(500, "Error getting entity!.");
+                return StatusCode(404, "Error getting entity!.");
             }
         }
 
@@ -59,7 +59,7 @@ namespace Ecommerce.Presentation.src.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(500, "Error creating entity!.");
+                return StatusCode(400, "Error creating entity!.");
             }
         }
 
@@ -73,7 +73,7 @@ namespace Ecommerce.Presentation.src.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(500, "Error updating entity!.");
+                return StatusCode(404, "Error updating entity!.");
             }
         }
 
@@ -87,7 +87,7 @@ namespace Ecommerce.Presentation.src.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(500, "Error deleting entity!.");
+                return StatusCode(404, "Error deleting entity!.");
             }
         }
     }
