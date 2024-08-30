@@ -1,5 +1,7 @@
 using Ecommerce.Domain.src.Entities.ShipmentAggregate;
 using Ecommerce.Domain.src.Interfaces;
+using Ecommerce.Domain.src.Model;
+using Ecommerce.Domain.src.Shared;
 using Ecommerce.Service.src.ShipmentService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -36,9 +38,9 @@ namespace Ecommerce.Presentation.src.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public override async Task<ActionResult<IEnumerable<ShipmentReadDto>>> GetAllAsync()
+        public override async Task<ActionResult<PaginatedResult<ShipmentReadDto>>> GetAllAsync(PaginationOptions paginationOptions)
         {
-            return await base.GetAllAsync();
+            return await base.GetAllAsync(paginationOptions);
         }
 
         [Authorize(Roles = "Admin")]

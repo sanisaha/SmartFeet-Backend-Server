@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Service.src.UserService;
 using Ecommerce.Domain.src.Auth;
 using Microsoft.AspNetCore.Authorization;
+using Ecommerce.Domain.src.Shared;
+using Ecommerce.Domain.src.Model;
 
 namespace Ecommerce.Presentation.src.Controllers
 {
@@ -25,9 +27,9 @@ namespace Ecommerce.Presentation.src.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public override async Task<ActionResult<IEnumerable<UserReadDto>>> GetAllAsync()
+        public override async Task<ActionResult<PaginatedResult<UserReadDto>>> GetAllAsync(PaginationOptions paginationOptions)
         {
-            return await base.GetAllAsync();
+            return await base.GetAllAsync(paginationOptions);
         }
 
         [Authorize]

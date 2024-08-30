@@ -1,3 +1,4 @@
+using Ecommerce.Domain.src.Model;
 using Ecommerce.Domain.src.Shared;
 
 namespace Ecommerce.Service.src.Shared
@@ -8,7 +9,7 @@ namespace Ecommerce.Service.src.Shared
     where TCreateDto : ICreateDto<T>
     where TUpdateDto : IUpdateDto<T>
     {
-        Task<IEnumerable<TReadDto>> GetAllAsync();
+        Task<PaginatedResult<TReadDto>> GetAllAsync(PaginationOptions paginationOptions);
         Task<TReadDto> GetByIdAsync(Guid id);
         Task<TReadDto> CreateAsync(TCreateDto createDto);
         Task<TReadDto> UpdateAsync(Guid id, TUpdateDto updateDto);

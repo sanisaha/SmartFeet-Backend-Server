@@ -1,6 +1,8 @@
+using Ecommerce.Domain.src.Model;
 using Ecommerce.Domain.src.Shared;
 using Ecommerce.Service.src.Shared;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Ecommerce.Presentation.src.Controllers
 {
@@ -20,11 +22,11 @@ namespace Ecommerce.Presentation.src.Controllers
         }
 
         [HttpGet]
-        public virtual async Task<ActionResult<IEnumerable<TReadDto>>> GetAllAsync()
+        public virtual async Task<ActionResult<PaginatedResult<TReadDto>>> GetAllAsync(PaginationOptions paginationOptions)
         {
             try
             {
-                var entities = await _baseService.GetAllAsync();
+                var entities = await _baseService.GetAllAsync(paginationOptions);
                 return Ok(entities);
             }
             catch (Exception)

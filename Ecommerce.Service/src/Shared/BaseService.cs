@@ -1,4 +1,5 @@
 using Ecommerce.Domain.src.Interface;
+using Ecommerce.Domain.src.Model;
 using Ecommerce.Domain.src.Shared;
 
 namespace Ecommerce.Service.src.Shared
@@ -29,15 +30,22 @@ namespace Ecommerce.Service.src.Shared
             return await _repo.DeleteByIdAsync(id);
         }
 
-        public virtual async Task<IEnumerable<TReadDto>> GetAllAsync()
+        public virtual async Task<PaginatedResult<TReadDto>> GetAllAsync(PaginationOptions paginationOptions)
         {
-            var entities = await _repo.GetAllAsync();
-            return entities.Select(entity =>
+            var entities = await _repo.GetAllAsync(paginationOptions);
+            var convertedResult = entities.Items.Select(entity =>
             {
                 var readDto = Activator.CreateInstance<TReadDto>();
                 readDto.FromEntity(entity);
                 return readDto;
             });
+
+            return new PaginatedResult<TReadDto>
+            {
+                Items = convertedResult,
+                CurrentPage = entities.CurrentPage,
+                TotalPages = entities.TotalPages
+            };
         }
 
         public virtual async Task<TReadDto> GetByIdAsync(Guid id)
