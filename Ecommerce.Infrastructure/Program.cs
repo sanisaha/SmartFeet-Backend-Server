@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Ecommerce.Service.src.AuthService;
+using Ecommerce.Infrastructure.src.Repository.Service;
+using Ecommerce.Service.src.UserService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +30,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     .UseNpgsql(builder.Configuration.GetConnectionString("localhost"))
     .UseSnakeCaseNamingConvention());
 
-var app = builder.Build();
 
 // Dependency Injection
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -43,7 +45,10 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductColorRepository, ProductColorRepository>();
 builder.Services.AddScoped<IProductSizeRepository, ProductSizeRepository>();
 builder.Services.AddScoped<IProductImageRepository, ProductImageRepository>();
-builder.Services.AddScoped<ExceptionHandlerMiddleware>();
+//builder.Services.AddScoped<ExceptionHandlerMiddleware>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IAuthManagement, AuthManagement>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 // Add authentication configuration
 builder.Services.AddAuthentication(
@@ -57,16 +62,16 @@ builder.Services.AddAuthentication(
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidateIssuer = true,
-            ValidateAudience = true,
+            ValidateAudience = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
     });
 
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -78,7 +83,7 @@ if (app.Environment.IsDevelopment())
 // Inject middleware to the application
 
 app.UseHttpsRedirection();
-app.UseMiddleware<ExceptionHandlerMiddleware>();
+//app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseAuthentication();
 
 app.MapControllers();
