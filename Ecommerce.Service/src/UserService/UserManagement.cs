@@ -45,50 +45,8 @@ namespace Ecommerce.Service.src.UserService
             return await _userRepository.UpdatePasswordAsync(userId, newPassword);
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
-        {
-            return await _userRepository.DeleteByIdAsync(id);
-        }
 
-        public async Task<IEnumerable<UserReadDto>> GetAllAsync()
-        {
-            var users = await _userRepository.GetAllUsers();
-            var userReads = users.Select(user =>
-            {
-                var userRead = new UserReadDto();
-                userRead.FromEntity(user);
-                return userRead;
-            });
-            return userReads;
-        }
-
-        public async Task<UserReadDto> GetByIdAsync(Guid id)
-        {
-            var user = await _userRepository.GetAsync(u => u.Id == id);
-            if (user == null)
-            {
-                throw new Exception("User not found");
-            }
-            var userRead = new UserReadDto();
-            userRead.FromEntity(user);
-            return userRead;
-        }
-
-        public async Task<UserReadDto> UpdateAsync(Guid id, UserUpdateDto updateDto)
-        {
-            var user = await _userRepository.GetAsync(u => u.Id == id);
-            if (user == null)
-            {
-                throw new Exception("User not found");
-            }
-            updateDto.UpdateEntity(user);
-            await _userRepository.UpdateByIdAsync(user);
-            var userRead = new UserReadDto();
-            userRead.FromEntity(user);
-            return userRead;
-        }
-
-        public async Task<UserReadDto> GetByEmailAsync(string email)
+        public async Task<UserReadDto> GetUserByEmail(string email)
         {
             var user = await _userRepository.GetUserByEmail(email);
             if (user == null)

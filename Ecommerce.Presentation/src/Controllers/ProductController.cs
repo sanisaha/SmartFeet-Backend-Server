@@ -2,18 +2,37 @@ using Ecommerce.Domain.src.ProductAggregate;
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Service.src.ProductService;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ecommerce.Presentation.src.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController : ControllerBase
+    public class ProductController : AppController<Product, ProductReadDto, ProductCreateDto, ProductUpdateDto>
     {
         private readonly IProductManagement _productManagement;
 
-        public ProductController(IProductManagement productManagement)
+        public ProductController(IProductManagement productManagement) : base(productManagement)
         {
             _productManagement = productManagement;
+        }
+
+        [Authorize(Roles = "Admin")]
+        public override async Task<ActionResult<ProductReadDto>> CreateAsync(ProductCreateDto entity)
+        {
+            return await base.CreateAsync(entity);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public override async Task<ActionResult<ProductReadDto>> UpdateAsync(Guid id, ProductUpdateDto entity)
+        {
+            return await base.UpdateAsync(id, entity);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public override async Task<ActionResult> DeleteAsync(Guid id)
+        {
+            return await base.DeleteAsync(id);
         }
 
         [HttpGet("category/{categoryId}")]

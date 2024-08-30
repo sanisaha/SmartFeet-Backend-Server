@@ -1,62 +1,106 @@
-# Teamwork
+# E-commerce Platform
 
-- Designing REST API endpoints
-- Database schema
-- Raw SQL queries/procedures/functions
-- Workable backend server with ASP.NET Core & Entity Framework
+## Overview
 
-## Topic
+This project is an e-commerce backend project, which manages user accounts, orders, products, and reviews. It is built with a layered architecture that separates concerns between the domain, service, Presentation, and infrastructure layers. The platform is designed to be scalable, secure, and maintainable.
 
-E-commerce backend API
+## Features
 
----
+- **User Management**: Registration, login, password management, and profile updates.
+- **Order Management**: Creating, updating, and tracking orders.
+- **Product Management**: CRUD operations for products.
+- **Review System**: Users can review products they have purchased.
+- **Security**: Secure password hashing and authentication.
 
-## Requirements
+## Technology Stack
 
-_For team assignment, only 1 member in the team should fork the repo. Then, admin can invite other members to contribute in the same repo (and all the members, including admin should fork again from common repo, making PRs when changes are needed). Remember to have develop branch before merging to main. Each feature/schema/bug/issue should have it's own branch, and 1 branch/file edition should be taken by only 1 member at a time. Before making any new branch, make sure you sync the fork and run `git pull` to avoid the conflicts with the common team repo. If neccessary, check the Git lecture again._
+- **Backend**: ASP.NET Core
+- **Database**: Entity Framework Core with SQL Server
+- **Authentication**: Custom authentication with password hashing
+- **Testing**: xUnit for unit testing
+- **Dependency Injection**: Built-in DI provided by ASP.NET Core
 
-1. Create ERD diagram with proper entities, attributes, and relationship. The ERD can be added to the project as image.
-2. Design the API endpoints, following REST API architecture. The endpoints can be displayed as text with detail explaination. You can use `.md` to write the API endpoints. It is necessary to describe all the possible queries, parameters, request body, authentication (if needed), and sample response , status code for each endpoint.
-3. Basic entities (Could have more if needed):
+## Project Structure
 
-- User
-- Product
-- Order
-- Category
-- Review
+## Project Structure
 
-4. Provide the PostgreSQL queries for the these operations:
+```plaintext
+├── Ecommerce.Domain
+│   ├── src
+│   │   ├── Auth
+│   │   ├── Entities
+│   │   ├── Exceptions
+│   │   ├── Interfaces
+│   │   ├── Model
+│   │   └── Shared
+├── Ecommerce.Infrastructure
+│   ├── Migrations
+│   ├── Properties
+│   ├── src
+│   │   ├── Repository
+│   │   └── Database
+├── Ecommerce.Presentation
+│   ├── src
+│   │   ├── Controllers
+│   │   └── Middleware
+├── Ecommerce.Service
+│   ├── src
+│   │   ├── UserService
+│   │   ├── OrderService
+│   │   ├── ...
+│   │   ├── ...
+│   │   └── Shared
+├── Ecommerce.Tests
+│   ├── src
+│   │   ├── Domain
+│   │   └── Service
+└── README.md
+```
 
-- Functions to create one/gell all/get one/update one/delete one from products. Functions to get the most `x` purchased products (`x` would come from function parameter)
-- Functions to create one/gell all/get one/update one/delete one from users
-- Functions to create one/gell all/get one/update one/delete one from reviews (of all products, of a certain product, and of a certain user)
-- Functions to create one/gell all/get one/update status/delete from orders
-- Functions to create one/gell all/get one/update one/delete one from categories.
+## Getting Started
 
-5. Based on your ERD and features design, continue to develop minimal backend server with CLEAN Architecture
+### Prerequisites
 
-- Consider using authentication & authorization properly
-- Exception handler should be used to return meaningful response to users
-- Unit testing must be done, for at least Domain and Service layers
-- No deployment needed for teamwork project
-- README file should descibe your teamwork with sufficient details and readable structure
+- [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
 
-## Getting started
+### Installation
 
-Here is the recommended order:
+1. **Clone the repository**:
 
-- Plan Your Database Schema before start coding
+   ```sh
+   git clone https://github.com/MohamadNach/fs18_CSharp_Teamwork
+   cd fs18_CSharp_Teamwork
+   ```
 
-- Set Up the Project Structure
+2. **Set up the database**:
 
-- Build the models
+   - Update the connection string in `appsettings.json` located in the `Ecommerce.Infrastructure` project.
+   - Run database migrations to set up the initial schema:
+     ```sh
+     dotnet ef database update
+     ```
 
-- Create the Repositories
+3. **Run the application**:
 
-- Build the Services
+   ```sh
+   dotnet run
+   ```
 
-- Set Up Authentication & Authorization
+4. **Run the tests**:
+   ```sh
+   dotnet test
+   ```
 
-- Build the Controllers
+## Usage
 
-- Implement Error Handling Middleware
+- **User Registration and Authentication**: API endpoints are available for registering users, logging in, and managing user sessions.
+- **Order Processing**: Users can place orders, view order history, and manage active orders.
+- **Product Management**: Admin users can create, update, and delete products.
+- **Review System**: Users can leave reviews for products they have purchased.
+
+## Testing
+
+- **Unit Tests**: The project includes a suite of unit tests using xUnit. You can run the tests using the following command:
+  ```sh
+  dotnet test
+  ```

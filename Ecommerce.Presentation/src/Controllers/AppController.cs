@@ -1,6 +1,8 @@
+using Ecommerce.Domain.src.Model;
 using Ecommerce.Domain.src.Shared;
 using Ecommerce.Service.src.Shared;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Ecommerce.Presentation.src.Controllers
 {
@@ -20,11 +22,11 @@ namespace Ecommerce.Presentation.src.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TReadDto>>> GetAllAsync()
+        public virtual async Task<ActionResult<PaginatedResult<TReadDto>>> GetAllAsync(PaginationOptions paginationOptions)
         {
             try
             {
-                var entities = await _baseService.GetAllAsync();
+                var entities = await _baseService.GetAllAsync(paginationOptions);
                 return Ok(entities);
             }
             catch (Exception)
@@ -34,7 +36,7 @@ namespace Ecommerce.Presentation.src.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TReadDto>> GetByIdAsync(Guid id)
+        public virtual async Task<ActionResult<TReadDto>> GetByIdAsync(Guid id)
         {
             try
             {
@@ -43,12 +45,12 @@ namespace Ecommerce.Presentation.src.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(500, "Error getting entity!.");
+                return StatusCode(404, "Error getting entity!.");
             }
         }
 
         [HttpPost]
-        public async Task<ActionResult<TReadDto>> CreateAsync(TCreateDto entity)
+        public virtual async Task<ActionResult<TReadDto>> CreateAsync(TCreateDto entity)
         {
             try
             {
@@ -57,12 +59,12 @@ namespace Ecommerce.Presentation.src.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(500, "Error creating entity!.");
+                return StatusCode(400, "Error creating entity!.");
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<TReadDto>> UpdateAsync(Guid id, TUpdateDto entity)
+        public virtual async Task<ActionResult<TReadDto>> UpdateAsync(Guid id, TUpdateDto entity)
         {
             try
             {
@@ -71,12 +73,12 @@ namespace Ecommerce.Presentation.src.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(500, "Error updating entity!.");
+                return StatusCode(404, "Error updating entity!.");
             }
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteAsync(Guid id)
+        public virtual async Task<ActionResult> DeleteAsync(Guid id)
         {
             try
             {
@@ -85,7 +87,7 @@ namespace Ecommerce.Presentation.src.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(500, "Error deleting entity!.");
+                return StatusCode(404, "Error deleting entity!.");
             }
         }
     }
