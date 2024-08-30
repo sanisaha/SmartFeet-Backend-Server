@@ -1,18 +1,38 @@
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Domain.Enums;
 using Ecommerce.Service.src.ProductSizeService;
+using Ecommerce.Domain.src.ProductAggregate;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ecommerce.Presentation.src.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductSizeController : ControllerBase
+    public class ProductSizeController : AppController<ProductSize, ProductSizeReadDto, ProductSizeCreateDto, ProductSizeUpdateDto>
     {
         private readonly IProductSizeManagement _productSizeManagement;
 
-        public ProductSizeController(IProductSizeManagement productSizeManagement)
+        public ProductSizeController(IProductSizeManagement productSizeManagement) : base(productSizeManagement)
         {
             _productSizeManagement = productSizeManagement;
+        }
+
+        [Authorize(Roles = "Admin")]
+        public override async Task<ActionResult<ProductSizeReadDto>> CreateAsync(ProductSizeCreateDto entity)
+        {
+            return await base.CreateAsync(entity);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public override async Task<ActionResult<ProductSizeReadDto>> UpdateAsync(Guid id, ProductSizeUpdateDto entity)
+        {
+            return await base.UpdateAsync(id, entity);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public override async Task<ActionResult> DeleteAsync(Guid id)
+        {
+            return await base.DeleteAsync(id);
         }
 
         [HttpGet("Product/{productId:guid}")]

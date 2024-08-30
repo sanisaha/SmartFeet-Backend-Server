@@ -6,6 +6,7 @@ using Ecommerce.Domain.src.Interface;
 using Ecommerce.Domain.src.Shared;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using Ecommerce.Domain.src.Model;
 
 namespace Ecommerce.Infrastructure.src.Repository
 {
@@ -59,9 +60,22 @@ namespace Ecommerce.Infrastructure.src.Repository
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<PaginatedResult<T>> GetAllAsync(PaginationOptions paginationOptions)
         {
-            return await _dbSet.ToListAsync();
+            var totalEntity = await _dbSet.CountAsync();
+            IQueryable<T> query = _dbSet;
+            var entities = await query
+                .Skip(paginationOptions.Page)
+                .Take(paginationOptions.PerPage)
+                .ToListAsync();
+
+            return new PaginatedResult<T>
+            {
+                Items = entities,
+                TotalPages = (int)Math.Ceiling(totalEntity / (double)paginationOptions.PerPage),
+                CurrentPage = paginationOptions.Page,
+            };
+
         }
     }
 }
