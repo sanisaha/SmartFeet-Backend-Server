@@ -32,7 +32,6 @@ namespace Ecommerce.Presentation.src.Controllers
             return await base.GetAllAsync(paginationOptions);
         }
 
-        [Authorize]
         public override async Task<ActionResult<UserReadDto>> CreateAsync(UserCreateDto entity)
         {
             return await base.CreateAsync(entity);

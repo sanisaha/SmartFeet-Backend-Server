@@ -8,6 +8,7 @@ using Ecommerce.Domain.src.Entities.ShipmentAggregate;
 using Ecommerce.Domain.src.Entities.UserAggregate;
 using Ecommerce.Domain.src.PaymentAggregate;
 using Ecommerce.Domain.src.ProductAggregate;
+using Ecommerce.Domain.src.Shared;
 using Ecommerce.Domain.src.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 
@@ -37,6 +38,60 @@ namespace Ecommerce.Infrastructure.src.Database
         {
             base.OnConfiguring(optionsBuilder);
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<BaseEntity>().HasKey(b => b.Id);
+            modelBuilder.Entity<BaseEntity>()
+                .Property(b => b.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            modelBuilder.Entity<BaseEntity>()
+                .Property(b => b.UpdatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .ValueGeneratedOnAddOrUpdate();
+
+            modelBuilder.Entity<OrderItem>()
+        .HasOne(oi => oi.Product)
+        .WithMany(p => p.OrderItems)
+        .HasForeignKey(oi => oi.ProductId)
+        .OnDelete(DeleteBehavior.Cascade); // or DeleteBehavior.NoAction
+
+            // Configuring the delete behavior for Review
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.Product)
+                .WithMany(p => p.Reviews)
+                .HasForeignKey(r => r.ProductId)
+                .OnDelete(DeleteBehavior.Cascade); // or DeleteBehavior.NoAction
+
+            modelBuilder.Entity<Review>()
+            .HasOne(r => r.User)
+            .WithMany(u => u.Reviews)
+            .HasForeignKey(r => r.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            // Configuring the delete behavior for Order
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.User)
+                .WithMany(u => u.Orders)
+                .HasForeignKey(o => o.UserId)
+                .OnDelete(DeleteBehavior.Cascade); // or DeleteBehavior.NoAction
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<Product>().ToTable("Products");
+            modelBuilder.Entity<Category>().ToTable("Categories");
+            modelBuilder.Entity<Order>().ToTable("Orders");
+            modelBuilder.Entity<OrderItem>().ToTable("OrderItems");
+            modelBuilder.Entity<Payment>().ToTable("Payments");
+            modelBuilder.Entity<PaymentMethod>().ToTable("PaymentMethods");
+            modelBuilder.Entity<Review>().ToTable("Reviews");
+            modelBuilder.Entity<Shipment>().ToTable("Shipments");
+            modelBuilder.Entity<Address>().ToTable("Addresses");
+            modelBuilder.Entity<UserAddress>().ToTable("UserAddresses");
+            modelBuilder.Entity<ProductColor>().ToTable("ProductColors");
+            modelBuilder.Entity<ProductImage>().ToTable("ProductImages");
+            modelBuilder.Entity<ProductSize>().ToTable("ProductSizes");
+        }
+
 
     }
 }
