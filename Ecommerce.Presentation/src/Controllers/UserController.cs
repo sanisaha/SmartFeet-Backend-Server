@@ -50,7 +50,7 @@ namespace Ecommerce.Presentation.src.Controllers
         }
 
         // GET: api/v1/users/{userEmail}
-        [HttpGet("{userEmail}")]
+        [HttpGet("email/{userEmail}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUserByEmail(string userEmail)
         {
@@ -63,7 +63,7 @@ namespace Ecommerce.Presentation.src.Controllers
         }
 
         // GET: api/v1/users/{usserCredentials}
-        [HttpGet("{userCredentials}")]
+        [HttpGet("userCredentials/{userCredentials}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUserByCredentials(UserCredentials userCredentials)
         {
