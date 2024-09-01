@@ -32,12 +32,6 @@ namespace Ecommerce.Infrastructure.src.Repository
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        public async Task<User> GetUserByCredentialAsync(UserCredentials userCredentials)
-        {
-            return await _context.Users
-                .FirstOrDefaultAsync(u => u.Email == userCredentials.Email);
-        }
-
         public async Task<bool> UpdatePasswordAsync(Guid userId, string newPassword)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
