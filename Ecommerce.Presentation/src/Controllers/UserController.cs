@@ -32,7 +32,6 @@ namespace Ecommerce.Presentation.src.Controllers
             return await base.GetAllAsync(paginationOptions);
         }
 
-        [Authorize]
         public override async Task<ActionResult<UserReadDto>> CreateAsync(UserCreateDto entity)
         {
             return await base.CreateAsync(entity);
@@ -51,7 +50,7 @@ namespace Ecommerce.Presentation.src.Controllers
         }
 
         // GET: api/v1/users/{userEmail}
-        [HttpGet("{userEmail}")]
+        [HttpGet("email/{userEmail}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUserByEmail(string userEmail)
         {
@@ -64,7 +63,7 @@ namespace Ecommerce.Presentation.src.Controllers
         }
 
         // GET: api/v1/users/{usserCredentials}
-        [HttpGet("{userCredentials}")]
+        [HttpGet("userCredentials/{userCredentials}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUserByCredentials(UserCredentials userCredentials)
         {

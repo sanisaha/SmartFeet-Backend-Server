@@ -1,7 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Ecommerce.Domain.src.CategoryAggregate;
+using Ecommerce.Domain.src.Entities.OrderAggregate;
 using Ecommerce.Domain.src.Entities.ProductAggregate;
+using Ecommerce.Domain.src.Entities.ReviewAggregate;
 using Ecommerce.Domain.src.Shared;
 
 namespace Ecommerce.Domain.src.ProductAggregate
@@ -27,6 +29,9 @@ namespace Ecommerce.Domain.src.ProductAggregate
 
         [MaxLength(100)]
         public string? BrandName { get; set; }
+
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
 
         // Navigation property
         public virtual Category? Category { get; set; }

@@ -3,22 +3,31 @@ using Ecommerce.Infrastructure.src.Repository;
 using Ecommerce.Infrastructure.src.Database;
 using Microsoft.EntityFrameworkCore;
 using Ecommerce.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Ecommerce.Service.src.AuthService;
 using Ecommerce.Infrastructure.src.Repository.Service;
 using Ecommerce.Service.src.UserService;
+using Newtonsoft.Json.Converters;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.Converters.Add(new StringEnumConverter());
+});
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(
+    options =>
+    {
+        options.SwaggerDoc("v1", new() { Title = "Ecommerce", Version = "v1" });
+        options.SchemaFilter<EnumSchemaFilter>();
+    });
+
 
 // Add database context into app
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -49,6 +58,7 @@ builder.Services.AddScoped<IProductImageRepository, ProductImageRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthManagement, AuthManagement>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IUserManagement, UserManagement>();
 
 // Add authentication configuration
 builder.Services.AddAuthentication(

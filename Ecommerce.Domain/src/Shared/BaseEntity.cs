@@ -1,5 +1,6 @@
 
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ecommerce.Domain.src.Shared
 {
@@ -7,6 +8,7 @@ namespace Ecommerce.Domain.src.Shared
     {
         [Key]
         public Guid Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public BaseEntity()
