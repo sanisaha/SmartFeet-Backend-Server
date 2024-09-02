@@ -27,13 +27,18 @@ namespace Ecommerce.Presentation.src.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public override async Task<ActionResult<PaginatedResult<UserReadDto>>> GetAllAsync(PaginationOptions paginationOptions)
+        public override async Task<ActionResult<PaginatedResult<UserReadDto>>> GetAllAsync([FromQuery] PaginationOptions paginationOptions)
         {
             return await base.GetAllAsync(paginationOptions);
         }
 
         public override async Task<ActionResult<UserReadDto>> CreateAsync(UserCreateDto entity)
         {
+            var existingUser = await _userManagement.GetUserByEmail(entity.Email);
+            if (existingUser != null)
+            {
+                return Conflict(new { message = "A user with this email address already exists." });
+            }
             return await base.CreateAsync(entity);
         }
 
@@ -50,24 +55,11 @@ namespace Ecommerce.Presentation.src.Controllers
         }
 
         // GET: api/v1/users/{userEmail}
-        [HttpGet("email/{userEmail}")]
         [Authorize(Roles = "Admin")]
+        [HttpGet("email/{userEmail}")]
         public async Task<IActionResult> GetUserByEmail(string userEmail)
         {
             var user = await _userManagement.GetUserByEmail(userEmail);
-            if (user == null)
-            {
-                return NotFound("User not found.");
-            }
-            return Ok(user);
-        }
-
-        // GET: api/v1/users/{usserCredentials}
-        [HttpGet("userCredentials/{userCredentials}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetUserByCredentials(UserCredentials userCredentials)
-        {
-            var user = await _userManagement.GetByCredentialsAsync(userCredentials);
             if (user == null)
             {
                 return NotFound("User not found.");
