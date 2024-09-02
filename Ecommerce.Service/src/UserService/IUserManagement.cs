@@ -7,7 +7,6 @@ namespace Ecommerce.Service.src.UserService
     public interface IUserManagement : IBaseService<User, UserReadDto, UserCreateDto, UserUpdateDto>
     {
         Task<UserReadDto> GetUserByEmail(string email);
-        Task<UserReadDto> GetByCredentialsAsync(UserCredentials userCredentials);
         Task<bool> UpdatePasswordAsync(Guid userId, string newPassword);
     }
 }

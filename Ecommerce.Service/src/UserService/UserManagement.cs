@@ -28,18 +28,6 @@ namespace Ecommerce.Service.src.UserService
             return userRead;
         }
 
-        public async Task<UserReadDto> GetByCredentialsAsync(UserCredentials userCredentials)
-        {
-            var user = await _userRepository.GetUserByCredentialAsync(userCredentials);
-            if (user == null)
-            {
-                throw new Exception("User not found");
-            }
-            var userRead = new UserReadDto();
-            userRead.FromEntity(user);
-            return userRead;
-        }
-
         public async Task<bool> UpdatePasswordAsync(Guid userId, string newPassword)
         {
             return await _userRepository.UpdatePasswordAsync(userId, newPassword);

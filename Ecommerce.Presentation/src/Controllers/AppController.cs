@@ -22,7 +22,7 @@ namespace Ecommerce.Presentation.src.Controllers
         }
 
         [HttpGet]
-        public virtual async Task<ActionResult<PaginatedResult<TReadDto>>> GetAllAsync(PaginationOptions paginationOptions)
+        public virtual async Task<ActionResult<PaginatedResult<TReadDto>>> GetAllAsync([FromQuery] PaginationOptions paginationOptions)
         {
             try
             {
