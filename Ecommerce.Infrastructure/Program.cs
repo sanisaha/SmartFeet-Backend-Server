@@ -11,6 +11,17 @@ using Ecommerce.Infrastructure.src.Repository.Service;
 using Ecommerce.Service.src.UserService;
 using Newtonsoft.Json.Converters;
 using Microsoft.OpenApi.Models;
+using Ecommerce.Service.src.ProductColorService;
+using Ecommerce.Service.src.ProductSizeService;
+using Ecommerce.Service.src.ProductImageService;
+using Ecommerce.Service.src.CategoryService;
+using Ecommerce.Service.src.OrderService;
+using Ecommerce.Service.src.OrderItemService;
+using Ecommerce.Service.src.ReviewService;
+using Ecommerce.Service.src.ShipmentService;
+using Ecommerce.Service.src.PaymentService;
+using Ecommerce.Service.src.AddressService;
+using Ecommerce.Service.src.ProductService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -90,7 +101,6 @@ builder.Services.AddScoped<IOrderItemManagement, OrderItemManagement>();
 builder.Services.AddScoped<IReviewManagement, ReviewManagement>();
 builder.Services.AddScoped<IShipmentManagement, ShipmentManagement>();
 builder.Services.AddScoped<IPaymentManagement, PaymentManagement>();
-builder.Services.AddScoped<IUserAddressManagement, UserAddressManagement>();
 builder.Services.AddScoped<IAddressManagement, AddressManagement>();
 
 // Add authentication configuration

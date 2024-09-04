@@ -34,12 +34,12 @@ namespace Ecommerce.Service.src.UserService
         }
 
 
-        public async Task<UserReadDto> GetUserByEmail(string email)
+        public async Task<UserReadDto?> GetUserByEmail(string email)
         {
             var user = await _userRepository.GetUserByEmail(email);
             if (user == null)
             {
-                throw new Exception("User not found");
+                return null;
             }
             var userRead = new UserReadDto();
             userRead.FromEntity(user);

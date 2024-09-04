@@ -17,7 +17,7 @@ namespace Ecommerce.Presentation.src.Controllers
             _categoryManagement = categoryManagement;
         }
 
-        [Authorize]
+        //[Authorize]
         public override async Task<ActionResult<CategoryReadDto>> CreateAsync(CategoryCreateDto entity)
         {
             return await base.CreateAsync(entity);
