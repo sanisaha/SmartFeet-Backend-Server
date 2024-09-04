@@ -30,6 +30,7 @@ For backend, you should improve the teamwork backend project to have better perf
 This repository should be used only for backend server. The frontend server should be done in a separate repository [here](https://github.com/Integrify-Finland/fs18_CSharp_FullStack_Frontend). You can modify your previous frontend project and instructors will check the submissions (pull requests) in the frontend project repository. The modified frontend server need to be connected with this backend server to make a whole fullstack project.
 
 ### Frontend
+
 Check the Frontend repository
 
 ### Backend
@@ -37,6 +38,7 @@ Check the Frontend repository
 Generate a solution file in this repository. All the project layers of backend server should be added into this solution.
 
 ## Features
+
 These features are not specifically assigned to backend or frontend. You must decide where they should go.
 
 ### Mandatory features
@@ -54,7 +56,7 @@ These features are not specifically assigned to backend or frontend. You must de
 2. Product Management: Admins should be able to manage all products.
 3. Order Management: Admins should be able to manage all orders.
 
-### Bonus-point 
+### Bonus-point
 
 1. Third party integrations, for example: Google Authentication, Sending Email, Payment gateway, etc.
 2. Extra features, for examples: dynamic pricing algorithms, chatbots, subscription, admin dashboard with analytics, etc.
@@ -66,7 +68,7 @@ These features are not specifically assigned to backend or frontend. You must de
 3. In backend server, unit testing (xunit) should be done, at least for Service(Use case) layer. We recommend to test entities, repositories and controllers as well.
 4. Document with Swagger: Make sure to annotate your API endpoints and generate a Swagger UI for easier testing and documentation.
 5. `README` files should sufficiently describe the project, as well as the deployment, link to frontend github.
-6. Frontend, backend, and database servers need to be available in the live servers.  
+6. Frontend, backend, and database servers need to be available in the live servers.
 
 ## Getting Started
 
