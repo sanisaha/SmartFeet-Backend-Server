@@ -80,6 +80,18 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthManagement, AuthManagement>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IUserManagement, UserManagement>();
+builder.Services.AddScoped<IProductManagement, ProductManagement>();
+builder.Services.AddScoped<IProductColorManagement, ProductColorManagement>();
+builder.Services.AddScoped<IProductSizeManagement, ProductSizeManagement>();
+builder.Services.AddScoped<IProductImageManagement, ProductImageManagement>();
+builder.Services.AddScoped<ICategoryManagement, CategoryManagement>();
+builder.Services.AddScoped<IOrderManagement, OrderManagement>();
+builder.Services.AddScoped<IOrderItemManagement, OrderItemManagement>();
+builder.Services.AddScoped<IReviewManagement, ReviewManagement>();
+builder.Services.AddScoped<IShipmentManagement, ShipmentManagement>();
+builder.Services.AddScoped<IPaymentManagement, PaymentManagement>();
+builder.Services.AddScoped<IUserAddressManagement, UserAddressManagement>();
+builder.Services.AddScoped<IAddressManagement, AddressManagement>();
 
 // Add authentication configuration
 builder.Services.AddAuthentication(
