@@ -16,6 +16,18 @@ namespace Ecommerce.Infrastructure.src.Repository
             _context = context;
         }
 
+        public override async Task<Product> CreateAsync(Product entity)
+        {
+            var categoryExists = await _context.Categories.AnyAsync(c => c.Id == entity.CategoryId);
+            if (!categoryExists)
+            {
+                throw new Exception("Category does not exist");
+            }
+            await _context.Products.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return entity;
+        }
+
         public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid categoryId)
         {
             return await _context.Products

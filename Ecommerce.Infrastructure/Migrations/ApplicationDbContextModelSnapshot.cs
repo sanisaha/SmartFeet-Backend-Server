@@ -98,11 +98,10 @@ namespace Ecommerce.Infrastructure.Migrations
                 {
                     b.HasBaseType("Ecommerce.Domain.src.Shared.BaseEntity");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<int>("CategoryName")
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("name");
+                        .HasColumnType("integer")
+                        .HasColumnName("category_name");
 
                     b.Property<Guid>("ParentCategoryId")
                         .HasColumnType("uuid")

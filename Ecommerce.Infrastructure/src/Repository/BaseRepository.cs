@@ -21,7 +21,7 @@ namespace Ecommerce.Infrastructure.src.Repository
             _dbSet = _dbContext.Set<T>();
         }
 
-        public async Task<T> CreateAsync(T entity)
+        public virtual async Task<T> CreateAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
             await _dbContext.SaveChangesAsync();

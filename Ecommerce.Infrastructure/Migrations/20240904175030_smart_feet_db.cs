@@ -53,7 +53,7 @@ namespace Ecommerce.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    category_name = table.Column<int>(type: "integer", maxLength: 50, nullable: false),
                     parent_category_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
