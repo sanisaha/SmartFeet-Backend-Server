@@ -14,6 +14,6 @@ namespace Ecommerce.Domain.src.CategoryAggregate
         public Guid ParentCategoryId { get; set; }
 
         // Navigation Properties
-        public IEnumerable<Product>? Products { get; set; }
+        public ICollection<Product>? Products { get; set; }
     }
 }

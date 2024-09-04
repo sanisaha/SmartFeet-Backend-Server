@@ -52,15 +52,16 @@ namespace Ecommerce.Presentation.src.Controllers
         [HttpPost]
         public virtual async Task<ActionResult<TReadDto>> CreateAsync(TCreateDto entity)
         {
-            try
+            //try
+
+            //Console.WriteLine($"Creating entity: {entity}");
+            var createdEntity = await _baseService.CreateAsync(entity);
+            return Ok(createdEntity);
+
+            /* catch (Exception ex)
             {
-                var createdEntity = await _baseService.CreateAsync(entity);
-                return Ok(createdEntity);
-            }
-            catch (Exception)
-            {
-                return StatusCode(400, "Error creating entity!.");
-            }
+                return StatusCode(400, $"{ex.Message}");
+            } */
         }
 
         [HttpPut("{id}")]

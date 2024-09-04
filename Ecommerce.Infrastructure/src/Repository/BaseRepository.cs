@@ -21,11 +21,16 @@ namespace Ecommerce.Infrastructure.src.Repository
             _dbSet = _dbContext.Set<T>();
         }
 
-        public virtual async Task<T> CreateAsync(T entity)
+        public virtual async Task<T?> CreateAsync(T entity)
         {
-            await _dbSet.AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
-            return entity;
+
+            var newEntity = (await _dbSet.AddAsync(entity)).Entity;
+
+            if (await _dbContext.SaveChangesAsync() > 0)
+            {
+                return newEntity;
+            }
+            return null;
         }
 
         public async Task<bool> UpdateByIdAsync(T entity)
@@ -60,7 +65,7 @@ namespace Ecommerce.Infrastructure.src.Repository
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<PaginatedResult<T>> GetAllAsync(PaginationOptions paginationOptions)
+        public virtual async Task<PaginatedResult<T>> GetAllAsync(PaginationOptions paginationOptions)
         {
             var totalEntity = await _dbSet.CountAsync();
             IQueryable<T> query = _dbSet;

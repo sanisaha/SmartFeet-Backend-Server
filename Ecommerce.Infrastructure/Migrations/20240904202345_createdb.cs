@@ -6,26 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Ecommerce.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class smart_feet_db : Migration
+    public partial class createdb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "base_entity",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_base_entity", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Addresses",
+                name: "addresses",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -35,61 +22,49 @@ namespace Ecommerce.Infrastructure.Migrations
                     address_line2 = table.Column<string>(type: "text", nullable: true),
                     city = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     postal_code = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    country = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    country = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Addresses", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_addresses_base_entity_id",
-                        column: x => x.id,
-                        principalTable: "base_entity",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("pk_addresses", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "categories",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     category_name = table.Column<int>(type: "integer", maxLength: 50, nullable: false),
-                    parent_category_id = table.Column<Guid>(type: "uuid", nullable: false)
+                    parent_category_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_categories_base_entity_id",
-                        column: x => x.id,
-                        principalTable: "base_entity",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("pk_categories", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PaymentMethods",
+                name: "payment_methods",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     payment_type = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     provider = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     card_number = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    expiry_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    expiry_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PaymentMethods", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_payment_methods_base_entity_id",
-                        column: x => x.id,
-                        principalTable: "base_entity",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("pk_payment_methods", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "users",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -98,21 +73,17 @@ namespace Ecommerce.Infrastructure.Migrations
                     password = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     salt = table.Column<byte[]>(type: "bytea", nullable: false),
                     phone_number = table.Column<string>(type: "text", nullable: false),
-                    role = table.Column<int>(type: "integer", nullable: false)
+                    role = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_users_base_entity_id",
-                        column: x => x.id,
-                        principalTable: "base_entity",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("pk_users", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "products",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -121,27 +92,23 @@ namespace Ecommerce.Infrastructure.Migrations
                     description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     price = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     stock = table.Column<int>(type: "integer", nullable: false),
-                    brand_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true)
+                    brand_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_products_base_entity_id",
-                        column: x => x.id,
-                        principalTable: "base_entity",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("pk_products", x => x.id);
                     table.ForeignKey(
                         name: "fk_products_categories_category_id",
                         column: x => x.category_id,
-                        principalTable: "Categories",
+                        principalTable: "categories",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
+                name: "orders",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -149,144 +116,124 @@ namespace Ecommerce.Infrastructure.Migrations
                     total_price = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     order_status = table.Column<int>(type: "integer", nullable: false),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    shipping_address_id = table.Column<Guid>(type: "uuid", nullable: false)
+                    shipping_address_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.id);
+                    table.PrimaryKey("pk_orders", x => x.id);
                     table.ForeignKey(
                         name: "fk_orders_addresses_shipping_address_id",
                         column: x => x.shipping_address_id,
-                        principalTable: "Addresses",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "fk_orders_base_entity_id",
-                        column: x => x.id,
-                        principalTable: "base_entity",
+                        principalTable: "addresses",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_orders_users_user_id",
                         column: x => x.user_id,
-                        principalTable: "Users",
+                        principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserAddresses",
+                name: "user_address",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     address_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    is_default = table.Column<bool>(type: "boolean", nullable: false)
+                    is_default = table.Column<bool>(type: "boolean", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserAddresses", x => x.id);
+                    table.PrimaryKey("pk_user_address", x => x.id);
                     table.ForeignKey(
-                        name: "fk_user_addresses_addresses_address_id",
+                        name: "fk_user_address_addresses_address_id",
                         column: x => x.address_id,
-                        principalTable: "Addresses",
+                        principalTable: "addresses",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_user_addresses_base_entity_id",
-                        column: x => x.id,
-                        principalTable: "base_entity",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "fk_user_addresses_users_user_id",
+                        name: "fk_user_address_users_user_id",
                         column: x => x.user_id,
-                        principalTable: "Users",
+                        principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductColors",
+                name: "product_colors",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     color_name = table.Column<int>(type: "integer", nullable: false),
                     quantity = table.Column<int>(type: "integer", nullable: false),
-                    product_id = table.Column<Guid>(type: "uuid", nullable: false)
+                    product_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductColors", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_product_colors_base_entity_id",
-                        column: x => x.id,
-                        principalTable: "base_entity",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("pk_product_colors", x => x.id);
                     table.ForeignKey(
                         name: "fk_product_colors_products_product_id",
                         column: x => x.product_id,
-                        principalTable: "Products",
+                        principalTable: "products",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductImages",
+                name: "product_images",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
                     image_url = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     is_primary = table.Column<bool>(type: "boolean", nullable: false),
-                    image_text = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true)
+                    image_text = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductImages", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_product_images_base_entity_id",
-                        column: x => x.id,
-                        principalTable: "base_entity",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("pk_product_images", x => x.id);
                     table.ForeignKey(
                         name: "fk_product_images_products_product_id",
                         column: x => x.product_id,
-                        principalTable: "Products",
+                        principalTable: "products",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductSizes",
+                name: "product_sizes",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
                     size_value = table.Column<int>(type: "integer", nullable: false),
-                    quantity = table.Column<int>(type: "integer", nullable: false)
+                    quantity = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductSizes", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_product_sizes_base_entity_id",
-                        column: x => x.id,
-                        principalTable: "base_entity",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("pk_product_sizes", x => x.id);
                     table.ForeignKey(
                         name: "fk_product_sizes_products_product_id",
                         column: x => x.product_id,
-                        principalTable: "Products",
+                        principalTable: "products",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reviews",
+                name: "reviews",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -294,66 +241,58 @@ namespace Ecommerce.Infrastructure.Migrations
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     review_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     rating = table.Column<int>(type: "integer", nullable: false),
-                    review_text = table.Column<string>(type: "text", nullable: true)
+                    review_text = table.Column<string>(type: "text", nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reviews", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_reviews_base_entity_id",
-                        column: x => x.id,
-                        principalTable: "base_entity",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("pk_reviews", x => x.id);
                     table.ForeignKey(
                         name: "fk_reviews_products_product_id",
                         column: x => x.product_id,
-                        principalTable: "Products",
+                        principalTable: "products",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_reviews_users_user_id",
                         column: x => x.user_id,
-                        principalTable: "Users",
+                        principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderItems",
+                name: "order_items",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     order_id = table.Column<Guid>(type: "uuid", nullable: false),
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
                     quantity = table.Column<int>(type: "integer", nullable: false),
-                    price = table.Column<decimal>(type: "numeric(10,2)", nullable: false)
+                    price = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderItems", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_order_items_base_entity_id",
-                        column: x => x.id,
-                        principalTable: "base_entity",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("pk_order_items", x => x.id);
                     table.ForeignKey(
                         name: "fk_order_items_orders_order_id",
                         column: x => x.order_id,
-                        principalTable: "Orders",
+                        principalTable: "orders",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_order_items_products_product_id",
                         column: x => x.product_id,
-                        principalTable: "Products",
+                        principalTable: "products",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Payments",
+                name: "payments",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -362,153 +301,145 @@ namespace Ecommerce.Infrastructure.Migrations
                     payment_method_id = table.Column<Guid>(type: "uuid", maxLength: 50, nullable: false),
                     amount = table.Column<decimal>(type: "numeric", nullable: false),
                     payment_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    payment_status = table.Column<int>(type: "integer", maxLength: 50, nullable: false)
+                    payment_status = table.Column<int>(type: "integer", maxLength: 50, nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Payments", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_payments_base_entity_id",
-                        column: x => x.id,
-                        principalTable: "base_entity",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("pk_payments", x => x.id);
                     table.ForeignKey(
                         name: "fk_payments_orders_order_id",
                         column: x => x.order_id,
-                        principalTable: "Orders",
+                        principalTable: "orders",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_payments_payment_methods_payment_method_id",
                         column: x => x.payment_method_id,
-                        principalTable: "PaymentMethods",
+                        principalTable: "payment_methods",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_payments_users_user_id",
                         column: x => x.user_id,
-                        principalTable: "Users",
+                        principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Shipments",
+                name: "shipments",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     shipment_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     order_id = table.Column<Guid>(type: "uuid", nullable: false),
                     address_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    shipment_status = table.Column<int>(type: "integer", nullable: false)
+                    shipment_status = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Shipments", x => x.id);
+                    table.PrimaryKey("pk_shipments", x => x.id);
                     table.ForeignKey(
                         name: "fk_shipments_addresses_address_id",
                         column: x => x.address_id,
-                        principalTable: "Addresses",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "fk_shipments_base_entity_id",
-                        column: x => x.id,
-                        principalTable: "base_entity",
+                        principalTable: "addresses",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_shipments_orders_order_id",
                         column: x => x.order_id,
-                        principalTable: "Orders",
+                        principalTable: "orders",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "ix_order_items_order_id",
-                table: "OrderItems",
+                table: "order_items",
                 column: "order_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_order_items_product_id",
-                table: "OrderItems",
+                table: "order_items",
                 column: "product_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_orders_shipping_address_id",
-                table: "Orders",
+                table: "orders",
                 column: "shipping_address_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_orders_user_id",
-                table: "Orders",
+                table: "orders",
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_payments_order_id",
-                table: "Payments",
+                table: "payments",
                 column: "order_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_payments_payment_method_id",
-                table: "Payments",
+                table: "payments",
                 column: "payment_method_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_payments_user_id",
-                table: "Payments",
+                table: "payments",
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_product_colors_product_id",
-                table: "ProductColors",
+                table: "product_colors",
                 column: "product_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_product_images_product_id",
-                table: "ProductImages",
+                table: "product_images",
+                column: "product_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_product_sizes_product_id",
+                table: "product_sizes",
                 column: "product_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_products_category_id",
-                table: "Products",
+                table: "products",
                 column: "category_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_product_sizes_product_id",
-                table: "ProductSizes",
-                column: "product_id");
-
-            migrationBuilder.CreateIndex(
                 name: "ix_reviews_product_id",
-                table: "Reviews",
+                table: "reviews",
                 column: "product_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_reviews_user_id",
-                table: "Reviews",
+                table: "reviews",
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_shipments_address_id",
-                table: "Shipments",
+                table: "shipments",
                 column: "address_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_shipments_order_id",
-                table: "Shipments",
+                table: "shipments",
                 column: "order_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_user_addresses_address_id",
-                table: "UserAddresses",
+                name: "ix_user_address_address_id",
+                table: "user_address",
                 column: "address_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_user_addresses_user_id",
-                table: "UserAddresses",
+                name: "ix_user_address_user_id",
+                table: "user_address",
                 column: "user_id");
         }
 
@@ -516,49 +447,46 @@ namespace Ecommerce.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "OrderItems");
+                name: "order_items");
 
             migrationBuilder.DropTable(
-                name: "Payments");
+                name: "payments");
 
             migrationBuilder.DropTable(
-                name: "ProductColors");
+                name: "product_colors");
 
             migrationBuilder.DropTable(
-                name: "ProductImages");
+                name: "product_images");
 
             migrationBuilder.DropTable(
-                name: "ProductSizes");
+                name: "product_sizes");
 
             migrationBuilder.DropTable(
-                name: "Reviews");
+                name: "reviews");
 
             migrationBuilder.DropTable(
-                name: "Shipments");
+                name: "shipments");
 
             migrationBuilder.DropTable(
-                name: "UserAddresses");
+                name: "user_address");
 
             migrationBuilder.DropTable(
-                name: "PaymentMethods");
+                name: "payment_methods");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "products");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "orders");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "categories");
 
             migrationBuilder.DropTable(
-                name: "Addresses");
+                name: "addresses");
 
             migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "base_entity");
+                name: "users");
         }
     }
 }

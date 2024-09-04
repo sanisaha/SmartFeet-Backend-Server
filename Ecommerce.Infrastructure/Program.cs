@@ -22,13 +22,23 @@ using Ecommerce.Service.src.ShipmentService;
 using Ecommerce.Service.src.PaymentService;
 using Ecommerce.Service.src.AddressService;
 using Ecommerce.Service.src.ProductService;
+using Ecommerce.Domain.src.ProductAggregate;
+using Ecommerce.Domain.src.CategoryAggregate;
+using Ecommerce.Domain.Enums;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.Converters.Add(new StringEnumConverter());
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 });
+/* .AddJsonOptions(
+    options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    }); */
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

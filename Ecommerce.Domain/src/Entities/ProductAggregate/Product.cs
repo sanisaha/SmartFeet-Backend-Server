@@ -13,7 +13,7 @@ namespace Ecommerce.Domain.src.ProductAggregate
         [MaxLength(100)]
         public string? Title { get; set; }
 
-        [ForeignKey("Category")]
+        //[ForeignKey("Category")]
         public Guid CategoryId { get; set; }
 
         [Required]
@@ -35,14 +35,10 @@ namespace Ecommerce.Domain.src.ProductAggregate
 
         // Navigation property
         public virtual Category? Category { get; set; }
-        public virtual IEnumerable<ProductImage>? ProductImages { get; set; }
-        public virtual IEnumerable<ProductSize>? ProductSizes { get; set; }
-        public virtual IEnumerable<ProductColor>? ProductColors { get; set; }
+        public virtual ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
+        public virtual ICollection<ProductSize> ProductSizes { get; set; } = new List<ProductSize>();
+        public virtual ICollection<ProductColor> ProductColors { get; set; } = new List<ProductColor>();
 
-        public Product()
-        {
-
-        }
         public bool IsInStock()
         {
             return Stock > 0;

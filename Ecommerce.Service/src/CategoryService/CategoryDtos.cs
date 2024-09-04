@@ -1,5 +1,6 @@
 using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.CategoryAggregate;
+using Ecommerce.Domain.src.ProductAggregate;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.CategoryService
@@ -8,12 +9,14 @@ namespace Ecommerce.Service.src.CategoryService
     {
         public Guid CategoryId { get; set; }
         public CategoryName CategoryName { get; set; }
+        public ICollection<Product> Products { get; set; }
 
         public override void FromEntity(Category entity)
         {
             base.FromEntity(entity);
             CategoryId = entity.ParentCategoryId;
             CategoryName = entity.CategoryName;
+            Products = entity.Products;
         }
     }
     public class CategoryCreateDto : ICreateDto<Category>

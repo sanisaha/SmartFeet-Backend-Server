@@ -1,4 +1,8 @@
+using Ecommerce.Domain.src.Entities.ProductAggregate;
 using Ecommerce.Domain.src.ProductAggregate;
+using Ecommerce.Service.src.ProductColorService;
+using Ecommerce.Service.src.ProductImageService;
+using Ecommerce.Service.src.ProductSizeService;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.ProductService
@@ -31,6 +35,9 @@ namespace Ecommerce.Service.src.ProductService
         public int Stock { get; set; }
         public Guid CategoryId { get; set; }
         public string BrandName { get; set; }
+        public ICollection<ProductImageCreateDto> ProductImages { get; set; }
+        public ICollection<ProductSizeCreateDto> ProductSizes { get; set; }
+        public ICollection<ProductColorCreateDto> ProductColors { get; set; }
         public Product CreateEntity()
         {
             return new Product
@@ -40,7 +47,10 @@ namespace Ecommerce.Service.src.ProductService
                 Price = Price,
                 Stock = Stock,
                 CategoryId = CategoryId,
-                BrandName = BrandName
+                BrandName = BrandName,
+                ProductImages = ProductImages.Select(x => x.CreateEntity()).ToList(),
+                ProductSizes = ProductSizes.Select(x => x.CreateEntity()).ToList(),
+                ProductColors = ProductColors.Select(x => x.CreateEntity()).ToList()
             };
         }
     }

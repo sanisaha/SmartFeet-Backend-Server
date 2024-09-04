@@ -20,14 +20,12 @@ namespace Ecommerce.Service.src.ProductSizeService
     }
     public class ProductSizeCreateDto : ICreateDto<ProductSize>
     {
-        public Guid ProductId { get; set; }
         public SizeValue SizeValue { get; set; }
         public int Quantity { get; set; }
         public ProductSize CreateEntity()
         {
             return new ProductSize
             {
-                ProductId = ProductId,
                 SizeValue = SizeValue,
                 Quantity = Quantity
             };

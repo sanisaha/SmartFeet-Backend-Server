@@ -40,6 +40,24 @@ namespace Ecommerce.Infrastructure.src.Database
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Category>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
+            modelBuilder.Entity<Product>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
+            modelBuilder.Entity<User>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
+            modelBuilder.Entity<UserAddress>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
+            modelBuilder.Entity<Address>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
+            modelBuilder.Entity<ProductColor>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
+            modelBuilder.Entity<ProductImage>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
+            modelBuilder.Entity<ProductSize>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
+            modelBuilder.Entity<Order>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
+            modelBuilder.Entity<OrderItem>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
+            modelBuilder.Entity<Payment>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
+            modelBuilder.Entity<PaymentMethod>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
+            modelBuilder.Entity<Review>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
+            modelBuilder.Entity<Shipment>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
+
+        }
+        /* protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<BaseEntity>().HasKey(b => b.Id);
             modelBuilder.Entity<BaseEntity>()
                 .Property(b => b.CreatedAt)
@@ -90,7 +108,7 @@ namespace Ecommerce.Infrastructure.src.Database
             modelBuilder.Entity<ProductColor>().ToTable("ProductColors");
             modelBuilder.Entity<ProductImage>().ToTable("ProductImages");
             modelBuilder.Entity<ProductSize>().ToTable("ProductSizes");
-        }
+        } */
 
 
     }
