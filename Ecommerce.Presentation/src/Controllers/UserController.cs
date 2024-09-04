@@ -20,13 +20,13 @@ namespace Ecommerce.Presentation.src.Controllers
             _userManagement = userManagement;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public override async Task<ActionResult<UserReadDto>> GetByIdAsync(Guid id)
         {
             return await base.GetByIdAsync(id);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public override async Task<ActionResult<PaginatedResult<UserReadDto>>> GetAllAsync([FromQuery] PaginationOptions paginationOptions)
         {
             return await base.GetAllAsync(paginationOptions);
@@ -42,20 +42,20 @@ namespace Ecommerce.Presentation.src.Controllers
             return await base.CreateAsync(entity);
         }
 
-        [Authorize]
+        //[Authorize]
         public override async Task<ActionResult<UserReadDto>> UpdateAsync(Guid id, UserUpdateDto entity)
         {
             return await base.UpdateAsync(id, entity);
         }
 
-        [Authorize]
+        //[Authorize]
         public override async Task<ActionResult> DeleteAsync(Guid id)
         {
             return await base.DeleteAsync(id);
         }
 
         // GET: api/v1/users/{userEmail}
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet("email/{userEmail}")]
         public async Task<IActionResult> GetUserByEmail(string userEmail)
         {
@@ -69,7 +69,7 @@ namespace Ecommerce.Presentation.src.Controllers
 
         // put: api/v1/users/{userId}/{newPassword}
         [HttpPut("{userId}/{newPassword}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> UpdatePassword(Guid userId, string newPassword)
         {
             var result = await _userManagement.UpdatePasswordAsync(userId, newPassword);

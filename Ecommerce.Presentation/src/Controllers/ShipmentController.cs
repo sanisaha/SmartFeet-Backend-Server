@@ -19,31 +19,31 @@ namespace Ecommerce.Presentation.src.Controllers
             _shipmentManagement = shipmentManagement;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public override async Task<ActionResult<ShipmentReadDto>> CreateAsync(ShipmentCreateDto entity)
         {
             return await base.CreateAsync(entity);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public override async Task<ActionResult<ShipmentReadDto>> UpdateAsync(Guid id, ShipmentUpdateDto entity)
         {
             return await base.UpdateAsync(id, entity);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public override async Task<ActionResult> DeleteAsync(Guid id)
         {
             return await base.DeleteAsync(id);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public override async Task<ActionResult<PaginatedResult<ShipmentReadDto>>> GetAllAsync(PaginationOptions paginationOptions)
         {
             return await base.GetAllAsync(paginationOptions);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public override async Task<ActionResult<ShipmentReadDto>> GetByIdAsync(Guid id)
         {
             return await base.GetByIdAsync(id);
@@ -51,7 +51,7 @@ namespace Ecommerce.Presentation.src.Controllers
 
         // GET: api/v1/Shipment/Order/{orderId}
         [HttpGet("Order/{orderId:guid}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetShipmentsByOrderId(Guid orderId)
         {
             var shipments = await _shipmentManagement.GetShipmentsByOrderIdAsync(orderId);

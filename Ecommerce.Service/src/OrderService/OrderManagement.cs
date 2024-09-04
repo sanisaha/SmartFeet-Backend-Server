@@ -5,7 +5,7 @@ using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.OrderService
 {
-    public class OrderManagement : BaseService<Order, OrderReadDto, OrderCreateDto, OrderUpdateDto>
+    public class OrderManagement : BaseService<Order, OrderReadDto, OrderCreateDto, OrderUpdateDto>, IOrderManagement
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IUserRepository _userRepository;

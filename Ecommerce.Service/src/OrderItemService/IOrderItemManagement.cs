@@ -6,8 +6,8 @@ namespace Ecommerce.Service.src.OrderItemService
 {
     public interface IOrderItemManagement : IBaseService<OrderItem, OrderItemReadDto, OrderItemCreateDto, OrderItemUpdateDto>
     {
-        Task<IEnumerable<OrderReadDto>> GetOrderItemsByOrderIdAsync(Guid orderId);
-        Task<IEnumerable<OrderReadDto>> GetOrderItemsByProductIdAsync(Guid productId);
+        Task<IEnumerable<OrderItemReadDto>> GetOrderItemsByOrderIdAsync(Guid orderId);
+        Task<IEnumerable<OrderItemReadDto>> GetOrderItemsByProductIdAsync(Guid productId);
         Task<int> GetTotalQuantityByOrderIdAsync(Guid orderId);
     }
 }

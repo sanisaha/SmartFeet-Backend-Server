@@ -19,7 +19,7 @@ namespace Ecommerce.Presentation.src.Controllers
 
         // GET: api/v1/Payment/User/{userId}
         [HttpGet("User/{userId:guid}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetAllUserPaymentAsync(Guid userId)
         {
             var payments = await _paymentManagement.GetAllUserPaymentAsync(userId);

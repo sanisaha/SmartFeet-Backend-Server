@@ -17,19 +17,19 @@ namespace Ecommerce.Presentation.src.Controllers
             _productManagement = productManagement;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public override async Task<ActionResult<ProductReadDto>> CreateAsync(ProductCreateDto entity)
         {
             return await base.CreateAsync(entity);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public override async Task<ActionResult<ProductReadDto>> UpdateAsync(Guid id, ProductUpdateDto entity)
         {
             return await base.UpdateAsync(id, entity);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public override async Task<ActionResult> DeleteAsync(Guid id)
         {
             return await base.DeleteAsync(id);

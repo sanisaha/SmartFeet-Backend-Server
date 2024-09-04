@@ -17,24 +17,24 @@ namespace Ecommerce.Presentation.src.Controllers
             _categoryManagement = categoryManagement;
         }
 
-        [Authorize]
+        //[Authorize]
         public override async Task<ActionResult<CategoryReadDto>> CreateAsync(CategoryCreateDto entity)
         {
             return await base.CreateAsync(entity);
         }
-        [Authorize]
+        //[Authorize]
         public override async Task<ActionResult<CategoryReadDto>> UpdateAsync(Guid id, CategoryUpdateDto entity)
         {
             return await base.UpdateAsync(id, entity);
         }
-        [Authorize]
+        //[Authorize]
         public override async Task<ActionResult> DeleteAsync(Guid id)
         {
             return await base.DeleteAsync(id);
         }
 
         [HttpGet("{userId}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IEnumerable<CategoryReadDto>> GetCategoryByIdAsync(Guid userId)
         {
             return await _categoryManagement.GetCategoryByIdAsync(userId);

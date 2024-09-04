@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240901102542_createdb")]
-    partial class createdb
+    [Migration("20240904175030_smart_feet_db")]
+    partial class smart_feet_db
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -101,11 +101,10 @@ namespace Ecommerce.Infrastructure.Migrations
                 {
                     b.HasBaseType("Ecommerce.Domain.src.Shared.BaseEntity");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
+                    b.Property<int>("CategoryName")
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("name");
+                        .HasColumnType("integer")
+                        .HasColumnName("category_name");
 
                     b.Property<Guid>("ParentCategoryId")
                         .HasColumnType("uuid")

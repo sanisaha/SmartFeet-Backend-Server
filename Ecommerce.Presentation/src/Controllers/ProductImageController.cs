@@ -17,19 +17,19 @@ namespace Ecommerce.Presentation.src.Controllers
             _productImageManagement = productImageManagement;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public override async Task<ActionResult<ProductImageReadDto>> CreateAsync(ProductImageCreateDto entity)
         {
             return await base.CreateAsync(entity);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public override async Task<ActionResult<ProductImageReadDto>> UpdateAsync(Guid id, ProductImageUpdateDto entity)
         {
             return await base.UpdateAsync(id, entity);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public override async Task<ActionResult> DeleteAsync(Guid id)
         {
             return await base.DeleteAsync(id);
@@ -78,7 +78,7 @@ namespace Ecommerce.Presentation.src.Controllers
         }
 
         [HttpDelete("delete/{productId}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<bool>> DeleteImagesByProductIdAsync(Guid productId)
         {
             try

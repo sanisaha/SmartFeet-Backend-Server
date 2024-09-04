@@ -19,7 +19,7 @@ namespace Ecommerce.Service.src.CategoryService
             return categories.Select(c => new CategoryReadDto
             {
                 Id = c.Id,
-                Name = c.Name,
+                CategoryName = c.CategoryName,
             });
         }
 

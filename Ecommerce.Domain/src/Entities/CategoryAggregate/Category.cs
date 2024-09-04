@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.ProductAggregate;
 using Ecommerce.Domain.src.Shared;
 
@@ -8,7 +9,7 @@ namespace Ecommerce.Domain.src.CategoryAggregate
     {
         [Required]
         [StringLength(50)]
-        public string? Name { get; set; }
+        public CategoryName CategoryName { get; set; }
 
         public Guid ParentCategoryId { get; set; }
 
