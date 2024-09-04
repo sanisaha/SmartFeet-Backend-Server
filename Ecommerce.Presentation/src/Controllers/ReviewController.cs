@@ -17,19 +17,19 @@ namespace Ecommerce.Presentation.src.Controllers
             _reviewManagement = reviewManagement;
         }
 
-        [Authorize]
+        //[Authorize]
         public override async Task<ActionResult<ReviewReadDto>> CreateAsync(ReviewCreateDto entity)
         {
             return await base.CreateAsync(entity);
         }
 
-        [Authorize]
+        //[Authorize]
         public override async Task<ActionResult<ReviewReadDto>> UpdateAsync(Guid id, ReviewUpdateDto entity)
         {
             return await base.UpdateAsync(id, entity);
         }
 
-        [Authorize]
+        //[Authorize]
         public override async Task<ActionResult> DeleteAsync(Guid id)
         {
             return await base.DeleteAsync(id);
@@ -49,7 +49,7 @@ namespace Ecommerce.Presentation.src.Controllers
 
         // GET: api/v1/Review/User/{userId}
         [HttpGet("User/{userId:guid}")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetReviewsByUserId(Guid userId)
         {
             var reviews = await _reviewManagement.GetReviewsByUserIdAsync(userId);
