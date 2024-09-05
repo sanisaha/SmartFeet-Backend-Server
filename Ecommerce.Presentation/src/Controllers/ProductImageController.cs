@@ -1,4 +1,4 @@
-using Ecommerce.Domain.src.ProductAggregate;
+/* using Ecommerce.Domain.src.ProductAggregate;
 using Ecommerce.Domain.src.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Service.src.ProductImageService;
@@ -93,3 +93,4 @@ namespace Ecommerce.Presentation.src.Controllers
         }
     }
 }
+ */

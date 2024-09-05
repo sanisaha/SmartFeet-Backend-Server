@@ -3,6 +3,7 @@ using Ecommerce.Domain.src.ProductAggregate;
 using Ecommerce.Service.src.ProductColorService;
 using Ecommerce.Service.src.ProductImageService;
 using Ecommerce.Service.src.ProductSizeService;
+using Ecommerce.Service.src.ReviewService;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.ProductService
@@ -15,6 +16,11 @@ namespace Ecommerce.Service.src.ProductService
         public int Stock { get; set; }
         public Guid SubCategoryId { get; set; }
         public string BrandName { get; set; }
+        public ICollection<ProductImageReadDto> ProductImages { get; set; }
+        public ICollection<ProductSizeReadDto> ProductSizes { get; set; }
+        public ICollection<ProductColorReadDto> ProductColors { get; set; }
+        public ICollection<ReviewReadDto> Reviews { get; set; }
+
 
         public override void FromEntity(Product entity)
         {
@@ -25,6 +31,12 @@ namespace Ecommerce.Service.src.ProductService
             Stock = entity.Stock;
             SubCategoryId = entity.SubCategoryId;
             BrandName = entity.BrandName;
+            Reviews = entity.Reviews?.Select(x =>
+            {
+                var reviewDto = new ReviewReadDto();
+                reviewDto.FromEntity(x);
+                return reviewDto;
+            }).ToList();
         }
     }
     public class ProductCreateDto : ICreateDto<Product>

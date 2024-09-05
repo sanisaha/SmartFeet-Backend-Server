@@ -1,4 +1,4 @@
-using Ecommerce.Domain.src.Entities.ProductAggregate;
+/* using Ecommerce.Domain.src.Entities.ProductAggregate;
 using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Service.src.ProductColorService;
 using Microsoft.AspNetCore.Authorization;
@@ -65,3 +65,4 @@ namespace Ecommerce.Presentation.src.Controllers
         }
     }
 }
+ */

@@ -4,6 +4,8 @@ using Ecommerce.Domain.src.ProductAggregate;
 using Ecommerce.Domain.src.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Ecommerce.Infrastructure.src.Database;
+using Ecommerce.Domain.src.Shared;
+using Ecommerce.Domain.src.Model;
 
 namespace Ecommerce.Infrastructure.src.Repository
 {
@@ -26,6 +28,22 @@ namespace Ecommerce.Infrastructure.src.Repository
             await _context.Products.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity;
+        }
+
+        public override async Task<PaginatedResult<Product>> GetAllAsync(PaginationOptions paginationOptions)
+        {
+            var totalEntity = await _context.Products.CountAsync();
+            IQueryable<Product> query = _context.Products;
+            var entities = await query
+            .Include(p => p.Reviews)
+                .ToListAsync();
+
+            return new PaginatedResult<Product>
+            {
+                Items = entities,
+                TotalPages = (int)Math.Ceiling(totalEntity / (double)paginationOptions.PerPage),
+                CurrentPage = paginationOptions.Page,
+            };
         }
 
         public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid SubcategoryId)

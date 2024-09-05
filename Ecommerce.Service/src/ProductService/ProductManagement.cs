@@ -1,5 +1,7 @@
 using Ecommerce.Domain.src.Interfaces;
+using Ecommerce.Domain.src.Model;
 using Ecommerce.Domain.src.ProductAggregate;
+using Ecommerce.Domain.src.Shared;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.ProductService
@@ -82,6 +84,25 @@ namespace Ecommerce.Service.src.ProductService
             }
 
         } */
+
+        public override async Task<PaginatedResult<ProductReadDto>> GetAllAsync(PaginationOptions paginationOptions)
+        {
+            var entities = await _productRepository.GetAllAsync(paginationOptions);
+            var convertedResult = entities.Items.Select(entity =>
+            {
+                var readDto = Activator.CreateInstance<ProductReadDto>();
+                readDto.FromEntity(entity);
+                return readDto;
+            });
+
+            return new PaginatedResult<ProductReadDto>
+            {
+                Items = convertedResult,
+                CurrentPage = entities.CurrentPage,
+                TotalPages = entities.TotalPages
+            };
+
+        }
 
         public async Task<IEnumerable<ProductReadDto>> GetProductsByCategoryAsync(Guid categoryId)
         {
