@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.Entities.SubCategoryAggregate;
 using Ecommerce.Domain.src.Interfaces;
+using Ecommerce.Domain.src.Model;
+using Ecommerce.Domain.src.Shared;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.SubCategoryService
@@ -16,6 +18,22 @@ namespace Ecommerce.Service.src.SubCategoryService
         public SubCategoryManagement(ISubCategoryRepository subCategoryRepository) : base(subCategoryRepository)
         {
             _subCategoryRepository = subCategoryRepository;
+        }
+        public override async Task<PaginatedResult<SubCategoryReadDto>> GetAllAsync(PaginationOptions paginationOptions)
+        {
+            var entities = await _subCategoryRepository.GetAllAsync(paginationOptions);
+            var convertedResult = entities.Items.Select(entity =>
+            {
+                var readDto = Activator.CreateInstance<SubCategoryReadDto>();
+                readDto.FromEntity(entity);
+                return readDto;
+            });
+            return new PaginatedResult<SubCategoryReadDto>
+            {
+                Items = convertedResult,
+                CurrentPage = entities.CurrentPage,
+                TotalPages = entities.TotalPages
+            };
         }
 
         public async Task<IEnumerable<SubCategoryReadDto>> GetSubCategoryByIdAsync(Guid userId)

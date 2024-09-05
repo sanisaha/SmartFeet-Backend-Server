@@ -25,6 +25,7 @@ namespace Ecommerce.Infrastructure.src.Repository
             IQueryable<Category> query = _context.Categories;
             var entities = await query
             .Include(c => c.SubCategories)
+            .ThenInclude(sc => sc.Products)
                 //.Skip(paginationOptions.Page)
                 //.Take(paginationOptions.PerPage)
                 .ToListAsync();

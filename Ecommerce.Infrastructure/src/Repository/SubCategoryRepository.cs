@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.Entities.SubCategoryAggregate;
 using Ecommerce.Domain.src.Interfaces;
+using Ecommerce.Domain.src.Model;
+using Ecommerce.Domain.src.Shared;
 using Ecommerce.Infrastructure.src.Database;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +30,22 @@ namespace Ecommerce.Infrastructure.src.Repository
             await _context.SubCategories.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity;
+        }
+
+        public override async Task<PaginatedResult<SubCategory>> GetAllAsync(PaginationOptions paginationOptions)
+        {
+            var totalEntity = await _context.SubCategories.CountAsync();
+            IQueryable<SubCategory> query = _context.SubCategories;
+            var entities = await query
+            .Include(c => c.Products)
+            .ToListAsync();
+
+            return new PaginatedResult<SubCategory>
+            {
+                Items = entities,
+                TotalPages = (int)Math.Ceiling(totalEntity / (double)paginationOptions.PerPage),
+                CurrentPage = paginationOptions.Page,
+            };
         }
 
 
