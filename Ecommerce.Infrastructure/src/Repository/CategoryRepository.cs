@@ -23,7 +23,7 @@ namespace Ecommerce.Infrastructure.src.Repository
             var totalEntity = await _context.Categories.CountAsync();
             IQueryable<Category> query = _context.Categories;
             var entities = await query
-            .Include(c => c.Products)
+            .Include(c => c.SubCategories)
                 //.Skip(paginationOptions.Page)
                 //.Take(paginationOptions.PerPage)
                 .ToListAsync();

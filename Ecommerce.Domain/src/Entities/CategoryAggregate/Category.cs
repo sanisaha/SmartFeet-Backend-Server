@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Ecommerce.Domain.Enums;
+using Ecommerce.Domain.src.Entities.SubCategoryAggregate;
 using Ecommerce.Domain.src.ProductAggregate;
 using Ecommerce.Domain.src.Shared;
 
@@ -14,6 +15,6 @@ namespace Ecommerce.Domain.src.CategoryAggregate
         public Guid ParentCategoryId { get; set; }
 
         // Navigation Properties
-        public ICollection<Product>? Products { get; set; }
+        public ICollection<SubCategory> SubCategories { get; set; }
     }
 }

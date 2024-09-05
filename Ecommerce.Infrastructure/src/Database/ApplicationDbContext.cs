@@ -5,6 +5,7 @@ using Ecommerce.Domain.src.Entities.PaymentAggregate;
 using Ecommerce.Domain.src.Entities.ProductAggregate;
 using Ecommerce.Domain.src.Entities.ReviewAggregate;
 using Ecommerce.Domain.src.Entities.ShipmentAggregate;
+using Ecommerce.Domain.src.Entities.SubCategoryAggregate;
 using Ecommerce.Domain.src.Entities.UserAggregate;
 using Ecommerce.Domain.src.PaymentAggregate;
 using Ecommerce.Domain.src.ProductAggregate;
@@ -24,6 +25,7 @@ namespace Ecommerce.Infrastructure.src.Database
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<ProductSize> ProductSizes { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
@@ -54,6 +56,7 @@ namespace Ecommerce.Infrastructure.src.Database
             modelBuilder.Entity<PaymentMethod>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
             modelBuilder.Entity<Review>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
             modelBuilder.Entity<Shipment>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
+            modelBuilder.Entity<SubCategory>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
 
         }
         /* protected override void OnModelCreating(ModelBuilder modelBuilder)

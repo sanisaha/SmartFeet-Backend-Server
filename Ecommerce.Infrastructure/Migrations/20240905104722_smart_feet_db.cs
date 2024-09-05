@@ -83,24 +83,20 @@ namespace Ecommerce.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "products",
+                name: "sub_categories",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    sub_category_name = table.Column<int>(type: "integer", nullable: false),
                     category_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    price = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
-                    stock = table.Column<int>(type: "integer", nullable: false),
-                    brand_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_products", x => x.id);
+                    table.PrimaryKey("pk_sub_categories", x => x.id);
                     table.ForeignKey(
-                        name: "fk_products_categories_category_id",
+                        name: "fk_sub_categories_categories_category_id",
                         column: x => x.category_id,
                         principalTable: "categories",
                         principalColumn: "id",
@@ -161,6 +157,126 @@ namespace Ecommerce.Infrastructure.Migrations
                         name: "fk_user_address_users_user_id",
                         column: x => x.user_id,
                         principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "products",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    sub_category_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    price = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
+                    stock = table.Column<int>(type: "integer", nullable: false),
+                    brand_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_products", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_products_sub_categories_sub_category_id",
+                        column: x => x.sub_category_id,
+                        principalTable: "sub_categories",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "payments",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    order_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    payment_method_id = table.Column<Guid>(type: "uuid", maxLength: 50, nullable: false),
+                    amount = table.Column<decimal>(type: "numeric", nullable: false),
+                    payment_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    payment_status = table.Column<int>(type: "integer", maxLength: 50, nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_payments", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_payments_orders_order_id",
+                        column: x => x.order_id,
+                        principalTable: "orders",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_payments_payment_methods_payment_method_id",
+                        column: x => x.payment_method_id,
+                        principalTable: "payment_methods",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_payments_users_user_id",
+                        column: x => x.user_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "shipments",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    shipment_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    order_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    address_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    shipment_status = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_shipments", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_shipments_addresses_address_id",
+                        column: x => x.address_id,
+                        principalTable: "addresses",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_shipments_orders_order_id",
+                        column: x => x.order_id,
+                        principalTable: "orders",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "order_items",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    order_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    product_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    quantity = table.Column<int>(type: "integer", nullable: false),
+                    price = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_order_items", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_order_items_orders_order_id",
+                        column: x => x.order_id,
+                        principalTable: "orders",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_order_items_products_product_id",
+                        column: x => x.product_id,
+                        principalTable: "products",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -262,101 +378,6 @@ namespace Ecommerce.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "order_items",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    order_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    product_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    quantity = table.Column<int>(type: "integer", nullable: false),
-                    price = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_order_items", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_order_items_orders_order_id",
-                        column: x => x.order_id,
-                        principalTable: "orders",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "fk_order_items_products_product_id",
-                        column: x => x.product_id,
-                        principalTable: "products",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "payments",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    order_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    payment_method_id = table.Column<Guid>(type: "uuid", maxLength: 50, nullable: false),
-                    amount = table.Column<decimal>(type: "numeric", nullable: false),
-                    payment_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    payment_status = table.Column<int>(type: "integer", maxLength: 50, nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_payments", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_payments_orders_order_id",
-                        column: x => x.order_id,
-                        principalTable: "orders",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "fk_payments_payment_methods_payment_method_id",
-                        column: x => x.payment_method_id,
-                        principalTable: "payment_methods",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "fk_payments_users_user_id",
-                        column: x => x.user_id,
-                        principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "shipments",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    shipment_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    order_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    address_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    shipment_status = table.Column<int>(type: "integer", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_shipments", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_shipments_addresses_address_id",
-                        column: x => x.address_id,
-                        principalTable: "addresses",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "fk_shipments_orders_order_id",
-                        column: x => x.order_id,
-                        principalTable: "orders",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "ix_order_items_order_id",
                 table: "order_items",
@@ -408,9 +429,9 @@ namespace Ecommerce.Infrastructure.Migrations
                 column: "product_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_products_category_id",
+                name: "ix_products_sub_category_id",
                 table: "products",
-                column: "category_id");
+                column: "sub_category_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_reviews_product_id",
@@ -431,6 +452,11 @@ namespace Ecommerce.Infrastructure.Migrations
                 name: "ix_shipments_order_id",
                 table: "shipments",
                 column: "order_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_sub_categories_category_id",
+                table: "sub_categories",
+                column: "category_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_user_address_address_id",
@@ -480,13 +506,16 @@ namespace Ecommerce.Infrastructure.Migrations
                 name: "orders");
 
             migrationBuilder.DropTable(
-                name: "categories");
+                name: "sub_categories");
 
             migrationBuilder.DropTable(
                 name: "addresses");
 
             migrationBuilder.DropTable(
                 name: "users");
+
+            migrationBuilder.DropTable(
+                name: "categories");
         }
     }
 }

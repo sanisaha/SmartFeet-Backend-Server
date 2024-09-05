@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240905082504_smart_feet_db")]
+    [Migration("20240905104722_smart_feet_db")]
     partial class smart_feet_db
     {
         /// <inheritdoc />
@@ -403,6 +403,40 @@ namespace Ecommerce.Infrastructure.Migrations
                     b.ToTable("shipments", (string)null);
                 });
 
+            modelBuilder.Entity("Ecommerce.Domain.src.Entities.SubCategoryAggregate.SubCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("category_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("SubCategoryName")
+                        .HasColumnType("integer")
+                        .HasColumnName("sub_category_name");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("pk_sub_categories");
+
+                    b.HasIndex("CategoryId")
+                        .HasDatabaseName("ix_sub_categories_category_id");
+
+                    b.ToTable("sub_categories", (string)null);
+                });
+
             modelBuilder.Entity("Ecommerce.Domain.src.Entities.UserAggregate.UserAddress", b =>
                 {
                     b.Property<Guid>("Id")
@@ -501,10 +535,6 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("brand_name");
 
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("category_id");
-
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp without time zone")
@@ -525,6 +555,10 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("stock");
 
+                    b.Property<Guid>("SubCategoryId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("sub_category_id");
+
                     b.Property<string>("Title")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
@@ -537,8 +571,8 @@ namespace Ecommerce.Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_products");
 
-                    b.HasIndex("CategoryId")
-                        .HasDatabaseName("ix_products_category_id");
+                    b.HasIndex("SubCategoryId")
+                        .HasDatabaseName("ix_products_sub_category_id");
 
                     b.ToTable("products", (string)null);
                 });
@@ -806,6 +840,18 @@ namespace Ecommerce.Infrastructure.Migrations
                     b.Navigation("Order");
                 });
 
+            modelBuilder.Entity("Ecommerce.Domain.src.Entities.SubCategoryAggregate.SubCategory", b =>
+                {
+                    b.HasOne("Ecommerce.Domain.src.CategoryAggregate.Category", "Category")
+                        .WithMany("SubCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_sub_categories_categories_category_id");
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("Ecommerce.Domain.src.Entities.UserAggregate.UserAddress", b =>
                 {
                     b.HasOne("Ecommerce.Domain.src.AddressAggregate.Address", "Address")
@@ -829,14 +875,14 @@ namespace Ecommerce.Infrastructure.Migrations
 
             modelBuilder.Entity("Ecommerce.Domain.src.ProductAggregate.Product", b =>
                 {
-                    b.HasOne("Ecommerce.Domain.src.CategoryAggregate.Category", "Category")
+                    b.HasOne("Ecommerce.Domain.src.Entities.SubCategoryAggregate.SubCategory", "SubCategory")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("SubCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_products_categories_category_id");
+                        .HasConstraintName("fk_products_sub_categories_sub_category_id");
 
-                    b.Navigation("Category");
+                    b.Navigation("SubCategory");
                 });
 
             modelBuilder.Entity("Ecommerce.Domain.src.ProductAggregate.ProductImage", b =>
@@ -870,12 +916,17 @@ namespace Ecommerce.Infrastructure.Migrations
 
             modelBuilder.Entity("Ecommerce.Domain.src.CategoryAggregate.Category", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("SubCategories");
                 });
 
             modelBuilder.Entity("Ecommerce.Domain.src.Entities.OrderAggregate.Order", b =>
                 {
                     b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("Ecommerce.Domain.src.Entities.SubCategoryAggregate.SubCategory", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Ecommerce.Domain.src.PaymentAggregate.PaymentMethod", b =>

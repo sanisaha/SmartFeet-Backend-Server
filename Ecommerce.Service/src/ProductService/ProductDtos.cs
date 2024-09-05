@@ -13,7 +13,7 @@ namespace Ecommerce.Service.src.ProductService
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int Stock { get; set; }
-        public Guid CategoryId { get; set; }
+        public Guid SubCategoryId { get; set; }
         public string BrandName { get; set; }
 
         public override void FromEntity(Product entity)
@@ -23,7 +23,7 @@ namespace Ecommerce.Service.src.ProductService
             Description = entity.Description;
             Price = entity.Price;
             Stock = entity.Stock;
-            CategoryId = entity.CategoryId;
+            SubCategoryId = entity.SubCategoryId;
             BrandName = entity.BrandName;
         }
     }
@@ -33,7 +33,7 @@ namespace Ecommerce.Service.src.ProductService
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int Stock { get; set; }
-        public Guid CategoryId { get; set; }
+        public Guid SubCategoryId { get; set; }
         public string BrandName { get; set; }
         public ICollection<ProductImageCreateDto> ProductImages { get; set; }
         public ICollection<ProductSizeCreateDto> ProductSizes { get; set; }
@@ -46,7 +46,7 @@ namespace Ecommerce.Service.src.ProductService
                 Description = Description,
                 Price = Price,
                 Stock = Stock,
-                CategoryId = CategoryId,
+                SubCategoryId = SubCategoryId,
                 BrandName = BrandName,
                 ProductImages = ProductImages.Select(x => x.CreateEntity()).ToList(),
                 ProductSizes = ProductSizes.Select(x => x.CreateEntity()).ToList(),
@@ -61,7 +61,7 @@ namespace Ecommerce.Service.src.ProductService
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int Stock { get; set; }
-        public Guid CategoryId { get; set; }
+        public Guid SubCategoryId { get; set; }
         public string BrandName { get; set; }
         public Product UpdateEntity(Product entity)
         {
@@ -69,7 +69,7 @@ namespace Ecommerce.Service.src.ProductService
             entity.Description = Description;
             entity.Price = Price;
             entity.Stock = Stock;
-            entity.CategoryId = CategoryId;
+            entity.SubCategoryId = SubCategoryId;
             entity.BrandName = BrandName;
             return entity;
         }

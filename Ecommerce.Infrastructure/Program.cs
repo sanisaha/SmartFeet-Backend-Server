@@ -26,6 +26,7 @@ using Ecommerce.Domain.src.ProductAggregate;
 using Ecommerce.Domain.src.CategoryAggregate;
 using Ecommerce.Domain.Enums;
 using System.Text.Json.Serialization;
+using Ecommerce.Service.src.SubCategoryService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -96,6 +97,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductColorRepository, ProductColorRepository>();
 builder.Services.AddScoped<IProductSizeRepository, ProductSizeRepository>();
 builder.Services.AddScoped<IProductImageRepository, ProductImageRepository>();
+builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
 //builder.Services.AddScoped<ExceptionHandlerMiddleware>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthManagement, AuthManagement>();
@@ -112,6 +114,7 @@ builder.Services.AddScoped<IReviewManagement, ReviewManagement>();
 builder.Services.AddScoped<IShipmentManagement, ShipmentManagement>();
 builder.Services.AddScoped<IPaymentManagement, PaymentManagement>();
 builder.Services.AddScoped<IAddressManagement, AddressManagement>();
+builder.Services.AddScoped<ISubCategoryManagement, SubCategoryManagement>();
 
 // Add authentication configuration
 builder.Services.AddAuthentication(
