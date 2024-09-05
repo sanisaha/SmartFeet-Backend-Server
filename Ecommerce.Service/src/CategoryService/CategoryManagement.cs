@@ -1,3 +1,4 @@
+using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.CategoryAggregate;
 using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Domain.src.Model;
@@ -39,6 +40,20 @@ namespace Ecommerce.Service.src.CategoryService
                 CurrentPage = entities.CurrentPage,
                 TotalPages = entities.TotalPages
             };
+        }
+        public async Task<CategoryReadDto?> GetCategoryByNameAsync(CategoryName categoryName)
+        {
+            var category = await _categoryRepository.GetCategoryByNameAsync(categoryName.ToString());
+            if (category == null)
+            {
+                return null;
+            }
+            return new CategoryReadDto
+            {
+                Id = category.Id,
+                CategoryName = category.CategoryName,
+            };
+
         }
 
     }

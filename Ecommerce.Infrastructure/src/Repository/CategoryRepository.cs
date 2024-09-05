@@ -1,3 +1,4 @@
+using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.CategoryAggregate;
 using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Domain.src.Model;
@@ -41,6 +42,14 @@ namespace Ecommerce.Infrastructure.src.Repository
         public async Task<IEnumerable<Category>> GetCategoryByIdAsync(Guid userId)
         {
             return await _context.Categories.Where(c => c.Id == userId).ToListAsync();
+        }
+        public async Task<Category?> GetCategoryByNameAsync(string categoryName)
+        {
+            if (Enum.TryParse(categoryName, out CategoryName categoryEnum))
+            {
+                return await _context.Categories.FirstOrDefaultAsync(c => c.CategoryName == categoryEnum);
+            }
+            return null;
         }
     }
 }
