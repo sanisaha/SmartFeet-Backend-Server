@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Ecommerce.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class createdb : Migration
+    public partial class smart_feet_db : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,7 +23,7 @@ namespace Ecommerce.Infrastructure.Migrations
                     city = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     postal_code = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     country = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -55,7 +55,7 @@ namespace Ecommerce.Infrastructure.Migrations
                     provider = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     card_number = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     expiry_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -74,7 +74,7 @@ namespace Ecommerce.Infrastructure.Migrations
                     salt = table.Column<byte[]>(type: "bytea", nullable: false),
                     phone_number = table.Column<string>(type: "text", nullable: false),
                     role = table.Column<int>(type: "integer", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -93,7 +93,7 @@ namespace Ecommerce.Infrastructure.Migrations
                     price = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     stock = table.Column<int>(type: "integer", nullable: false),
                     brand_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -117,7 +117,7 @@ namespace Ecommerce.Infrastructure.Migrations
                     order_status = table.Column<int>(type: "integer", nullable: false),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     shipping_address_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -145,7 +145,7 @@ namespace Ecommerce.Infrastructure.Migrations
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     address_id = table.Column<Guid>(type: "uuid", nullable: false),
                     is_default = table.Column<bool>(type: "boolean", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -173,7 +173,7 @@ namespace Ecommerce.Infrastructure.Migrations
                     color_name = table.Column<int>(type: "integer", nullable: false),
                     quantity = table.Column<int>(type: "integer", nullable: false),
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -196,7 +196,7 @@ namespace Ecommerce.Infrastructure.Migrations
                     image_url = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     is_primary = table.Column<bool>(type: "boolean", nullable: false),
                     image_text = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -218,7 +218,7 @@ namespace Ecommerce.Infrastructure.Migrations
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
                     size_value = table.Column<int>(type: "integer", nullable: false),
                     quantity = table.Column<int>(type: "integer", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -242,7 +242,7 @@ namespace Ecommerce.Infrastructure.Migrations
                     review_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     rating = table.Column<int>(type: "integer", nullable: false),
                     review_text = table.Column<string>(type: "text", nullable: true),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -271,7 +271,7 @@ namespace Ecommerce.Infrastructure.Migrations
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
                     quantity = table.Column<int>(type: "integer", nullable: false),
                     price = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -302,7 +302,7 @@ namespace Ecommerce.Infrastructure.Migrations
                     amount = table.Column<decimal>(type: "numeric", nullable: false),
                     payment_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     payment_status = table.Column<int>(type: "integer", maxLength: 50, nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -337,7 +337,7 @@ namespace Ecommerce.Infrastructure.Migrations
                     order_id = table.Column<Guid>(type: "uuid", nullable: false),
                     address_id = table.Column<Guid>(type: "uuid", nullable: false),
                     shipment_status = table.Column<int>(type: "integer", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
