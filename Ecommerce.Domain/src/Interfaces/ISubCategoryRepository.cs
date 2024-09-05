@@ -10,5 +10,6 @@ namespace Ecommerce.Domain.src.Interfaces
     public interface ISubCategoryRepository : IBaseRepository<SubCategory>
     {
         Task<IEnumerable<SubCategory>> GetSubCategoryByIdAsync(Guid userId);
+        Task<SubCategory> GetSubCategoryByNameAndIdAsync(string subCategoryName, Guid categoryId);
     }
 }

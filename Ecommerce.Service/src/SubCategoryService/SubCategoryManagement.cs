@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.Entities.SubCategoryAggregate;
 using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Service.src.Shared;
@@ -27,6 +28,21 @@ namespace Ecommerce.Service.src.SubCategoryService
                 CategoryId = x.CategoryId,
                 Products = x.Products
             });
+        }
+        public async Task<SubCategoryReadDto?> GetSubCategoryByNameAndCategoryIdAsync(SubCategoryName subCategoryName, Guid categoryId)
+        {
+            var subCategory = await _subCategoryRepository.GetSubCategoryByNameAndIdAsync(subCategoryName.ToString(), categoryId);
+            if (subCategory == null)
+            {
+                return null;
+            }
+            return new SubCategoryReadDto
+            {
+                Id = subCategory.Id,
+                SubCategoryName = subCategory.SubCategoryName,
+                CategoryId = subCategory.CategoryId,
+                Products = subCategory.Products
+            };
         }
     }
 

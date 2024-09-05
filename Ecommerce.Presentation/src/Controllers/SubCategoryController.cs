@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.Entities.SubCategoryAggregate;
 using Ecommerce.Presentation.src.Controllers;
 using Ecommerce.Service.src.SubCategoryService;
@@ -23,6 +24,11 @@ namespace Ecommerce.Presentation.src.Controllers
         //[Authorize]
         public override async Task<ActionResult<SubCategoryReadDto>> CreateAsync(SubCategoryCreateDto entity)
         {
+            var existingSubCategory = await _subCategoryManagement.GetSubCategoryByNameAndCategoryIdAsync(entity.SubCategoryName, entity.CategoryId);
+            if (existingSubCategory != null)
+            {
+                return Conflict(new { message = "A sub category with this name already exists." });
+            }
             return await base.CreateAsync(entity);
         }
         //[Authorize]
@@ -41,6 +47,20 @@ namespace Ecommerce.Presentation.src.Controllers
         public async Task<IEnumerable<SubCategoryReadDto>> GetSubCategoryByIdAsync(Guid userId)
         {
             return await _subCategoryManagement.GetSubCategoryByIdAsync(userId);
+        }
+        [HttpGet("subCategoryName/{subCategoryName}")]
+        public async Task<IActionResult> GetSubCategoryByNameAndCategoryIdAsync(string subCategoryName, Guid categoryId)
+        {
+            if (!Enum.TryParse(subCategoryName, true, out SubCategoryName subCategoryEnum))
+            {
+                return BadRequest("Invalid sub category name");
+            }
+            var subCategory = await _subCategoryManagement.GetSubCategoryByNameAndCategoryIdAsync(subCategoryEnum, categoryId);
+            if (subCategory == null)
+            {
+                return NotFound("Sub category not found");
+            }
+            return Ok(subCategory);
         }
     }
 }
