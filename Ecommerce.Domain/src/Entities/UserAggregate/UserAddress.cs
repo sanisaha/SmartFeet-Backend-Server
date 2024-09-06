@@ -1,4 +1,4 @@
-using Ecommerce.Domain.src.AddressAggregate;
+/* using Ecommerce.Domain.src.AddressAggregate;
 using Ecommerce.Domain.src.Shared;
 using Ecommerce.Domain.src.UserAggregate;
 
@@ -14,4 +14,4 @@ namespace Ecommerce.Domain.src.Entities.UserAggregate
         public virtual User? User { get; set; }
         public virtual Address? Address { get; set; }
     }
-}
+} */

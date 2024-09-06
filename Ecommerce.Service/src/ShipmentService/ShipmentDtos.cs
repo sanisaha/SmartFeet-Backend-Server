@@ -1,4 +1,4 @@
-using Ecommerce.Domain.src.Entities.ShipmentAggregate;
+/* using Ecommerce.Domain.src.Entities.ShipmentAggregate;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.ShipmentService
@@ -39,4 +39,4 @@ namespace Ecommerce.Service.src.ShipmentService
             return entity;
         }
     }
-}
+} */
