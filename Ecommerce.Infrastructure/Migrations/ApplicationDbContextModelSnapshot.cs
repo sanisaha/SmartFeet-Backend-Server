@@ -236,7 +236,6 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasColumnName("payment_date");
 
                     b.Property<Guid>("PaymentMethodId")
-                        .HasMaxLength(50)
                         .HasColumnType("uuid")
                         .HasColumnName("payment_method_id");
 
@@ -249,7 +248,7 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
@@ -396,6 +395,12 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<string>("CVV")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("cvv");
+
                     b.Property<string>("CardNumber")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -429,9 +434,9 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id")
-                        .HasName("pk_payment_methods");
+                        .HasName("pk_payment_method");
 
-                    b.ToTable("payment_methods", (string)null);
+                    b.ToTable("payment_method", (string)null);
                 });
 
             modelBuilder.Entity("Ecommerce.Domain.src.ProductAggregate.Product", b =>
@@ -680,17 +685,15 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasConstraintName("fk_payments_orders_order_id");
 
                     b.HasOne("Ecommerce.Domain.src.PaymentAggregate.PaymentMethod", "PaymentMethod")
-                        .WithMany("Payments")
+                        .WithMany()
                         .HasForeignKey("PaymentMethodId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_payments_payment_methods_payment_method_id");
+                        .HasConstraintName("fk_payments_payment_method_payment_method_id");
 
                     b.HasOne("Ecommerce.Domain.src.UserAggregate.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("fk_payments_users_user_id");
 
                     b.Navigation("Order");
@@ -804,11 +807,6 @@ namespace Ecommerce.Infrastructure.Migrations
             modelBuilder.Entity("Ecommerce.Domain.src.Entities.SubCategoryAggregate.SubCategory", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("Ecommerce.Domain.src.PaymentAggregate.PaymentMethod", b =>
-                {
-                    b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("Ecommerce.Domain.src.ProductAggregate.Product", b =>

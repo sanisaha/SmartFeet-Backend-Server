@@ -27,7 +27,7 @@ namespace Ecommerce.Infrastructure.src.Database
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
-        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        //public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<Review> Reviews { get; set; }
         //public DbSet<Shipment> Shipments { get; set; }
 

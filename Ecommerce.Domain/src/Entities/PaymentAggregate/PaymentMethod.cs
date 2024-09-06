@@ -19,11 +19,12 @@ namespace Ecommerce.Domain.src.PaymentAggregate
         [StringLength(50)]
         public string? CardNumber { get; set; }
 
+        [Required]
         public DateTime ExpiryDate { get; set; }
 
-        // Navigation properties
-        public virtual IEnumerable<Payment>? Payments { get; set; }
-
+        [Required]
+        [StringLength(50)]
+        public string CVV { get; set; }
 
     }
 }

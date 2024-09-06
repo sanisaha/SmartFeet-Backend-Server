@@ -47,7 +47,7 @@ namespace Ecommerce.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "payment_methods",
+                name: "payment_method",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -55,12 +55,13 @@ namespace Ecommerce.Infrastructure.Migrations
                     provider = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     card_number = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     expiry_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    cvv = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_payment_methods", x => x.id);
+                    table.PrimaryKey("pk_payment_method", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -168,10 +169,10 @@ namespace Ecommerce.Infrastructure.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     order_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    payment_method_id = table.Column<Guid>(type: "uuid", maxLength: 50, nullable: false),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: true),
                     amount = table.Column<decimal>(type: "numeric", nullable: false),
                     payment_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    payment_method_id = table.Column<Guid>(type: "uuid", nullable: false),
                     payment_status = table.Column<int>(type: "integer", maxLength: 50, nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -186,17 +187,16 @@ namespace Ecommerce.Infrastructure.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_payments_payment_methods_payment_method_id",
+                        name: "fk_payments_payment_method_payment_method_id",
                         column: x => x.payment_method_id,
-                        principalTable: "payment_methods",
+                        principalTable: "payment_method",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_payments_users_user_id",
                         column: x => x.user_id,
                         principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -426,7 +426,7 @@ namespace Ecommerce.Infrastructure.Migrations
                 name: "orders");
 
             migrationBuilder.DropTable(
-                name: "payment_methods");
+                name: "payment_method");
 
             migrationBuilder.DropTable(
                 name: "products");

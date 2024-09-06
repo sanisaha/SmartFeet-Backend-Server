@@ -1,5 +1,6 @@
 using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.Entities.PaymentAggregate;
+using Ecommerce.Domain.src.PaymentAggregate;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.PaymentService
@@ -7,8 +8,8 @@ namespace Ecommerce.Service.src.PaymentService
     public class PaymentReadDto : BaseReadDto<Payment>
     {
         public Guid OrderId { get; set; }
-        public Guid UserId { get; set; }
-        public Guid PaymentMethodId { get; set; }
+        public Guid? UserId { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
         public decimal Amount { get; set; }
         public DateTime PaymentDate { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
@@ -18,7 +19,7 @@ namespace Ecommerce.Service.src.PaymentService
             base.FromEntity(entity);
             OrderId = entity.OrderId;
             UserId = entity.UserId;
-            PaymentMethodId = entity.PaymentMethodId;
+            PaymentMethod = entity.PaymentMethod;
             Amount = entity.Amount;
             PaymentDate = entity.PaymentDate;
             PaymentStatus = entity.PaymentStatus;
@@ -27,8 +28,8 @@ namespace Ecommerce.Service.src.PaymentService
     public class PaymentCreateDto : ICreateDto<Payment>
     {
         public Guid OrderId { get; set; }
-        public Guid UserId { get; set; }
-        public Guid PaymentMethodId { get; set; }
+        public Guid? UserId { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
         public decimal Amount { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
         public Payment CreateEntity()
@@ -37,7 +38,7 @@ namespace Ecommerce.Service.src.PaymentService
             {
                 OrderId = OrderId,
                 UserId = UserId,
-                PaymentMethodId = PaymentMethodId,
+                PaymentMethod = PaymentMethod,
                 Amount = Amount,
                 PaymentStatus = PaymentStatus
             };
@@ -48,14 +49,14 @@ namespace Ecommerce.Service.src.PaymentService
         public Guid Id { get; set; }
         public Guid OrderId { get; set; }
         public Guid UserId { get; set; }
-        public Guid PaymentMethodId { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
         public decimal Amount { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
         public Payment UpdateEntity(Payment entity)
         {
             entity.OrderId = OrderId;
             entity.UserId = UserId;
-            entity.PaymentMethodId = PaymentMethodId;
+            entity.PaymentMethod = PaymentMethod;
             entity.Amount = Amount;
             entity.PaymentStatus = PaymentStatus;
             return entity;
