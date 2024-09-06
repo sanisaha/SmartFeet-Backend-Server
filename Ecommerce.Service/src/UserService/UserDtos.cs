@@ -27,6 +27,7 @@ namespace Ecommerce.Service.src.UserService
         public string Password { get; set; } = null!;
         public string? PhoneNumber { get; set; }
         public UserRole Role { get; set; }
+        public Guid? AddressId { get; set; }
 
         public User CreateEntity()
         {
@@ -36,7 +37,8 @@ namespace Ecommerce.Service.src.UserService
                 Email = Email,
                 Password = Password,
                 PhoneNumber = PhoneNumber,
-                Role = Role
+                Role = Role,
+                AddressId = AddressId
             };
         }
     }

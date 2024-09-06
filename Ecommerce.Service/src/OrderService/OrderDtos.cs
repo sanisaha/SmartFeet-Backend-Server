@@ -1,4 +1,5 @@
 using Ecommerce.Domain.Enums;
+using Ecommerce.Domain.src.AddressAggregate;
 using Ecommerce.Domain.src.Entities.OrderAggregate;
 using Ecommerce.Service.src.OrderItemService;
 using Ecommerce.Service.src.Shared;
@@ -7,10 +8,10 @@ namespace Ecommerce.Service.src.OrderService
 {
     public class OrderReadDto : BaseReadDto<Order>
     {
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal TotalPrice { get; set; }
-        public Guid ShippingAddressId { get; set; }
+        public Guid? AddressId { get; set; }
         public OrderStatus OrderStatus { get; set; }
         //public IEnumerable<OrderItemReadDto> OrderItems { get; set; }
 
@@ -19,7 +20,7 @@ namespace Ecommerce.Service.src.OrderService
             UserId = entity.UserId;
             OrderDate = entity.OrderDate;
             TotalPrice = entity.TotalPrice;
-            ShippingAddressId = entity.ShippingAddressId;
+            AddressId = entity.AddressId;
             OrderStatus = entity.OrderStatus;
             //OrderItems = entity.OrderItems.Select(item => new OrderItemReadDto().FromEntity(item)).ToList();
             base.FromEntity(entity);
@@ -27,12 +28,13 @@ namespace Ecommerce.Service.src.OrderService
     }
     public class OrderCreateDto : ICreateDto<Order>
     {
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal TotalPrice { get; set; }
-        public Guid ShippingAddressId { get; set; }
+        public Guid? AddressId { get; set; }
         public OrderStatus OrderStatus { get; set; }
-        public IEnumerable<OrderItemCreateDto> OrderItems { get; set; }
+
+        //public IEnumerable<OrderItemCreateDto> OrderItems { get; set; }
 
         public Order CreateEntity()
         {
@@ -41,9 +43,9 @@ namespace Ecommerce.Service.src.OrderService
                 UserId = UserId,
                 OrderDate = OrderDate,
                 TotalPrice = TotalPrice,
-                ShippingAddressId = ShippingAddressId,
-                OrderStatus = OrderStatus,
-                OrderItems = OrderItems.Select(item => item.CreateEntity()).ToList()
+                AddressId = AddressId,
+                OrderStatus = OrderStatus
+                //OrderItems = OrderItems.Select(item => item.CreateEntity()).ToList()
             };
         }
     }
@@ -53,7 +55,7 @@ namespace Ecommerce.Service.src.OrderService
         public Guid UserId { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal TotalPrice { get; set; }
-        public Guid ShippingAddressId { get; set; }
+        public Guid AddressId { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public IEnumerable<OrderItemUpdateDto> OrderItems { get; set; }
 
@@ -62,7 +64,7 @@ namespace Ecommerce.Service.src.OrderService
             entity.UserId = UserId;
             entity.OrderDate = OrderDate;
             entity.TotalPrice = TotalPrice;
-            entity.ShippingAddressId = ShippingAddressId;
+            entity.AddressId = AddressId;
             entity.OrderStatus = OrderStatus;
             //entity.OrderItems = OrderItems.Select(item => item.UpdateEntity(item)).ToList();
             return entity;

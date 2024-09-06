@@ -19,21 +19,15 @@ namespace Ecommerce.Domain.src.Entities.OrderAggregate
         [Required]
         public OrderStatus OrderStatus { get; set; }
 
-        [ForeignKey("User")]
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
 
-        [ForeignKey("Address")]
-        public Guid ShippingAddressId { get; set; }
+        public Guid? AddressId { get; set; }
 
         // Navigation Properties
-        public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
         public virtual User? User { get; set; }
         public virtual Address? Address { get; set; }
 
-        public Order()
-        {
-
-        }
         // Methods
         public void AddOrderItem(OrderItem item)
         {
