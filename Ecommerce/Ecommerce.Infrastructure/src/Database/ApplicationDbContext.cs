@@ -26,6 +26,8 @@ namespace Ecommerce.Infrastructure.src.Database
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
         //public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<Review> Reviews { get; set; }
@@ -50,6 +52,8 @@ namespace Ecommerce.Infrastructure.src.Database
             modelBuilder.Entity<ProductSize>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
             modelBuilder.Entity<Order>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
             modelBuilder.Entity<OrderItem>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
+            modelBuilder.Entity<Cart>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
+            modelBuilder.Entity<CartItem>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
             modelBuilder.Entity<Payment>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
             modelBuilder.Entity<PaymentMethod>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
             modelBuilder.Entity<Review>().Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").HasColumnType("timestamp without time zone").HasColumnName("created_at");
