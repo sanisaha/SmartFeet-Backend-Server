@@ -1,5 +1,6 @@
 using Ecommerce.Domain.src.AddressAggregate;
 using Ecommerce.Domain.src.CategoryAggregate;
+using Ecommerce.Domain.src.Entities.CartAggregate;
 using Ecommerce.Domain.src.Entities.OrderAggregate;
 using Ecommerce.Domain.src.Entities.PaymentAggregate;
 using Ecommerce.Domain.src.Entities.ProductAggregate;

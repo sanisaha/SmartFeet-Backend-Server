@@ -7,8 +7,8 @@ using Ecommerce.Domain.src.Interface;
 
 namespace Ecommerce.Domain.src.Interfaces
 {
-    public interface ICartRepository : IBaseRepository<Cart>
+    public interface ICartItemRepository : IBaseRepository<CartItem>
     {
-        Task<Cart> GetCartByUserId(Guid userId);
+        Task<List<CartItem>> GetCartItemsByCartId(Guid cartId);
     }
 }

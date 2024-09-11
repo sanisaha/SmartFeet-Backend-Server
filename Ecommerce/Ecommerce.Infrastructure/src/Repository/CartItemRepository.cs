@@ -9,19 +9,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Infrastructure.src.Repository
 {
-    public class CartRepository : BaseRepository<Cart>, ICartRepository
-
+    public class CartItemRepository : BaseRepository<CartItem>, ICartItemRepository
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public CartRepository(ApplicationDbContext dbContext) : base(dbContext)
+        public CartItemRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<Cart> GetCartByUserId(Guid userId)
+        public async Task<List<CartItem>> GetCartItemsByCartId(Guid cartId)
         {
-            return await _dbContext.Carts.FirstOrDefaultAsync(x => x.UserId == userId);
+            return await _dbContext.CartItems.Where(x => x.CartId == cartId).ToListAsync();
         }
     }
 }

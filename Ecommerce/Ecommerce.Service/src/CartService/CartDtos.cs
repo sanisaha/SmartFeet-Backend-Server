@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ecommerce.Domain.src.Entities.CartAggregate;
+using Ecommerce.Service.src.CartItemService;
+using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.CartService
 {
@@ -13,7 +16,7 @@ namespace Ecommerce.Service.src.CartService
         public override void FromEntity(Cart entity)
         {
             UserId = entity.UserId;
-            CartItems = entity.CartItems.Select(item => new CartItemReadDto().FromEntity(item)).ToList();
+            //CartItems = entity.CartItems.Select(item => new CartItemReadDto().FromEntity(item)).ToList();
             base.FromEntity(entity);
         }
     }
@@ -42,7 +45,7 @@ namespace Ecommerce.Service.src.CartService
         public Cart UpdateEntity(Cart entity)
         {
             entity.UserId = UserId;
-            entity.CartItems = CartItems.Select(item => item.UpdateEntity()).ToList();
+            //entity.CartItems = CartItems.Select(item => item.UpdateEntity()).ToList();
             return entity;
         }
     }

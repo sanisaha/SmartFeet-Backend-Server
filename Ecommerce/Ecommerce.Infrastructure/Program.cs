@@ -22,6 +22,8 @@ using Ecommerce.Service.src.PaymentService;
 using Ecommerce.Service.src.AddressService;
 using Ecommerce.Service.src.ProductService;
 using Ecommerce.Service.src.SubCategoryService;
+using Ecommerce.Service.src.CartService;
+using Ecommerce.Service.src.CartItemService;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -83,6 +85,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductColorRepository, ProductColorRepository>();
 builder.Services.AddScoped<IProductSizeRepository, ProductSizeRepository>();
@@ -101,6 +104,7 @@ builder.Services.AddScoped<ICategoryManagement, CategoryManagement>();
 builder.Services.AddScoped<IOrderManagement, OrderManagement>();
 builder.Services.AddScoped<IOrderItemManagement, OrderItemManagement>();
 builder.Services.AddScoped<ICartManagement, CartManagement>();
+builder.Services.AddScoped<ICartItemManagement, CartItemManagement>();
 builder.Services.AddScoped<IReviewManagement, ReviewManagement>();
 //builder.Services.AddScoped<IShipmentManagement, ShipmentManagement>();
 builder.Services.AddScoped<IPaymentManagement, PaymentManagement>();
