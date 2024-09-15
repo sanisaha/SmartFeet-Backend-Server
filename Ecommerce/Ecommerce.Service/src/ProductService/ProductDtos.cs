@@ -15,7 +15,9 @@ namespace Ecommerce.Service.src.ProductService
         public decimal Price { get; set; }
         public int Stock { get; set; }
         public Guid SubCategoryId { get; set; }
-        public string BrandName { get; set; }
+        public string? BrandName { get; set; }
+        public int? Discount { get; set; }
+        public int? OldPrice { get; set; }
         public ICollection<ProductImageReadDto> ProductImages { get; set; }
         public ICollection<ProductSizeReadDto> ProductSizes { get; set; }
         public ICollection<ProductColorReadDto> ProductColors { get; set; }
@@ -31,6 +33,8 @@ namespace Ecommerce.Service.src.ProductService
             Stock = entity.Stock;
             SubCategoryId = entity.SubCategoryId;
             BrandName = entity.BrandName;
+            Discount = entity.Discount;
+            OldPrice = entity.OldPrice;
             Reviews = entity.Reviews?.Select(x =>
             {
                 var reviewDto = new ReviewReadDto();
@@ -46,7 +50,9 @@ namespace Ecommerce.Service.src.ProductService
         public decimal Price { get; set; }
         public int Stock { get; set; }
         public Guid SubCategoryId { get; set; }
-        public string BrandName { get; set; }
+        public string? BrandName { get; set; }
+        public int? Discount { get; set; }
+        public int? OldPrice { get; set; }
         public ICollection<ProductImageCreateDto> ProductImages { get; set; }
         public ICollection<ProductSizeCreateDto> ProductSizes { get; set; }
         public ICollection<ProductColorCreateDto> ProductColors { get; set; }
@@ -60,6 +66,8 @@ namespace Ecommerce.Service.src.ProductService
                 Stock = Stock,
                 SubCategoryId = SubCategoryId,
                 BrandName = BrandName,
+                Discount = Discount,
+                OldPrice = OldPrice,
                 ProductImages = ProductImages.Select(x => x.CreateEntity()).ToList(),
                 ProductSizes = ProductSizes.Select(x => x.CreateEntity()).ToList(),
                 ProductColors = ProductColors.Select(x => x.CreateEntity()).ToList()
@@ -74,7 +82,9 @@ namespace Ecommerce.Service.src.ProductService
         public decimal Price { get; set; }
         public int Stock { get; set; }
         public Guid SubCategoryId { get; set; }
-        public string BrandName { get; set; }
+        public string? BrandName { get; set; }
+        public int? Discount { get; set; }
+        public int? OldPrice { get; set; }
         public Product UpdateEntity(Product entity)
         {
             entity.Title = Title;
@@ -83,6 +93,8 @@ namespace Ecommerce.Service.src.ProductService
             entity.Stock = Stock;
             entity.SubCategoryId = SubCategoryId;
             entity.BrandName = BrandName;
+            entity.Discount = Discount;
+            entity.OldPrice = OldPrice;
             return entity;
         }
     }

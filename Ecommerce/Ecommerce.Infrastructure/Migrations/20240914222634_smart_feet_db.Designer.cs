@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240911195126_smart_feet_db")]
+    [Migration("20240914222634_smart_feet_db")]
     partial class smart_feet_db
     {
         /// <inheritdoc />
@@ -537,6 +537,14 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("description");
+
+                    b.Property<int?>("Discount")
+                        .HasColumnType("integer")
+                        .HasColumnName("discount");
+
+                    b.Property<int?>("OldPrice")
+                        .HasColumnType("integer")
+                        .HasColumnName("old_price");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10,2)")

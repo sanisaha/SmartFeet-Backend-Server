@@ -163,6 +163,8 @@ namespace Ecommerce.Infrastructure.Migrations
                     price = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     stock = table.Column<int>(type: "integer", nullable: false),
                     brand_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    discount = table.Column<int>(type: "integer", nullable: true),
+                    old_price = table.Column<int>(type: "integer", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },

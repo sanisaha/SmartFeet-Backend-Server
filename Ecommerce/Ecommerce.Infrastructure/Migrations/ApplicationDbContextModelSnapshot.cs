@@ -535,6 +535,14 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("description");
 
+                    b.Property<int?>("Discount")
+                        .HasColumnType("integer")
+                        .HasColumnName("discount");
+
+                    b.Property<int?>("OldPrice")
+                        .HasColumnType("integer")
+                        .HasColumnName("old_price");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10,2)")
                         .HasColumnName("price");

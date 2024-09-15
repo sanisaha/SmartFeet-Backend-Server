@@ -30,6 +30,8 @@ namespace Ecommerce.Domain.src.ProductAggregate
 
         [MaxLength(100)]
         public string? BrandName { get; set; }
+        public int? Discount { get; set; }
+        public int? OldPrice { get; set; }
 
         public virtual ICollection<OrderItem> OrderItems { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
