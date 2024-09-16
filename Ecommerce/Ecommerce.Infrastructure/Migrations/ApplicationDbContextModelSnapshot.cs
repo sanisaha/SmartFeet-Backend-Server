@@ -523,6 +523,10 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("brand_name");
 
+                    b.Property<int>("CategoryName")
+                        .HasColumnType("integer")
+                        .HasColumnName("category_name");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp without time zone")
@@ -539,6 +543,10 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("discount");
 
+                    b.Property<bool>("IsFeatured")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_featured");
+
                     b.Property<int?>("OldPrice")
                         .HasColumnType("integer")
                         .HasColumnName("old_price");
@@ -554,6 +562,10 @@ namespace Ecommerce.Infrastructure.Migrations
                     b.Property<Guid>("SubCategoryId")
                         .HasColumnType("uuid")
                         .HasColumnName("sub_category_id");
+
+                    b.Property<int>("SubCategoryName")
+                        .HasColumnType("integer")
+                        .HasColumnName("sub_category_name");
 
                     b.Property<string>("Title")
                         .HasMaxLength(100)

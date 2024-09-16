@@ -165,6 +165,9 @@ namespace Ecommerce.Infrastructure.Migrations
                     brand_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     discount = table.Column<int>(type: "integer", nullable: true),
                     old_price = table.Column<int>(type: "integer", nullable: true),
+                    is_featured = table.Column<bool>(type: "boolean", nullable: false),
+                    category_name = table.Column<int>(type: "integer", nullable: false),
+                    sub_category_name = table.Column<int>(type: "integer", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },

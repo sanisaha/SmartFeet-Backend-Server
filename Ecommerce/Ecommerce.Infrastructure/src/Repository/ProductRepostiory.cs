@@ -36,6 +36,9 @@ namespace Ecommerce.Infrastructure.src.Repository
             IQueryable<Product> query = _context.Products;
             var entities = await query
             .Include(p => p.Reviews)
+            .Include(p => p.ProductColors)
+            .Include(p => p.ProductSizes)
+            .Include(p => p.ProductImages)
                 .ToListAsync();
 
             return new PaginatedResult<Product>
