@@ -50,7 +50,7 @@ namespace Ecommerce.Service.src.Shared
 
         public virtual async Task<TReadDto> GetByIdAsync(Guid id)
         {
-            var entity = await _repo.GetAsync(e => e.Id == id);
+            var entity = await _repo.GetAsync(id);
             if (entity == null)
             {
                 throw new Exception($"entity with id {id} not found");
@@ -62,7 +62,7 @@ namespace Ecommerce.Service.src.Shared
 
         public virtual async Task<TReadDto> UpdateAsync(Guid id, TUpdateDto updateDto)
         {
-            var entity = await _repo.GetAsync(e => e.Id == id);
+            var entity = await _repo.GetAsync(id);
             if (entity == null)
             {
                 throw new Exception("Entity not found");

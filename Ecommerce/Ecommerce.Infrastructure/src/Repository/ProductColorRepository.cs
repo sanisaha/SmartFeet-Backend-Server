@@ -22,18 +22,5 @@ namespace Ecommerce.Infrastructure.src.Repository
                 .Where(pc => pc.ProductId == productId)
                 .ToListAsync();
         }
-
-        public async Task<ProductColor> GetColorByNameAsync(string colorName)
-        {
-            // Use Enum.Parse or try to match enum values instead of using Equals
-            if (Enum.TryParse(typeof(ColorName), colorName, true, out var colorEnum))
-            {
-                return await _context.ProductColors
-                    .Where(pc => pc.ColorName == (ColorName)colorEnum)
-                    .FirstOrDefaultAsync();
-            }
-
-            return null;
-        }
     }
 }

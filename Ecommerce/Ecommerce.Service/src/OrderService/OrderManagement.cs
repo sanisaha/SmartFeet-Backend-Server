@@ -91,7 +91,7 @@ namespace Ecommerce.Service.src.OrderService
         {
             try
             {
-                var user = await _userRepository.GetAsync(u => u.Id == userId);
+                var user = await _userRepository.GetAsync(userId);
                 if (user == null)
                     throw new ArgumentException("Invalid user.");
 
@@ -155,7 +155,7 @@ namespace Ecommerce.Service.src.OrderService
         {
             try
             {
-                var order = await _orderRepository.GetAsync(o => o.Id == orderId);
+                var order = await _orderRepository.GetAsync(orderId);
                 if (order == null)
                     throw new ArgumentException("Order not found.");
 

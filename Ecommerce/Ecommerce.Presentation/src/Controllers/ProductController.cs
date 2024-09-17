@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Service.src.ProductService;
 using Microsoft.AspNetCore.Authorization;
+using Ecommerce.Domain.src.Model;
 
 namespace Ecommerce.Presentation.src.Controllers
 {
@@ -15,6 +16,11 @@ namespace Ecommerce.Presentation.src.Controllers
         public ProductController(IProductManagement productManagement) : base(productManagement)
         {
             _productManagement = productManagement;
+        }
+
+        public override async Task<ActionResult<ProductReadDto>> GetByIdAsync(Guid id)
+        {
+            return await base.GetByIdAsync(id);
         }
 
         //[Authorize(Roles = "Admin")]
@@ -67,6 +73,13 @@ namespace Ecommerce.Presentation.src.Controllers
         public async Task<IActionResult> GetInStockProducts()
         {
             var products = await _productManagement.GetInStockProductsAsync();
+            return Ok(products);
+        }
+
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetFilteredProducts([FromQuery] PaginationOptions paginationOptions, [FromQuery] FilterOptions filterOptions)
+        {
+            var products = await _productManagement.GetFilteredProductsAsync(paginationOptions, filterOptions);
             return Ok(products);
         }
 

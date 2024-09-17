@@ -91,7 +91,7 @@ namespace Ecommerce.Service.src.OrderItemService
         {
             try
             {
-                var order = await _orderRepository.GetAsync(o => o.Id == orderId);
+                var order = await _orderRepository.GetAsync(orderId);
                 if (order == null)
                     throw new ArgumentException("Order not found.");
 
@@ -116,7 +116,7 @@ namespace Ecommerce.Service.src.OrderItemService
         {
             try
             {
-                var product = await _productRepository.GetAsync(ad => ad.Id == productId);
+                var product = await _productRepository.GetAsync(productId);
                 if (product == null)
                     throw new ArgumentException("Invalid Product.");
 
@@ -140,7 +140,7 @@ namespace Ecommerce.Service.src.OrderItemService
         {
             try
             {
-                var order = await _orderRepository.GetAsync(o => o.Id == orderId);
+                var order = await _orderRepository.GetAsync(orderId);
                 if (order == null)
                     throw new ArgumentException("Order not found.");
 

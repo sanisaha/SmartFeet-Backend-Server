@@ -1,4 +1,6 @@
+using Ecommerce.Domain.src.Model;
 using Ecommerce.Domain.src.ProductAggregate;
+using Ecommerce.Domain.src.Shared;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.ProductService
@@ -10,6 +12,7 @@ namespace Ecommerce.Service.src.ProductService
         Task<IEnumerable<ProductReadDto>> GetProductsByPriceRangeAsync(decimal minPrice, decimal maxPrice);
         Task<IEnumerable<ProductReadDto>> GetTopSellingProductsAsync(int count);
         Task<IEnumerable<Product>> GetInStockProductsAsync();
+        Task<PaginatedResult<ProductReadDto>> GetFilteredProductsAsync(PaginationOptions paginationOptions, FilterOptions filterOptions);
 
     }
 }
