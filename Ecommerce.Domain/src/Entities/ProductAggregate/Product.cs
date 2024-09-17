@@ -4,6 +4,7 @@ using Ecommerce.Domain.src.CategoryAggregate;
 using Ecommerce.Domain.src.Entities.OrderAggregate;
 using Ecommerce.Domain.src.Entities.ProductAggregate;
 using Ecommerce.Domain.src.Entities.ReviewAggregate;
+using Ecommerce.Domain.src.Entities.SubCategoryAggregate;
 using Ecommerce.Domain.src.Shared;
 
 namespace Ecommerce.Domain.src.ProductAggregate
@@ -13,8 +14,8 @@ namespace Ecommerce.Domain.src.ProductAggregate
         [MaxLength(100)]
         public string? Title { get; set; }
 
-        [ForeignKey("Category")]
-        public Guid CategoryId { get; set; }
+        //[ForeignKey("Category")]
+        public Guid SubCategoryId { get; set; }
 
         [Required]
         [MaxLength(100)]
@@ -34,15 +35,11 @@ namespace Ecommerce.Domain.src.ProductAggregate
         public virtual ICollection<Review> Reviews { get; set; }
 
         // Navigation property
-        public virtual Category? Category { get; set; }
-        public virtual IEnumerable<ProductImage>? ProductImages { get; set; }
-        public virtual IEnumerable<ProductSize>? ProductSizes { get; set; }
-        public virtual IEnumerable<ProductColor>? ProductColors { get; set; }
+        public virtual SubCategory? SubCategory { get; set; }
+        public virtual ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
+        public virtual ICollection<ProductSize> ProductSizes { get; set; } = new List<ProductSize>();
+        public virtual ICollection<ProductColor> ProductColors { get; set; } = new List<ProductColor>();
 
-        public Product()
-        {
-
-        }
         public bool IsInStock()
         {
             return Stock > 0;

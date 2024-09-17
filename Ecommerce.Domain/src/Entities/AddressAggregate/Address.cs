@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Ecommerce.Domain.src.Entities.UserAggregate;
 using Ecommerce.Domain.src.Shared;
 
 namespace Ecommerce.Domain.src.AddressAggregate
@@ -30,7 +29,5 @@ namespace Ecommerce.Domain.src.AddressAggregate
         [StringLength(50, ErrorMessage = "Country name must be up to {1} characters long.")]
         public string? Country { get; set; } = string.Empty;
 
-        // Navigation Properties
-        public virtual IEnumerable<UserAddress>? UserAddresses { get; set; }
     }
 }

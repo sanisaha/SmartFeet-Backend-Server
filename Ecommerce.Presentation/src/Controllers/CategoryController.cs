@@ -1,3 +1,4 @@
+using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.CategoryAggregate;
 using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Service.src.CategoryService;
@@ -20,6 +21,11 @@ namespace Ecommerce.Presentation.src.Controllers
         //[Authorize]
         public override async Task<ActionResult<CategoryReadDto>> CreateAsync(CategoryCreateDto entity)
         {
+            var existingCategory = await _categoryManagement.GetCategoryByNameAsync(entity.CategoryName);
+            if (existingCategory != null)
+            {
+                return Conflict(new { message = "A category with this name already exists." });
+            }
             return await base.CreateAsync(entity);
         }
         //[Authorize]
@@ -38,6 +44,20 @@ namespace Ecommerce.Presentation.src.Controllers
         public async Task<IEnumerable<CategoryReadDto>> GetCategoryByIdAsync(Guid userId)
         {
             return await _categoryManagement.GetCategoryByIdAsync(userId);
+        }
+        [HttpGet("categoryName/{categoryName}")]
+        public async Task<IActionResult> GetCategoryByNameAsync(string categoryName)
+        {
+            if (!Enum.TryParse(categoryName, true, out CategoryName categoryEnum))
+            {
+                return BadRequest("Invalid category name");
+            }
+            var category = await _categoryManagement.GetCategoryByNameAsync(categoryEnum);
+            if (category == null)
+            {
+                return NotFound("Category not found");
+            }
+            return Ok(category);
         }
     }
 }

@@ -1,5 +1,8 @@
+using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.CategoryAggregate;
 using Ecommerce.Domain.src.Interfaces;
+using Ecommerce.Domain.src.Model;
+using Ecommerce.Domain.src.Shared;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.CategoryService
@@ -21,6 +24,36 @@ namespace Ecommerce.Service.src.CategoryService
                 Id = c.Id,
                 CategoryName = c.CategoryName,
             });
+        }
+        public override async Task<PaginatedResult<CategoryReadDto>> GetAllAsync(PaginationOptions paginationOptions)
+        {
+            var entities = await _categoryRepository.GetAllAsync(paginationOptions);
+            var convertedResult = entities.Items.Select(entity =>
+            {
+                var readDto = Activator.CreateInstance<CategoryReadDto>();
+                readDto.FromEntity(entity);
+                return readDto;
+            });
+            return new PaginatedResult<CategoryReadDto>
+            {
+                Items = convertedResult,
+                CurrentPage = entities.CurrentPage,
+                TotalPages = entities.TotalPages
+            };
+        }
+        public async Task<CategoryReadDto?> GetCategoryByNameAsync(CategoryName categoryName)
+        {
+            var category = await _categoryRepository.GetCategoryByNameAsync(categoryName.ToString());
+            if (category == null)
+            {
+                return null;
+            }
+            return new CategoryReadDto
+            {
+                Id = category.Id,
+                CategoryName = category.CategoryName,
+            };
+
         }
 
     }

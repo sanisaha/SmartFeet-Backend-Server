@@ -18,14 +18,12 @@ namespace Ecommerce.Service.src.ProductColorService
     }
     public class ProductColorCreateDto : ICreateDto<ProductColor>
     {
-        public Guid ProductId { get; set; }
-        public string ColorName { get; set; }
+        public ColorName ColorName { get; set; }
         public ProductColor CreateEntity()
         {
             return new ProductColor
             {
-                ProductId = ProductId,
-                ColorName = (ColorName)System.Enum.Parse(typeof(ColorName), ColorName)
+                ColorName = ColorName
             };
         }
     }

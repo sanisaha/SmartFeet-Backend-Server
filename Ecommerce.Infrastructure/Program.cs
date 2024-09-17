@@ -18,20 +18,19 @@ using Ecommerce.Service.src.CategoryService;
 using Ecommerce.Service.src.OrderService;
 using Ecommerce.Service.src.OrderItemService;
 using Ecommerce.Service.src.ReviewService;
-using Ecommerce.Service.src.ShipmentService;
 using Ecommerce.Service.src.PaymentService;
 using Ecommerce.Service.src.AddressService;
 using Ecommerce.Service.src.ProductService;
+using Ecommerce.Service.src.SubCategoryService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.Converters.Add(new StringEnumConverter());
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 });
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(
     options =>
@@ -74,9 +73,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Dependency Injection
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserAddressRepository, UserAddressRepository>();
+//builder.Services.AddScoped<IUserAddressRepository, UserAddressRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
-builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
+//builder.Services.AddScoped<IShipmentRepository, ShipmentRepository>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -86,6 +85,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductColorRepository, ProductColorRepository>();
 builder.Services.AddScoped<IProductSizeRepository, ProductSizeRepository>();
 builder.Services.AddScoped<IProductImageRepository, ProductImageRepository>();
+builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
 //builder.Services.AddScoped<ExceptionHandlerMiddleware>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthManagement, AuthManagement>();
@@ -99,9 +99,10 @@ builder.Services.AddScoped<ICategoryManagement, CategoryManagement>();
 builder.Services.AddScoped<IOrderManagement, OrderManagement>();
 builder.Services.AddScoped<IOrderItemManagement, OrderItemManagement>();
 builder.Services.AddScoped<IReviewManagement, ReviewManagement>();
-builder.Services.AddScoped<IShipmentManagement, ShipmentManagement>();
+//builder.Services.AddScoped<IShipmentManagement, ShipmentManagement>();
 builder.Services.AddScoped<IPaymentManagement, PaymentManagement>();
 builder.Services.AddScoped<IAddressManagement, AddressManagement>();
+builder.Services.AddScoped<ISubCategoryManagement, SubCategoryManagement>();
 
 // Add authentication configuration
 builder.Services.AddAuthentication(

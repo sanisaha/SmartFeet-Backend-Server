@@ -1,4 +1,4 @@
-using Ecommerce.Domain.Enums;
+/* using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.AddressAggregate;
 using Ecommerce.Domain.src.Entities.OrderAggregate;
 using Ecommerce.Domain.src.Shared;
@@ -16,4 +16,4 @@ namespace Ecommerce.Domain.src.Entities.ShipmentAggregate
         public Order? Order { get; set; }
         public Address? Address { get; set; }
     }
-}
+} */

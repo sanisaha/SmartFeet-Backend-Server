@@ -19,6 +19,8 @@ namespace Ecommerce.Service.src.ReviewService
     }
     public class ReviewCreateDto : ICreateDto<Review>
     {
+        public Guid ProductId { get; set; }
+        public Guid UserId { get; set; }
         public DateTime ReviewDate { get; set; }
         public int Rating { get; set; }
         public string? ReviewText { get; set; }
@@ -26,6 +28,8 @@ namespace Ecommerce.Service.src.ReviewService
         {
             return new Review
             {
+                ProductId = ProductId,
+                UserId = UserId,
                 ReviewDate = ReviewDate,
                 Rating = Rating,
                 ReviewText = ReviewText

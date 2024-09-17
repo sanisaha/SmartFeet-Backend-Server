@@ -21,7 +21,6 @@ namespace Ecommerce.Service.src.ProductImageService
     }
     public class ProductImageCreateDto : ICreateDto<ProductImage>
     {
-        public Guid ProductId { get; set; }
         public string ImageURL { get; set; }
         public bool IsPrimary { get; set; }
         public string? ImageText { get; set; }
@@ -29,7 +28,6 @@ namespace Ecommerce.Service.src.ProductImageService
         {
             return new ProductImage
             {
-                ProductId = ProductId,
                 ImageURL = ImageURL,
                 IsPrimary = IsPrimary,
                 ImageText = ImageText

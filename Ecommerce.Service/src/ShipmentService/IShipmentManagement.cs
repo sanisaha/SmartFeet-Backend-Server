@@ -1,4 +1,4 @@
-using Ecommerce.Domain.src.Entities.ShipmentAggregate;
+/* using Ecommerce.Domain.src.Entities.ShipmentAggregate;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.ShipmentService
@@ -7,4 +7,4 @@ namespace Ecommerce.Service.src.ShipmentService
     {
         Task<IEnumerable<ShipmentReadDto>> GetShipmentsByOrderIdAsync(Guid orderId);
     }
-}
+} */

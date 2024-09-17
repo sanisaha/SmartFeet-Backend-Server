@@ -1,4 +1,4 @@
-using Ecommerce.Domain.src.Entities.UserAggregate;
+/* using Ecommerce.Domain.src.Entities.UserAggregate;
 using Ecommerce.Domain.src.Interface;
 
 namespace Ecommerce.Domain.src.Interfaces
@@ -7,4 +7,4 @@ namespace Ecommerce.Domain.src.Interfaces
     {
         Task<IEnumerable<UserAddress>> GetUserAddressesByUserId(Guid userId);
     }
-}
+} */

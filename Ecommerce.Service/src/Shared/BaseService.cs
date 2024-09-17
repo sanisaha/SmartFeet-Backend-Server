@@ -53,7 +53,7 @@ namespace Ecommerce.Service.src.Shared
             var entity = await _repo.GetAsync(e => e.Id == id);
             if (entity == null)
             {
-                throw new Exception("Entity not found");
+                throw new Exception($"entity with id {id} not found");
             }
             var readDto = Activator.CreateInstance<TReadDto>();
             readDto.FromEntity(entity);

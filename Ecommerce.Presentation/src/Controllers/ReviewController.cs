@@ -1,6 +1,8 @@
 using Ecommerce.Domain.src.Entities.ReviewAggregate;
 using Ecommerce.Domain.src.Interfaces;
+using Ecommerce.Service.src.ProductService;
 using Ecommerce.Service.src.ReviewService;
+using Ecommerce.Service.src.UserService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,16 +13,31 @@ namespace Ecommerce.Presentation.src.Controllers
     public class ReviewController : AppController<Review, ReviewReadDto, ReviewCreateDto, ReviewUpdateDto>
     {
         private readonly IReviewManagement _reviewManagement;
+        private readonly IProductManagement _productManagement;
+        private readonly IUserManagement _userManagement;
 
-        public ReviewController(IReviewManagement reviewManagement) : base(reviewManagement)
+        public ReviewController(IReviewManagement reviewManagement, IProductManagement productManagement, IUserManagement userManagement) : base(reviewManagement)
         {
             _reviewManagement = reviewManagement;
+            _productManagement = productManagement;
+            _userManagement = userManagement;
         }
 
         //[Authorize]
         public override async Task<ActionResult<ReviewReadDto>> CreateAsync(ReviewCreateDto entity)
         {
+            var existingProduct = await _productManagement.GetByIdAsync(entity.ProductId);
+            if (existingProduct == null)
+            {
+                return NotFound(new { message = "ProductId not found." });
+            }
+            var existingUser = await _userManagement.GetByIdAsync(entity.UserId);
+            if (existingUser == null)
+            {
+                return NotFound(new { message = "UserId not found." });
+            }
             return await base.CreateAsync(entity);
+
         }
 
         //[Authorize]

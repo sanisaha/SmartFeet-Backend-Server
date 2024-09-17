@@ -1,4 +1,4 @@
-namespace Ecommerce.Domain.Enums
+/* namespace Ecommerce.Domain.Enums
 {
     public enum ShippingStatus
     {
@@ -14,4 +14,4 @@ namespace Ecommerce.Domain.Enums
         HeldAtCustoms = 10,
         Canceled = 11
     }
-}
+} */

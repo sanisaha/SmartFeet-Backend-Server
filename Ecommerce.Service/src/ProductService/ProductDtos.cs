@@ -1,4 +1,9 @@
+using Ecommerce.Domain.src.Entities.ProductAggregate;
 using Ecommerce.Domain.src.ProductAggregate;
+using Ecommerce.Service.src.ProductColorService;
+using Ecommerce.Service.src.ProductImageService;
+using Ecommerce.Service.src.ProductSizeService;
+using Ecommerce.Service.src.ReviewService;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.ProductService
@@ -9,8 +14,13 @@ namespace Ecommerce.Service.src.ProductService
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int Stock { get; set; }
-        public Guid CategoryId { get; set; }
+        public Guid SubCategoryId { get; set; }
         public string BrandName { get; set; }
+        public ICollection<ProductImageReadDto> ProductImages { get; set; }
+        public ICollection<ProductSizeReadDto> ProductSizes { get; set; }
+        public ICollection<ProductColorReadDto> ProductColors { get; set; }
+        public ICollection<ReviewReadDto> Reviews { get; set; }
+
 
         public override void FromEntity(Product entity)
         {
@@ -19,8 +29,14 @@ namespace Ecommerce.Service.src.ProductService
             Description = entity.Description;
             Price = entity.Price;
             Stock = entity.Stock;
-            CategoryId = entity.CategoryId;
+            SubCategoryId = entity.SubCategoryId;
             BrandName = entity.BrandName;
+            Reviews = entity.Reviews?.Select(x =>
+            {
+                var reviewDto = new ReviewReadDto();
+                reviewDto.FromEntity(x);
+                return reviewDto;
+            }).ToList();
         }
     }
     public class ProductCreateDto : ICreateDto<Product>
@@ -29,8 +45,11 @@ namespace Ecommerce.Service.src.ProductService
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int Stock { get; set; }
-        public Guid CategoryId { get; set; }
+        public Guid SubCategoryId { get; set; }
         public string BrandName { get; set; }
+        public ICollection<ProductImageCreateDto> ProductImages { get; set; }
+        public ICollection<ProductSizeCreateDto> ProductSizes { get; set; }
+        public ICollection<ProductColorCreateDto> ProductColors { get; set; }
         public Product CreateEntity()
         {
             return new Product
@@ -39,8 +58,11 @@ namespace Ecommerce.Service.src.ProductService
                 Description = Description,
                 Price = Price,
                 Stock = Stock,
-                CategoryId = CategoryId,
-                BrandName = BrandName
+                SubCategoryId = SubCategoryId,
+                BrandName = BrandName,
+                ProductImages = ProductImages.Select(x => x.CreateEntity()).ToList(),
+                ProductSizes = ProductSizes.Select(x => x.CreateEntity()).ToList(),
+                ProductColors = ProductColors.Select(x => x.CreateEntity()).ToList()
             };
         }
     }
@@ -51,7 +73,7 @@ namespace Ecommerce.Service.src.ProductService
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int Stock { get; set; }
-        public Guid CategoryId { get; set; }
+        public Guid SubCategoryId { get; set; }
         public string BrandName { get; set; }
         public Product UpdateEntity(Product entity)
         {
@@ -59,7 +81,7 @@ namespace Ecommerce.Service.src.ProductService
             entity.Description = Description;
             entity.Price = Price;
             entity.Stock = Stock;
-            entity.CategoryId = CategoryId;
+            entity.SubCategoryId = SubCategoryId;
             entity.BrandName = BrandName;
             return entity;
         }

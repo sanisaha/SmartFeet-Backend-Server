@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using Ecommerce.Domain.Enums;
+using Ecommerce.Domain.src.AddressAggregate;
 using Ecommerce.Domain.src.Entities.OrderAggregate;
 using Ecommerce.Domain.src.Entities.ReviewAggregate;
-using Ecommerce.Domain.src.Entities.UserAggregate;
 using Ecommerce.Domain.src.Shared;
 
 namespace Ecommerce.Domain.src.UserAggregate
@@ -34,10 +34,14 @@ namespace Ecommerce.Domain.src.UserAggregate
         [Required]
         public UserRole Role { get; set; }
 
+        public Guid? AddressId { get; set; }
+
+
         // Navigation Properties
-        public virtual IEnumerable<UserAddress>? UserAddresses { get; set; }
-        public virtual IEnumerable<Review>? Reviews { get; set; }
-        public virtual IEnumerable<Order>? Orders { get; set; }
+        public virtual ICollection<Review>? Reviews { get; set; }
+        public virtual ICollection<Order>? Orders { get; set; }
+
+        public virtual Address? Address { get; set; }
 
     }
 }

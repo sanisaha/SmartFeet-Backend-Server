@@ -27,8 +27,7 @@ namespace Ecommerce.Infrastructure.src.Repository
         public async Task<User> GetUserByEmail(string email)
         {
             return await _context.Users
-                .Include(u => u.UserAddresses)
-                .ThenInclude(ua => ua.Address)
+                .Include(u => u.Address)
                 .FirstOrDefaultAsync(u => u.Email == email);
         }
 

@@ -4,6 +4,8 @@ using Ecommerce.Domain.src.ProductAggregate;
 using Ecommerce.Domain.src.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Ecommerce.Infrastructure.src.Database;
+using Ecommerce.Domain.src.Shared;
+using Ecommerce.Domain.src.Model;
 
 namespace Ecommerce.Infrastructure.src.Repository
 {
@@ -18,20 +20,36 @@ namespace Ecommerce.Infrastructure.src.Repository
 
         public override async Task<Product> CreateAsync(Product entity)
         {
-            var categoryExists = await _context.Categories.AnyAsync(c => c.Id == entity.CategoryId);
-            if (!categoryExists)
+            var subCategoryExists = await _context.SubCategories.AnyAsync(c => c.Id == entity.SubCategoryId);
+            if (!subCategoryExists)
             {
-                throw new Exception("Category does not exist");
+                throw new Exception("SubCategory does not exist");
             }
             await _context.Products.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity;
         }
 
-        public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid categoryId)
+        public override async Task<PaginatedResult<Product>> GetAllAsync(PaginationOptions paginationOptions)
+        {
+            var totalEntity = await _context.Products.CountAsync();
+            IQueryable<Product> query = _context.Products;
+            var entities = await query
+            .Include(p => p.Reviews)
+                .ToListAsync();
+
+            return new PaginatedResult<Product>
+            {
+                Items = entities,
+                TotalPages = (int)Math.Ceiling(totalEntity / (double)paginationOptions.PerPage),
+                CurrentPage = paginationOptions.Page,
+            };
+        }
+
+        public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid SubcategoryId)
         {
             return await _context.Products
-                .Where(p => p.CategoryId == categoryId)
+                .Where(p => p.SubCategoryId == SubcategoryId)
                 .ToListAsync();
         }
 

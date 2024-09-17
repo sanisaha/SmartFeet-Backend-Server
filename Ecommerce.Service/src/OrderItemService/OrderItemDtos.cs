@@ -8,13 +8,15 @@ namespace Ecommerce.Service.src.OrderItemService
         public Guid OrderId { get; set; }
         public Guid ProductId { get; set; }
         public int Quantity { get; set; }
+        public decimal Price { get; set; }
         public OrderItem CreateEntity()
         {
             return new OrderItem
             {
                 OrderId = OrderId,
                 ProductId = ProductId,
-                Quantity = Quantity
+                Quantity = Quantity,
+                Price = Price
             };
         }
     }
@@ -37,12 +39,14 @@ namespace Ecommerce.Service.src.OrderItemService
         public Guid OrderId { get; set; }
         public Guid ProductId { get; set; }
         public int Quantity { get; set; }
+        public decimal Price { get; set; }
 
         public override void FromEntity(OrderItem entity)
         {
             OrderId = entity.OrderId;
             ProductId = entity.ProductId;
             Quantity = entity.Quantity;
+            Price = entity.Price;
         }
     }
 }
