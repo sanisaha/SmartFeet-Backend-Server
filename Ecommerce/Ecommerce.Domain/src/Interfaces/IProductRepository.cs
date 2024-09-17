@@ -13,5 +13,6 @@ namespace Ecommerce.Domain.src.Interfaces
         Task<IEnumerable<Product>> GetTopSellingProductsAsync(int count);
         Task<IEnumerable<Product>> GetInStockProductsAsync();
         Task<PaginatedResult<Product>> GetFilteredProductsAsync(PaginationOptions paginationOptions, FilterOptions filterOptions);
+        Task<IEnumerable<Product>> GetProductsBySubcategoryAsync(Guid subcategoryId);
     }
 }

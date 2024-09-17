@@ -83,5 +83,12 @@ namespace Ecommerce.Presentation.src.Controllers
             return Ok(products);
         }
 
+        [HttpGet("subcategory/{subcategoryId}")]
+        public async Task<IActionResult> GetProductsBySubcategory(Guid subcategoryId)
+        {
+            var products = await _productManagement.GetProductsBySubcategoryAsync(subcategoryId);
+            return Ok(products);
+        }
+
     }
 }

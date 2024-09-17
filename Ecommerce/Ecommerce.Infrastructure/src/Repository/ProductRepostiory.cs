@@ -136,5 +136,16 @@ namespace Ecommerce.Infrastructure.src.Repository
                 CurrentPage = paginationOptions.Page,
             };
         }
+
+        public async Task<IEnumerable<Product>> GetProductsBySubcategoryAsync(Guid subcategoryId)
+        {
+            return await _context.Products
+                .Include(p => p.Reviews)
+                .Include(p => p.ProductColors)
+                .Include(p => p.ProductSizes)
+                .Include(p => p.ProductImages)
+                .Where(p => p.SubCategoryId == subcategoryId)
+                .ToListAsync();
+        }
     }
 }
