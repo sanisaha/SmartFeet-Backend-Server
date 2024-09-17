@@ -90,5 +90,19 @@ namespace Ecommerce.Presentation.src.Controllers
             return Ok(products);
         }
 
+        [HttpGet("new-arrival")]
+        public async Task<IActionResult> GetProductsByNewArrival()
+        {
+            var products = await _productManagement.GetProductsByNewArrivalAsync();
+            return Ok(products);
+        }
+
+        [HttpGet("featured")]
+        public async Task<IActionResult> GetProductsByFeatured()
+        {
+            var products = await _productManagement.GetProductsByFeaturedAsync();
+            return Ok(products);
+        }
+
     }
 }

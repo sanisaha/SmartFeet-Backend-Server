@@ -14,6 +14,8 @@ namespace Ecommerce.Service.src.ProductService
         Task<IEnumerable<Product>> GetInStockProductsAsync();
         Task<PaginatedResult<ProductReadDto>> GetFilteredProductsAsync(PaginationOptions paginationOptions, FilterOptions filterOptions);
         Task<IEnumerable<ProductReadDto>> GetProductsBySubcategoryAsync(Guid subcategoryId);
+        Task<IEnumerable<ProductReadDto>> GetProductsByNewArrivalAsync();
+        Task<IEnumerable<ProductReadDto>> GetProductsByFeaturedAsync();
 
     }
 }

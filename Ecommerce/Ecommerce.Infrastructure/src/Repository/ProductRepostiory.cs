@@ -147,5 +147,21 @@ namespace Ecommerce.Infrastructure.src.Repository
                 .Where(p => p.SubCategoryId == subcategoryId)
                 .ToListAsync();
         }
+        public async Task<IEnumerable<Product>> GetProductsByNewArrivalAsync()
+        {
+            return await _context.Products
+            .Include(p => p.ProductImages)
+                .OrderByDescending(p => p.CreatedAt)
+                .Take(10)
+                .ToListAsync();
+        }
+        public async Task<IEnumerable<Product>> GetProductsByFeaturedAsync()
+        {
+            return await _context.Products
+                .Include(p => p.ProductImages)
+                .Include(p => p.Reviews)
+                .Where(p => p.IsFeatured)
+                .ToListAsync();
+        }
     }
 }

@@ -280,5 +280,43 @@ namespace Ecommerce.Service.src.ProductService
                 throw new Exception("Error Retrieving Products!.");
             }
         }
+        public async Task<IEnumerable<ProductReadDto>> GetProductsByNewArrivalAsync()
+        {
+            try
+            {
+                var products = await _productRepository.GetProductsByNewArrivalAsync();
+                var productDtos = products.Select(product =>
+                {
+                    var dto = new ProductReadDto();
+                    dto.FromEntity(product);
+                    return dto;
+                });
+
+                return productDtos;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error Retrieving Products!.");
+            }
+        }
+        public async Task<IEnumerable<ProductReadDto>> GetProductsByFeaturedAsync()
+        {
+            try
+            {
+                var products = await _productRepository.GetProductsByFeaturedAsync();
+                var productDtos = products.Select(product =>
+                {
+                    var dto = new ProductReadDto();
+                    dto.FromEntity(product);
+                    return dto;
+                });
+
+                return productDtos;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error Retrieving Products!.");
+            }
+        }
     }
 }
