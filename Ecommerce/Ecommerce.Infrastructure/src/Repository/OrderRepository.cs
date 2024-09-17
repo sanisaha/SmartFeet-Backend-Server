@@ -2,6 +2,8 @@ using System.Linq.Expressions;
 using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.Entities.OrderAggregate;
 using Ecommerce.Domain.src.Interfaces;
+using Ecommerce.Domain.src.Model;
+using Ecommerce.Domain.src.Shared;
 using Ecommerce.Infrastructure.src.Database;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +16,22 @@ namespace Ecommerce.Infrastructure.src.Repository
         public OrderRepository(ApplicationDbContext context) : base(context)
         {
             _context = context;
+        }
+
+        public override async Task<PaginatedResult<Order>> GetAllAsync(PaginationOptions paginationOptions)
+        {
+            var totalEntity = await _context.Orders.CountAsync();
+            IQueryable<Order> query = _context.Orders;
+            var entities = await query
+                .Include(o => o.OrderItems)
+                .ToListAsync();
+
+            return new PaginatedResult<Order>
+            {
+                Items = entities,
+                TotalPages = (int)Math.Ceiling(totalEntity / (double)paginationOptions.PerPage),
+                CurrentPage = paginationOptions.Page,
+            };
         }
 
         public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(Guid userId)
