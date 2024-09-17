@@ -36,6 +36,9 @@ namespace Ecommerce.Infrastructure.src.Repository
             IQueryable<Product> query = _context.Products;
             var entities = await query
             .Include(p => p.Reviews)
+            .Include(p => p.ProductColors)
+            .Include(p => p.ProductSizes)
+            .Include(p => p.ProductImages)
                 .ToListAsync();
 
             return new PaginatedResult<Product>
@@ -44,6 +47,16 @@ namespace Ecommerce.Infrastructure.src.Repository
                 TotalPages = (int)Math.Ceiling(totalEntity / (double)paginationOptions.PerPage),
                 CurrentPage = paginationOptions.Page,
             };
+        }
+
+        public override async Task<Product> GetAsync(Guid id)
+        {
+            return await _context.Products
+                .Include(p => p.Reviews)
+                .Include(p => p.ProductColors)
+                .Include(p => p.ProductSizes)
+                .Include(p => p.ProductImages)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid SubcategoryId)
@@ -87,9 +100,68 @@ namespace Ecommerce.Infrastructure.src.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Product>> GetAllAsync()
+        public async Task<PaginatedResult<Product>> GetFilteredProductsAsync(PaginationOptions paginationOptions, FilterOptions filterOptions)
         {
-            return await _context.Products.ToListAsync();
+            IQueryable<Product> query = _context.Products
+                .Include(p => p.Reviews)
+                .Include(p => p.ProductColors)
+                .Include(p => p.ProductSizes)
+                .Include(p => p.ProductImages);
+
+            // Apply filters
+            if (!string.IsNullOrEmpty(filterOptions.Category?.ToString()))
+                query = query.Where(p => p.CategoryName == filterOptions.Category);
+
+            if (!string.IsNullOrEmpty(filterOptions.SubCategory?.ToString()))
+                query = query.Where(p => p.SubCategoryName == filterOptions.SubCategory);
+
+            if (!string.IsNullOrEmpty(filterOptions.Brand))
+                query = query.Where(p => p.BrandName == filterOptions.Brand);
+
+            if (!string.IsNullOrEmpty(filterOptions.Size?.ToString()))
+                query = query.Where(p => p.ProductSizes.Any(s => s.SizeValue == filterOptions.Size));
+
+            var totalEntity = await query.CountAsync();
+
+            // Pagination logic
+            var entities = await query
+                .Skip((paginationOptions.Page - 1) * paginationOptions.PerPage)
+                .Take(paginationOptions.PerPage)
+                .ToListAsync();
+
+            return new PaginatedResult<Product>
+            {
+                Items = entities,
+                TotalPages = (int)Math.Ceiling(totalEntity / (double)paginationOptions.PerPage),
+                CurrentPage = paginationOptions.Page,
+            };
+        }
+
+        public async Task<IEnumerable<Product>> GetProductsBySubcategoryAsync(Guid subcategoryId)
+        {
+            return await _context.Products
+                .Include(p => p.Reviews)
+                .Include(p => p.ProductColors)
+                .Include(p => p.ProductSizes)
+                .Include(p => p.ProductImages)
+                .Where(p => p.SubCategoryId == subcategoryId)
+                .ToListAsync();
+        }
+        public async Task<IEnumerable<Product>> GetProductsByNewArrivalAsync()
+        {
+            return await _context.Products
+            .Include(p => p.ProductImages)
+                .OrderByDescending(p => p.CreatedAt)
+                .Take(10)
+                .ToListAsync();
+        }
+        public async Task<IEnumerable<Product>> GetProductsByFeaturedAsync()
+        {
+            return await _context.Products
+                .Include(p => p.ProductImages)
+                .Include(p => p.Reviews)
+                .Where(p => p.IsFeatured)
+                .ToListAsync();
         }
     }
 }

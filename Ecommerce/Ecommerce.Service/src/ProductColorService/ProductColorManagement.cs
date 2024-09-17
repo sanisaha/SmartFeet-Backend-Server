@@ -20,7 +20,7 @@ namespace Ecommerce.Service.src.ProductColorService
         {
             try
             {
-                var product = await _productRepository.GetAsync(p => p.Id == productId);
+                var product = await _productRepository.GetAsync(productId);
                 if (product == null)
                     throw new ArgumentException("Invalid product.");
 
@@ -37,32 +37,6 @@ namespace Ecommerce.Service.src.ProductColorService
             catch
             {
                 throw new Exception("Error Retrieving Product Colors!.");
-            }
-        }
-        public async Task<ProductColorReadDto> GetColorByNameAsync(string colorName)
-        {
-            try
-            {
-                if (!Enum.TryParse<ColorName>(colorName, true, out var colorEnum))
-                {
-                    throw new ArgumentException("Invalid color name.");
-                }
-
-                var productColor = await _productColorRepository.GetAsync(pc => pc.ColorName == colorEnum);
-                if (productColor == null)
-                {
-                    throw new ArgumentException("Product color not found.");
-                }
-
-                var productColorReadDto = new ProductColorReadDto();
-                productColorReadDto.FromEntity(productColor);
-
-                return productColorReadDto;
-
-            }
-            catch
-            {
-                throw new Exception("Error Retrieving Product Color!.");
             }
         }
     }

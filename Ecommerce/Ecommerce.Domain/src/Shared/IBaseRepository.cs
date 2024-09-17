@@ -10,7 +10,7 @@ namespace Ecommerce.Domain.src.Interface
         Task<T> CreateAsync(T entity);
         Task<bool> UpdateByIdAsync(T entity);
         Task<bool> DeleteByIdAsync(Guid id);
-        Task<T> GetAsync(Expression<Func<T, bool>>? filter = null, bool tracked = true);
+        Task<T> GetAsync(Guid id);
         Task<PaginatedResult<T>> GetAllAsync(PaginationOptions paginationOptions);
     }
 }

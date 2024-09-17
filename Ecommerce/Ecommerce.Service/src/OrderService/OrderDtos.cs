@@ -13,17 +13,23 @@ namespace Ecommerce.Service.src.OrderService
         public decimal TotalPrice { get; set; }
         public Guid? AddressId { get; set; }
         public OrderStatus OrderStatus { get; set; }
+        public ICollection<OrderItemReadDto> OrderItems { get; set; }
         //public IEnumerable<OrderItemReadDto> OrderItems { get; set; }
 
         public override void FromEntity(Order entity)
         {
+            base.FromEntity(entity);
             UserId = entity.UserId;
             OrderDate = entity.OrderDate;
             TotalPrice = entity.TotalPrice;
             AddressId = entity.AddressId;
             OrderStatus = entity.OrderStatus;
-            //OrderItems = entity.OrderItems.Select(item => new OrderItemReadDto().FromEntity(item)).ToList();
-            base.FromEntity(entity);
+            OrderItems = entity.OrderItems?.Select(item =>
+            {
+                var orderItemDto = new OrderItemReadDto();
+                orderItemDto.FromEntity(item);
+                return orderItemDto;
+            }).ToList();
         }
     }
     public class OrderCreateDto : ICreateDto<Order>

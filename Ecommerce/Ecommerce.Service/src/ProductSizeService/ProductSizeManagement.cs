@@ -21,7 +21,7 @@ namespace Ecommerce.Service.src.ProductSizeService
         {
             try
             {
-                var product = await _productRepository.GetAsync(p => p.Id == productId);
+                var product = await _productRepository.GetAsync(productId);
                 if (product == null)
                     throw new ArgumentException("Invalid product.");
 

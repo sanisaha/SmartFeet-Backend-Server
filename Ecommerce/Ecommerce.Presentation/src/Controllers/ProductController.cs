@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Service.src.ProductService;
 using Microsoft.AspNetCore.Authorization;
+using Ecommerce.Domain.src.Model;
 
 namespace Ecommerce.Presentation.src.Controllers
 {
@@ -15,6 +16,11 @@ namespace Ecommerce.Presentation.src.Controllers
         public ProductController(IProductManagement productManagement) : base(productManagement)
         {
             _productManagement = productManagement;
+        }
+
+        public override async Task<ActionResult<ProductReadDto>> GetByIdAsync(Guid id)
+        {
+            return await base.GetByIdAsync(id);
         }
 
         //[Authorize(Roles = "Admin")]
@@ -67,6 +73,34 @@ namespace Ecommerce.Presentation.src.Controllers
         public async Task<IActionResult> GetInStockProducts()
         {
             var products = await _productManagement.GetInStockProductsAsync();
+            return Ok(products);
+        }
+
+        [HttpGet("filter")]
+        public async Task<IActionResult> GetFilteredProducts([FromQuery] PaginationOptions paginationOptions, [FromQuery] FilterOptions filterOptions)
+        {
+            var products = await _productManagement.GetFilteredProductsAsync(paginationOptions, filterOptions);
+            return Ok(products);
+        }
+
+        [HttpGet("subcategory/{subcategoryId}")]
+        public async Task<IActionResult> GetProductsBySubcategory(Guid subcategoryId)
+        {
+            var products = await _productManagement.GetProductsBySubcategoryAsync(subcategoryId);
+            return Ok(products);
+        }
+
+        [HttpGet("new-arrival")]
+        public async Task<IActionResult> GetProductsByNewArrival()
+        {
+            var products = await _productManagement.GetProductsByNewArrivalAsync();
+            return Ok(products);
+        }
+
+        [HttpGet("featured")]
+        public async Task<IActionResult> GetProductsByFeatured()
+        {
+            var products = await _productManagement.GetProductsByFeaturedAsync();
             return Ok(products);
         }
 

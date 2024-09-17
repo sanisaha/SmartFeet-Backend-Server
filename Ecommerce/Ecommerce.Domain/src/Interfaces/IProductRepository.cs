@@ -1,5 +1,7 @@
 using Ecommerce.Domain.src.Interface;
+using Ecommerce.Domain.src.Model;
 using Ecommerce.Domain.src.ProductAggregate;
+using Ecommerce.Domain.src.Shared;
 
 namespace Ecommerce.Domain.src.Interfaces
 {
@@ -10,5 +12,9 @@ namespace Ecommerce.Domain.src.Interfaces
         Task<IEnumerable<Product>> GetProductsByPriceRangeAsync(decimal minPrice, decimal maxPrice);
         Task<IEnumerable<Product>> GetTopSellingProductsAsync(int count);
         Task<IEnumerable<Product>> GetInStockProductsAsync();
+        Task<PaginatedResult<Product>> GetFilteredProductsAsync(PaginationOptions paginationOptions, FilterOptions filterOptions);
+        Task<IEnumerable<Product>> GetProductsBySubcategoryAsync(Guid subcategoryId);
+        Task<IEnumerable<Product>> GetProductsByNewArrivalAsync();
+        Task<IEnumerable<Product>> GetProductsByFeaturedAsync();
     }
 }

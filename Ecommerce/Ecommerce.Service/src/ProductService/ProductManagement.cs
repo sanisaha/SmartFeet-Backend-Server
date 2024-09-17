@@ -104,11 +104,30 @@ namespace Ecommerce.Service.src.ProductService
 
         }
 
+        public override async Task<ProductReadDto> GetByIdAsync(Guid id)
+        {
+            try
+            {
+                var product = await _productRepository.GetAsync(id);
+                if (product == null)
+                    throw new ArgumentException("Product not found.");
+
+                var productDto = new ProductReadDto();
+                productDto.FromEntity(product);
+
+                return productDto;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error Retrieving Product!.");
+            }
+        }
+
         public async Task<IEnumerable<ProductReadDto>> GetProductsByCategoryAsync(Guid categoryId)
         {
             try
             {
-                var category = await _categoryRepository.GetAsync(c => c.Id == categoryId);
+                var category = await _categoryRepository.GetAsync(categoryId);
                 if (category == null)
                     throw new ArgumentException("Invalid category.");
 
@@ -214,6 +233,89 @@ namespace Ecommerce.Service.src.ProductService
             catch (Exception)
             {
                 throw new Exception("Error Retrieving Stock count!.");
+            }
+        }
+
+        public async Task<PaginatedResult<ProductReadDto>> GetFilteredProductsAsync(PaginationOptions paginationOptions, FilterOptions filterOptions)
+        {
+            try
+            {
+                var entities = await _productRepository.GetFilteredProductsAsync(paginationOptions, filterOptions);
+                var convertedResult = entities.Items.Select(entity =>
+                {
+                    var readDto = Activator.CreateInstance<ProductReadDto>();
+                    readDto.FromEntity(entity);
+                    return readDto;
+                });
+
+                return new PaginatedResult<ProductReadDto>
+                {
+                    Items = convertedResult,
+                    CurrentPage = entities.CurrentPage,
+                    TotalPages = entities.TotalPages
+                };
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error Retrieving Products!.");
+            }
+        }
+
+        public async Task<IEnumerable<ProductReadDto>> GetProductsBySubcategoryAsync(Guid subcategoryId)
+        {
+            try
+            {
+                var products = await _productRepository.GetProductsBySubcategoryAsync(subcategoryId);
+                var productDtos = products.Select(product =>
+                {
+                    var dto = new ProductReadDto();
+                    dto.FromEntity(product);
+                    return dto;
+                });
+
+                return productDtos;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error Retrieving Products!.");
+            }
+        }
+        public async Task<IEnumerable<ProductReadDto>> GetProductsByNewArrivalAsync()
+        {
+            try
+            {
+                var products = await _productRepository.GetProductsByNewArrivalAsync();
+                var productDtos = products.Select(product =>
+                {
+                    var dto = new ProductReadDto();
+                    dto.FromEntity(product);
+                    return dto;
+                });
+
+                return productDtos;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error Retrieving Products!.");
+            }
+        }
+        public async Task<IEnumerable<ProductReadDto>> GetProductsByFeaturedAsync()
+        {
+            try
+            {
+                var products = await _productRepository.GetProductsByFeaturedAsync();
+                var productDtos = products.Select(product =>
+                {
+                    var dto = new ProductReadDto();
+                    dto.FromEntity(product);
+                    return dto;
+                });
+
+                return productDtos;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error Retrieving Products!.");
             }
         }
     }

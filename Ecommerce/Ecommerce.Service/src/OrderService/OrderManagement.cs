@@ -1,6 +1,8 @@
 using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.Entities.OrderAggregate;
 using Ecommerce.Domain.src.Interfaces;
+using Ecommerce.Domain.src.Model;
+using Ecommerce.Domain.src.Shared;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.OrderService
@@ -17,81 +19,37 @@ namespace Ecommerce.Service.src.OrderService
             _userRepository = userRepository;
             _addressRepository = addressRepository;
         }
-        /* public async Task<Order> CreateAsync(OrderCreateDto createDto)
+
+        public override async Task<PaginatedResult<OrderReadDto>> GetAllAsync(PaginationOptions paginationOptions)
         {
             try
             {
-                if (createDto.UserId == null || createDto.UserId == Guid.Empty)
-                    throw new ArgumentException("User Id is required.");
+                var orders = await _orderRepository.GetAllAsync(paginationOptions);
+                var orderDtos = orders.Items.Select(order =>
+                {
+                    var dto = Activator.CreateInstance<OrderReadDto>();
+                    dto.FromEntity(order);
+                    return dto;
+                });
 
-                if (createDto.ShippingAddressId == null || createDto.ShippingAddressId == Guid.Empty)
-                    throw new ArgumentException("Shipping Address id is required.");
-
-                if (createDto.TotalPrice <= 0)
-                    throw new ArgumentException("Total price must be positive.");
-
-                var user = await _userRepository.GetAsync(u => u.Id == createDto.UserId);
-                if (user == null)
-                    throw new ArgumentException("Invalid user.");
-
-                var address = await _addressRepository.GetAsync(ad => ad.Id == createDto.ShippingAddressId);
-                if (address == null)
-                    throw new ArgumentException("Invalid Shipping address.");
-
-
-                var order = createDto.CreateEntity();
-                return await _orderRepository.CreateAsync(order);
+                return new PaginatedResult<OrderReadDto>
+                {
+                    Items = orderDtos,
+                    TotalPages = orders.TotalPages,
+                    CurrentPage = orders.CurrentPage,
+                };
             }
             catch
             {
-                throw new Exception("Error creating order!");
+                throw new Exception("Error Retrieving Orders!.");
             }
         }
-
-
-        public async Task<bool> UpdateAsync(Guid id, OrderUpdateDto updateDto)
-        {
-            try
-            {
-                var existingOrder = await _orderRepository.GetAsync(o => o.Id == id);
-
-                if (existingOrder == null)
-                    throw new ArgumentException("Order not found.");
-
-                if (updateDto.UserId == null || updateDto.UserId == Guid.Empty)
-                    throw new ArgumentException("User Id is required.");
-
-                if (updateDto.ShippingAddressId == null || updateDto.ShippingAddressId == Guid.Empty)
-                    throw new ArgumentException("Shipping Address id is required.");
-
-                if (updateDto.TotalPrice <= 0)
-                    throw new ArgumentException("Total price must be positive.");
-
-                var user = await _userRepository.GetAsync(u => u.Id == updateDto.UserId);
-                if (user == null)
-                    throw new ArgumentException("Invalid user.");
-
-                var address = await _addressRepository.GetAsync(ad => ad.Id == updateDto.ShippingAddressId);
-                if (address == null)
-                    throw new ArgumentException("Invalid Shipping address.");
-
-                var orderUpdateDto = new OrderUpdateDto();
-                var orderToUpdate = orderUpdateDto.UpdateEntity(existingOrder);
-
-                return await _orderRepository.UpdateByIdAsync(orderToUpdate);
-
-            }
-            catch
-            {
-                throw new Exception("Error Updating Order!.");
-            }
-        } */
 
         public async Task<IEnumerable<OrderReadDto>> GetOrdersByUserIdAsync(Guid userId)
         {
             try
             {
-                var user = await _userRepository.GetAsync(u => u.Id == userId);
+                var user = await _userRepository.GetAsync(userId);
                 if (user == null)
                     throw new ArgumentException("Invalid user.");
 
@@ -155,7 +113,7 @@ namespace Ecommerce.Service.src.OrderService
         {
             try
             {
-                var order = await _orderRepository.GetAsync(o => o.Id == orderId);
+                var order = await _orderRepository.GetAsync(orderId);
                 if (order == null)
                     throw new ArgumentException("Order not found.");
 

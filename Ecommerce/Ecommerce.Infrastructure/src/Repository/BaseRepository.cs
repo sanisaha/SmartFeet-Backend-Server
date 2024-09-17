@@ -48,21 +48,9 @@ namespace Ecommerce.Infrastructure.src.Repository
             return await _dbContext.SaveChangesAsync() > 0;
         }
 
-        public async Task<T> GetAsync(Expression<Func<T, bool>>? filter = null, bool tracked = true)
+        public virtual async Task<T> GetAsync(Guid id)
         {
-            IQueryable<T> query = _dbSet;
-
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            if (!tracked)
-            {
-                query = query.AsNoTracking();
-            }
-
-            return await query.FirstOrDefaultAsync();
+            return await _dbSet.FindAsync(id);
         }
 
         public virtual async Task<PaginatedResult<T>> GetAllAsync(PaginationOptions paginationOptions)
