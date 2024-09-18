@@ -80,5 +80,34 @@ namespace Ecommerce.Presentation.src.Controllers
             return NoContent();
         }
 
+        // GET: api/v1/users/profile
+        [HttpGet("profile")]
+        [Authorize] // You can use [Authorize] if you are already handling token validation in middleware
+        public async Task<IActionResult> GetUserProfile()
+        {
+            try
+            {
+                // Extract the token from the Authorization header
+                var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+                // Call service to retrieve user profile based on token
+                var userProfile = await _userManagement.GetUserProfileByToken(token);
+
+                if (userProfile == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                return Ok(userProfile);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+                // Return generic error message for security purposes
+                //return StatusCode(500, "An error occurred while fetching user profile.");
+            }
+        }
+
+
     }
 }
