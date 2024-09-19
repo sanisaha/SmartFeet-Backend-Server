@@ -20,7 +20,7 @@ namespace Ecommerce.Presentation.src.Controllers
 
         // GET: api/v1/order/{userId}
         [HttpGet("user/{userId}")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetOrdersByUserId(Guid userId)
         {
             var orders = await _orderManagement.GetOrdersByUserIdAsync(userId);

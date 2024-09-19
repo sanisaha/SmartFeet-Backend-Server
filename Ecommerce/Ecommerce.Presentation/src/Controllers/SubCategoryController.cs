@@ -6,6 +6,7 @@ using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.Entities.SubCategoryAggregate;
 using Ecommerce.Presentation.src.Controllers;
 using Ecommerce.Service.src.SubCategoryService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Presentation.src.Controllers
@@ -21,7 +22,7 @@ namespace Ecommerce.Presentation.src.Controllers
             _subCategoryManagement = subCategoryManagement;
         }
 
-        //[Authorize]
+        [Authorize(Roles = "Admin")]
         public override async Task<ActionResult<SubCategoryReadDto>> CreateAsync(SubCategoryCreateDto entity)
         {
             var existingSubCategory = await _subCategoryManagement.GetSubCategoryByNameAndCategoryIdAsync(entity.SubCategoryName, entity.CategoryId);
@@ -31,19 +32,19 @@ namespace Ecommerce.Presentation.src.Controllers
             }
             return await base.CreateAsync(entity);
         }
-        //[Authorize]
+        [Authorize(Roles = "Admin")]
         public override async Task<ActionResult<SubCategoryReadDto>> UpdateAsync(Guid id, SubCategoryUpdateDto entity)
         {
             return await base.UpdateAsync(id, entity);
         }
-        //[Authorize]
+        [Authorize(Roles = "Admin")]
         public override async Task<ActionResult> DeleteAsync(Guid id)
         {
             return await base.DeleteAsync(id);
         }
 
         [HttpGet("{userId}")]
-        //[Authorize]
+        [Authorize]
         public async Task<IEnumerable<SubCategoryReadDto>> GetSubCategoryByIdAsync(Guid userId)
         {
             return await _subCategoryManagement.GetSubCategoryByIdAsync(userId);
