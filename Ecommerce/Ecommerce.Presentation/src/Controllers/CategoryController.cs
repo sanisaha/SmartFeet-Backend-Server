@@ -18,7 +18,7 @@ namespace Ecommerce.Presentation.src.Controllers
             _categoryManagement = categoryManagement;
         }
 
-        //[Authorize]
+        [Authorize(Roles = "Admin")]
         public override async Task<ActionResult<CategoryReadDto>> CreateAsync(CategoryCreateDto entity)
         {
             var existingCategory = await _categoryManagement.GetCategoryByNameAsync(entity.CategoryName);
@@ -28,12 +28,12 @@ namespace Ecommerce.Presentation.src.Controllers
             }
             return await base.CreateAsync(entity);
         }
-        //[Authorize]
+        [Authorize(Roles = "Admin")]
         public override async Task<ActionResult<CategoryReadDto>> UpdateAsync(Guid id, CategoryUpdateDto entity)
         {
             return await base.UpdateAsync(id, entity);
         }
-        //[Authorize]
+        [Authorize(Roles = "Admin")]
         public override async Task<ActionResult> DeleteAsync(Guid id)
         {
             return await base.DeleteAsync(id);

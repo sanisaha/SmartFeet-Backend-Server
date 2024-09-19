@@ -1,6 +1,7 @@
 using Ecommerce.Domain.src.Auth;
 using Ecommerce.Domain.src.Interfaces;
 using Ecommerce.Domain.src.UserAggregate;
+using Ecommerce.Service.src.AuthService;
 using Ecommerce.Service.src.Shared;
 
 namespace Ecommerce.Service.src.UserService
@@ -9,11 +10,13 @@ namespace Ecommerce.Service.src.UserService
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly ITokenService _tokenService;
 
-        public UserManagement(IUserRepository userRepository, IPasswordHasher passwordHasher) : base(userRepository)
+        public UserManagement(IUserRepository userRepository, IPasswordHasher passwordHasher, ITokenService tokenService) : base(userRepository)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
+            _tokenService = tokenService;
         }
         public override async Task<UserReadDto> CreateAsync(UserCreateDto createDto)
         {
@@ -45,5 +48,16 @@ namespace Ecommerce.Service.src.UserService
             userRead.FromEntity(user);
             return userRead;
         }
+
+        public async Task<UserReadDto> GetUserProfileByToken(string token)
+        {
+            var tokenData = _tokenService.GetTokenData(token);
+            var userId = Guid.Parse(tokenData.Id);
+            var user = await _userRepository.GetAsync(userId);
+            var userRead = new UserReadDto();
+            userRead.FromEntity(user);
+            return userRead;
+        }
+
     }
 }

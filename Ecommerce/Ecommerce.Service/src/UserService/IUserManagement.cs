@@ -8,5 +8,6 @@ namespace Ecommerce.Service.src.UserService
     {
         Task<UserReadDto> GetUserByEmail(string email);
         Task<bool> UpdatePasswordAsync(Guid userId, string newPassword);
+        Task<UserReadDto> GetUserProfileByToken(string token);
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Ecommerce.Domain.src.Entities.CartAggregate;
 using Ecommerce.Service.src.CartService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Presentation.src.Controllers
@@ -19,7 +20,9 @@ namespace Ecommerce.Presentation.src.Controllers
             _cartManagement = cartManagement;
         }
 
+        // GET: api/v1/cart/user/{userId}
         [HttpGet("user/{userId}")]
+        [Authorize]
         public async Task<IActionResult> GetCartByUserId(Guid userId)
         {
             var cart = await _cartManagement.GetCartByUserId(userId);

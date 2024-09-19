@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
+using System.Reflection.Metadata;
 
 
 namespace Ecommerce.Infrastructure.src.Repository.Service
@@ -37,6 +38,26 @@ namespace Ecommerce.Infrastructure.src.Repository.Service
             var tokenObj = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(tokenObj);
 
+        }
+
+        public TokenData GetTokenData(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+
+            // Extract necessary claims, e.g., user ID from the token
+            var userIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "nameid");
+
+            if (userIdClaim == null)
+            {
+                throw new Exception("Invalid token data.");
+            }
+
+            return new TokenData
+            {
+                Id = userIdClaim.Value,
+                // Extract other claims if needed
+            };
         }
     }
 }
