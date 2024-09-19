@@ -12,6 +12,11 @@ namespace Ecommerce.Service.src.OrderService
         public DateTime OrderDate { get; set; }
         public decimal TotalPrice { get; set; }
         public Guid? AddressId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public string PaymentMethod { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public ICollection<OrderItemReadDto> OrderItems { get; set; }
         //public IEnumerable<OrderItemReadDto> OrderItems { get; set; }
@@ -23,6 +28,11 @@ namespace Ecommerce.Service.src.OrderService
             OrderDate = entity.OrderDate;
             TotalPrice = entity.TotalPrice;
             AddressId = entity.AddressId;
+            FirstName = entity.FirstName;
+            LastName = entity.LastName;
+            PhoneNumber = entity.PhoneNumber;
+            Email = entity.Email;
+            PaymentMethod = entity.PaymentMethod;
             OrderStatus = entity.OrderStatus;
             OrderItems = entity.OrderItems?.Select(item =>
             {
@@ -38,6 +48,11 @@ namespace Ecommerce.Service.src.OrderService
         public DateTime OrderDate { get; set; }
         public decimal TotalPrice { get; set; }
         public Guid? AddressId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public string PaymentMethod { get; set; }
         public OrderStatus OrderStatus { get; set; }
 
         //public IEnumerable<OrderItemCreateDto> OrderItems { get; set; }
@@ -50,7 +65,12 @@ namespace Ecommerce.Service.src.OrderService
                 OrderDate = OrderDate,
                 TotalPrice = TotalPrice,
                 AddressId = AddressId,
-                OrderStatus = OrderStatus
+                OrderStatus = OrderStatus,
+                FirstName = FirstName,
+                LastName = LastName,
+                PhoneNumber = PhoneNumber,
+                Email = Email,
+                PaymentMethod = PaymentMethod,
                 //OrderItems = OrderItems.Select(item => item.CreateEntity()).ToList()
             };
         }
@@ -62,6 +82,11 @@ namespace Ecommerce.Service.src.OrderService
         public DateTime OrderDate { get; set; }
         public decimal TotalPrice { get; set; }
         public Guid AddressId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public string PaymentMethod { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public IEnumerable<OrderItemUpdateDto> OrderItems { get; set; }
 
@@ -72,6 +97,11 @@ namespace Ecommerce.Service.src.OrderService
             entity.TotalPrice = TotalPrice;
             entity.AddressId = AddressId;
             entity.OrderStatus = OrderStatus;
+            entity.FirstName = FirstName;
+            entity.LastName = LastName;
+            entity.PhoneNumber = PhoneNumber;
+            entity.Email = Email;
+            entity.PaymentMethod = PaymentMethod;
             //entity.OrderItems = OrderItems.Select(item => item.UpdateEntity(item)).ToList();
             return entity;
         }

@@ -8,6 +8,7 @@ namespace Ecommerce.Service.src.ReviewService
         public DateTime ReviewDate { get; set; }
         public int Rating { get; set; }
         public string? ReviewText { get; set; }
+        public string ReviewerName { get; set; }
 
         public override void FromEntity(Review entity)
         {
@@ -15,6 +16,7 @@ namespace Ecommerce.Service.src.ReviewService
             ReviewDate = entity.ReviewDate;
             Rating = entity.Rating;
             ReviewText = entity.ReviewText;
+            ReviewerName = entity.ReviewerName;
         }
     }
     public class ReviewCreateDto : ICreateDto<Review>
@@ -24,6 +26,7 @@ namespace Ecommerce.Service.src.ReviewService
         public DateTime ReviewDate { get; set; }
         public int Rating { get; set; }
         public string? ReviewText { get; set; }
+        public string ReviewerName { get; set; }
         public Review CreateEntity()
         {
             return new Review
@@ -32,7 +35,8 @@ namespace Ecommerce.Service.src.ReviewService
                 UserId = UserId,
                 ReviewDate = ReviewDate,
                 Rating = Rating,
-                ReviewText = ReviewText
+                ReviewText = ReviewText,
+                ReviewerName = ReviewerName
             };
         }
     }
@@ -42,11 +46,13 @@ namespace Ecommerce.Service.src.ReviewService
         public DateTime ReviewDate { get; set; }
         public int Rating { get; set; }
         public string? ReviewText { get; set; }
+        public string ReviewerName { get; set; }
         public Review UpdateEntity(Review entity)
         {
             entity.ReviewDate = ReviewDate;
             entity.Rating = Rating;
             entity.ReviewText = ReviewText;
+            entity.ReviewerName = ReviewerName;
             return entity;
         }
     }
