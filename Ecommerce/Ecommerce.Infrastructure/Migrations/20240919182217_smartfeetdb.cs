@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Ecommerce.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class smart_feet_db : Migration
+    public partial class smartfeetdb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -134,6 +134,11 @@ namespace Ecommerce.Infrastructure.Migrations
                     order_status = table.Column<int>(type: "integer", nullable: false),
                     user_id = table.Column<Guid>(type: "uuid", nullable: true),
                     address_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    first_name = table.Column<string>(type: "text", nullable: false),
+                    last_name = table.Column<string>(type: "text", nullable: false),
+                    phone_number = table.Column<string>(type: "text", nullable: false),
+                    email = table.Column<string>(type: "text", nullable: false),
+                    payment_method = table.Column<string>(type: "text", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -157,9 +162,9 @@ namespace Ecommerce.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    title = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
                     sub_category_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    description = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    description = table.Column<string>(type: "character varying(400)", maxLength: 400, nullable: false),
                     price = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     stock = table.Column<int>(type: "integer", nullable: false),
                     brand_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
@@ -304,7 +309,7 @@ namespace Ecommerce.Infrastructure.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    image_url = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    image_url = table.Column<string>(type: "character varying(400)", maxLength: 400, nullable: false),
                     is_primary = table.Column<bool>(type: "boolean", nullable: false),
                     image_text = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
@@ -350,6 +355,7 @@ namespace Ecommerce.Infrastructure.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     product_id = table.Column<Guid>(type: "uuid", nullable: false),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    reviewer_name = table.Column<string>(type: "text", nullable: false),
                     review_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     rating = table.Column<int>(type: "integer", nullable: false),
                     review_text = table.Column<string>(type: "text", nullable: true),

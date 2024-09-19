@@ -12,14 +12,14 @@ namespace Ecommerce.Domain.src.ProductAggregate
 {
     public class Product : BaseEntity
     {
-        [MaxLength(100)]
+        [MaxLength(150)]
         public string? Title { get; set; }
 
         //[ForeignKey("Category")]
         public Guid SubCategoryId { get; set; }
 
         [Required]
-        [MaxLength(100)]
+        [MaxLength(400)]
         public string? Description { get; set; }
 
         [Required]

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240916102824_smart_feet_db")]
-    partial class smart_feet_db
+    [Migration("20240919182217_smartfeetdb")]
+    partial class smartfeetdb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -208,6 +208,21 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("email");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("first_name");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("last_name");
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("order_date");
@@ -215,6 +230,16 @@ namespace Ecommerce.Infrastructure.Migrations
                     b.Property<int>("OrderStatus")
                         .HasColumnType("integer")
                         .HasColumnName("order_status");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("payment_method");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("phone_number");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(10,2)")
@@ -409,6 +434,11 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("review_text");
 
+                    b.Property<string>("ReviewerName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("reviewer_name");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
@@ -538,8 +568,8 @@ namespace Ecommerce.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
+                        .HasMaxLength(400)
+                        .HasColumnType("character varying(400)")
                         .HasColumnName("description");
 
                     b.Property<int?>("Discount")
@@ -571,8 +601,8 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasColumnName("sub_category_name");
 
                     b.Property<string>("Title")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
                         .HasColumnName("title");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -608,8 +638,8 @@ namespace Ecommerce.Infrastructure.Migrations
 
                     b.Property<string>("ImageURL")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasMaxLength(400)
+                        .HasColumnType("character varying(400)")
                         .HasColumnName("image_url");
 
                     b.Property<bool>("IsPrimary")

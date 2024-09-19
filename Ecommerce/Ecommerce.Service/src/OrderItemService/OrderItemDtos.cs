@@ -26,11 +26,13 @@ namespace Ecommerce.Service.src.OrderItemService
         public Guid OrderId { get; set; }
         public Guid ProductId { get; set; }
         public int Quantity { get; set; }
+        public decimal Price { get; set; }
         public OrderItem UpdateEntity(OrderItem entity)
         {
             entity.OrderId = OrderId;
             entity.ProductId = ProductId;
             entity.Quantity = Quantity;
+            entity.Price = Price;
             return entity;
         }
     }

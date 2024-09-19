@@ -12,6 +12,7 @@ namespace Ecommerce.Domain.src.Entities.ReviewAggregate
         public Guid ProductId { get; set; }
         [ForeignKey("User")]
         public Guid UserId { get; set; }
+        public string ReviewerName { get; set; }
         public DateTime ReviewDate { get; set; }
         public int Rating { get; set; }
         public string? ReviewText { get; set; }

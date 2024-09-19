@@ -22,6 +22,11 @@ namespace Ecommerce.Domain.src.Entities.OrderAggregate
         public Guid? UserId { get; set; }
 
         public Guid? AddressId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public string PaymentMethod { get; set; }
 
         // Navigation Properties
         public virtual ICollection<OrderItem> OrderItems { get; set; }
