@@ -4,8 +4,11 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.Extensions.Configuration;
-using System.Reflection.Metadata;
+using FirebaseAdmin;
+using FirebaseAdmin.Auth;
+using Google.Apis.Auth.OAuth2;
+using Microsoft.AspNetCore.Http.HttpResults;
+
 
 
 namespace Ecommerce.Infrastructure.src.Repository.Service
@@ -17,6 +20,24 @@ namespace Ecommerce.Infrastructure.src.Repository.Service
         public TokenService(IConfiguration configuration)
         {
             _configuration = configuration;
+        }
+
+        public async Task<(string Uid, string Email)> GenerateIdAndEmailFromFirebaseToken(GoogleLoginRequest request)
+        {
+
+            if (FirebaseApp.DefaultInstance == null)
+            {
+                FirebaseApp.Create(new AppOptions()
+                {
+                    Credential = GoogleCredential.FromFile(@"C:\Users\ratul\Desktop\Integrify Projects\csharp\fs18_CSharp_FullStack_Backend\Ecommerce\Ecommerce.Infrastructure\smartfeet-ceeb7-e9108d4992c7.json")
+                });
+            }
+            // Verify the Firebase ID token
+            FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(request.IdToken);
+            string uid = decodedToken.Uid;
+            string email = decodedToken.Claims["email"].ToString();
+
+            return (uid, email);
         }
         public string GenerateToken(Token token)
         {
