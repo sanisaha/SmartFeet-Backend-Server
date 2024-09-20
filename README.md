@@ -3,6 +3,12 @@
 ![.NET Core](https://img.shields.io/badge/.NET%20Core-purple)
 ![EF Core](https://img.shields.io/badge/EF%20Core-cyan)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-drakblue)
+![C#](https://img.shields.io/badge/C%23-8.0-239120?logo=csharp)
+![Clean Architecture](https://img.shields.io/badge/Clean_Architecture-orange?logo=cleanarchitecture)
+![JWT](https://img.shields.io/badge/JWT-JSON_Web_Token-00B5AD?logo=jsonwebtokens)
+![Xunit Testing](https://img.shields.io/badge/Xunit-Testing-FF4136?logo=xunit)
+![Microsoft Azure](https://img.shields.io/badge/Microsoft-Azure-skyblue)
+![Swaggar](https://img.shields.io/badge/Swaggar-greenyellow)
 
 # 🥿 SmartFeet - Backend API
 
@@ -47,11 +53,3 @@ The project is organized into the following layers:
 4. **Infrastructure**: Contains data access logic using Entity Framework Core and manages PostgreSQL interactions.
 
 ---
-
-## 📜 API Documentation
-
-The backend API offers a wide range of endpoints to interact with the database and handle the application’s business logic. The API is documented using **Swagger**, allowing for easy testing and exploration.
-
-### To view Swagger documentation:
-
-After starting the backend server, navigate to:
