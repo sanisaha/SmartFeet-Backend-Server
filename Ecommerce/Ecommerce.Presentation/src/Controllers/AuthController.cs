@@ -29,6 +29,22 @@ namespace Ecommerce.Presentation.src.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/auth/google-login")]
+        public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginRequest request)
+        {
+            try
+            {
+                var token = await _authManagement.GoogleLoginAsync(request);
+                return Ok(token);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [Authorize]
         [HttpPost("logout")]
         public async Task<ActionResult> LogoutAsync()

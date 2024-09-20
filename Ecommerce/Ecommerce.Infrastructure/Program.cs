@@ -33,7 +33,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost3000", policy =>
     {
-        policy.WithOrigins("http://localhost:3000") // Specify the origin
+        policy.WithOrigins("https://smartfeet-ceeb7.web.app", "http://localhost:3000") // Specify the origin
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -81,7 +81,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     .EnableSensitiveDataLogging()
     .LogTo(Console.WriteLine, LogLevel.Information)
     .AddInterceptors(new TimeStampInterceptor())
-    .UseNpgsql(builder.Configuration.GetConnectionString("localhost"))
+    .UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
     .UseSnakeCaseNamingConvention());
 
 

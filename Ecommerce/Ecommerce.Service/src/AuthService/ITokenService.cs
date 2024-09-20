@@ -5,7 +5,9 @@ namespace Ecommerce.Service.src.AuthService
     public interface ITokenService
     {
         string GenerateToken(Token token);
-        //public async Task<UserReadDto> GetUserProfileByToken(string token)
         TokenData GetTokenData(string token);
+        //GenerateIdAndEmailFromFirebaseToken
+        Task<(string Uid, string Email)> GenerateIdAndEmailFromFirebaseToken(GoogleLoginRequest request);
+
     }
 }
