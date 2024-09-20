@@ -33,7 +33,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost3000", policy =>
     {
-        policy.WithOrigins("http://localhost:3000") // Specify the origin
+        policy.WithOrigins("https://smartfeet-ceeb7.web.app", "http://localhost:3000") // Specify the origin
               .AllowAnyHeader()
               .AllowAnyMethod();
     });

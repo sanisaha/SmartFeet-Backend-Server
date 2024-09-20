@@ -29,7 +29,7 @@ namespace Ecommerce.Infrastructure.src.Repository.Service
             {
                 FirebaseApp.Create(new AppOptions()
                 {
-                    Credential = GoogleCredential.FromFile(@"C:\Users\ratul\Desktop\Integrify Projects\csharp\fs18_CSharp_FullStack_Backend\Ecommerce\Ecommerce.Infrastructure\smartfeet-ceeb7-e9108d4992c7.json")
+                    Credential = GoogleCredential.FromJson(Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS"))
                 });
             }
             // Verify the Firebase ID token
