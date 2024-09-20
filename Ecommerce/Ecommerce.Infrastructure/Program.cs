@@ -81,7 +81,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     .EnableSensitiveDataLogging()
     .LogTo(Console.WriteLine, LogLevel.Information)
     .AddInterceptors(new TimeStampInterceptor())
-    .UseNpgsql(builder.Configuration.GetConnectionString("localhost"))
+    .UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
     .UseSnakeCaseNamingConvention());
 
 
