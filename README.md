@@ -52,4 +52,22 @@ The project is organized into the following layers:
 3. **Presentation**: Contains the API controllers to handle HTTP requests and responses.
 4. **Infrastructure**: Contains data access logic using Entity Framework Core and manages PostgreSQL interactions.
 
+## Test with Admin User
+
+To test the application as an Admin, use the following credentials:
+
+- **Email**: `admin@email.com`
+- **Password**: `password`
+
+### New Product Creation
+
+When creating a new product, the `subcategoryId` is required.
+
+To fetch subcategories for a specific category (e.g., Men), you can send an API request to the following endpoint:
+
+```bash
+GET /api/v1/Category/categoryName/Men
+
+
 ---
+```
