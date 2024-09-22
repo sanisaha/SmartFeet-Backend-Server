@@ -46,6 +46,7 @@ namespace Ecommerce.Presentation.src.Controllers
             return await _categoryManagement.GetCategoryByIdAsync(userId);
         }
         [HttpGet("categoryName/{categoryName}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetCategoryByNameAsync(string categoryName)
         {
             if (!Enum.TryParse(categoryName, true, out CategoryName categoryEnum))

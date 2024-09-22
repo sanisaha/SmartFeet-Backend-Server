@@ -44,13 +44,15 @@ namespace Ecommerce.Infrastructure.src.Repository
         {
             return await _context.Categories.Where(c => c.Id == userId).ToListAsync();
         }
-        public async Task<Category?> GetCategoryByNameAsync(string categoryName)
+        public async Task<Category?> GetCategoryByNameAsync(CategoryName categoryEnum)
         {
-            if (Enum.TryParse(categoryName, out CategoryName categoryEnum))
-            {
-                return await _context.Categories.FirstOrDefaultAsync(c => c.CategoryName == categoryEnum);
-            }
-            return null;
+            var categoryEntity = await _context.Categories
+                .Include(c => c.SubCategories)
+                .FirstOrDefaultAsync(c => (int)c.CategoryName == (int)categoryEnum);
+
+            return categoryEntity;
         }
+
+
     }
 }

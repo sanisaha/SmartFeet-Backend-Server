@@ -43,16 +43,14 @@ namespace Ecommerce.Service.src.CategoryService
         }
         public async Task<CategoryReadDto?> GetCategoryByNameAsync(CategoryName categoryName)
         {
-            var category = await _categoryRepository.GetCategoryByNameAsync(categoryName.ToString());
+            var category = await _categoryRepository.GetCategoryByNameAsync(categoryName);
             if (category == null)
             {
                 return null;
             }
-            return new CategoryReadDto
-            {
-                Id = category.Id,
-                CategoryName = category.CategoryName,
-            };
+            var categoryDtos = new CategoryReadDto();
+            categoryDtos.FromEntity(category);
+            return categoryDtos;
 
         }
 

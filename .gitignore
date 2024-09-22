@@ -11,6 +11,9 @@ bin/
 .vscode/
 .DS_Store/
 
+# misc
+.env.local
+
 # .NET
 project.lock.json
 project.fragment.lock.json

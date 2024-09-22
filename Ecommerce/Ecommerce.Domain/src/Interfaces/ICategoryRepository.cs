@@ -1,3 +1,4 @@
+using Ecommerce.Domain.Enums;
 using Ecommerce.Domain.src.CategoryAggregate;
 using Ecommerce.Domain.src.Interface;
 
@@ -6,6 +7,6 @@ namespace Ecommerce.Domain.src.Interfaces
     public interface ICategoryRepository : IBaseRepository<Category>
     {
         Task<IEnumerable<Category>> GetCategoryByIdAsync(Guid userId);
-        Task<Category> GetCategoryByNameAsync(string categoryName);
+        Task<Category> GetCategoryByNameAsync(CategoryName categoryName);
     }
 }

@@ -3,6 +3,7 @@ using Ecommerce.Domain.src.CategoryAggregate;
 using Ecommerce.Domain.src.Entities.SubCategoryAggregate;
 using Ecommerce.Domain.src.ProductAggregate;
 using Ecommerce.Service.src.Shared;
+using Ecommerce.Service.src.SubCategoryService;
 
 namespace Ecommerce.Service.src.CategoryService
 {
@@ -10,14 +11,20 @@ namespace Ecommerce.Service.src.CategoryService
     {
         public Guid CategoryId { get; set; }
         public CategoryName CategoryName { get; set; }
-        public ICollection<SubCategory> SubCategories { get; set; }
+        public ICollection<SubCategoryReadDto> SubCategories { get; set; }
 
         public override void FromEntity(Category entity)
         {
             base.FromEntity(entity);
             CategoryId = entity.ParentCategoryId;
             CategoryName = entity.CategoryName;
-            SubCategories = entity.SubCategories;
+            SubCategories = entity.SubCategories?.Select(x =>
+            {
+                var subCategoryDto = new SubCategoryReadDto();
+                subCategoryDto.FromEntity(x);
+                return subCategoryDto;
+            }).ToList();
+
         }
     }
     public class CategoryCreateDto : ICreateDto<Category>
