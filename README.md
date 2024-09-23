@@ -46,7 +46,7 @@ The SmartFeet backend is a robust and scalable REST API built with C# and .NET C
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Backend:**
   - C# & .NET Core
