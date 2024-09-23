@@ -12,7 +12,7 @@
 
 # 🥿 SmartFeet - Backend API
 
-## 📖 Introduction
+## Introduction
 
 The SmartFeet backend is a robust and scalable REST API built with C# and .NET Core. This project follows a clean architecture approach with distinct layers, ensuring easy maintenance and scalability. It supports JWT token authentication and utilizes PostgreSQL as its database, hosted on Azure.
 
@@ -33,7 +33,7 @@ The SmartFeet backend is a robust and scalable REST API built with C# and .NET C
 - [🚀 Getting Started](#getting-started)
 - [🔍 Testing](#testing)
 
-## 🌟 Features
+## Features
 
 - **CRUD Operations**: Base service for common CRUD operations for User, Product, Cart, Order, and Payment management.
 - **Well-Structured Architecture**: Follows Domain-Driven Design (DDD) principles with separate layers for Domain, Service, Presentation, and Infrastructure.
@@ -61,7 +61,7 @@ The SmartFeet backend is a robust and scalable REST API built with C# and .NET C
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```plaintext
 ├── Ecommerce.Presentation
@@ -136,7 +136,7 @@ dotnet restore
 
 4. _Create a `appsettings.json` file in `Ecommerce.Infrastructure` folder_:
 
--add the connection string and jwt credentials-
+_add the connection string and jwt credentials_
 
 ```
 {
@@ -172,7 +172,7 @@ dotnet restore
 
 _When creating a new product, the `subcategoryId` is required_
 
-### To fetch subcategories for a specific category (e.g., Men), you can send an API request to the following endpoint:
+##### To fetch subcategories for a specific category (e.g., Men), you can send an API request to the following endpoint:
 
 ```bash
 GET /api/v1/Category/categoryName/Men
