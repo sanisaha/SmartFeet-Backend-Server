@@ -20,7 +20,7 @@ The SmartFeet backend is a robust and scalable REST API built with C# and .NET C
 
 [Frontend link](https://smartfeet-ceeb7.web.app/)
 
-[Frontend repo link](https://github.com/sanisaha/SmartFeet-Backend-Server)
+[Frontend repo link](https://github.com/sanisaha/SmartFeet-Frontend-Client)
 
 ---
 
